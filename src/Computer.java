@@ -34,8 +34,63 @@ public class Computer extends User {
         }
     }
 
+    public Card validCard() {
+        // Test reverse
+        // for(Card card : cards) {
+        //         if (card.getRank() == "REVERSE")
+        //             return card;
+        // }
+
+        //Test skip
+        // for(Card card : cards) {
+        //         if (card.getRank() == "SKIP")
+        //             return card;
+        // }
+        this.isPlayedCard = false;
+        for(Card card : cards) {
+            if(card.getColor() == Game.prevCard.getColor()) {
+                if (card.getRank().length() == 1){
+                    this.isPlayedCard = true;
+                    return card;
+                }
+            }
+        }            
+        for(Card card : cards) {
+            if (card.getRank() == Game.prevCard.getRank()) {
+                this.isPlayedCard = true;
+                return card;
+            }
+        }
+        for(Card card : cards) {
+            if (card.getColor() == Game.prevCard.getColor()) {
+                this.isPlayedCard = true;
+                return card;
+            }
+        }
+        for(Card card : cards) {
+            if (card.getRank() == "WILD") {
+                this.isPlayedCard = true;
+                return card;
+            }
+        }
+        for(Card card : cards) {
+            if (card.getRank() == "DRAWFOUR") {
+                this.isPlayedCard = true;
+                return card;
+            }
+        }
+        return null;
+    }
+    // Check wild
+    public boolean checkWild() {
+        if (Game.prevCard.getRank() == "WILD") {
+            return true;
+        }
+        else return false;
+    }
+
     public void computerHitCard() {
-        Card validCard = cards.get(3); // todo: function LogicComputerHit
+        Card validCard = validCard(); // todo: function LogicComputerHit
         int index = cards.indexOf(validCard);
 
         Card choosenCard = backCards.get(index);
@@ -50,4 +105,16 @@ public class Computer extends User {
         }
     }
 
+    public void computerTurn() { 
+        if (this.getTurn() == true) {
+            if (checkWild()) {
+                this.wild();
+            }
+            this.computerHitCard();
+        }
+        if (this.isPlayedCard == false) {
+            this.drawCard();
+            this.computerHitCard();
+        }
+    }    
 }

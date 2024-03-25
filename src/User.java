@@ -7,7 +7,9 @@ public abstract class User {
 
     protected ArrayList<Card> cards;
     protected String position;
-
+    protected User nextUser;
+    protected boolean turn;
+    protected boolean isPlayedCard;
     int xPos;
     int yPos;
 
@@ -20,6 +22,7 @@ public abstract class User {
             card.setUser(this);
             cards.add(card);
         }
+        isPlayedCard = false;
     }
 
     public void setUserPosition() {
@@ -50,5 +53,65 @@ public abstract class User {
         cards.remove(card);
 
         setCardsPosition();
+    }
+
+    public Card drawCard() {
+        if (Game.deck.getDeck().size() == 0) {
+            System.out.println("Het bai roi cuu");
+        }
+        Card card = Game.deck.getOneCard();
+        card.addMouseListener(card);
+        cards.add(card);
+        card.setUser(this);
+
+        return card;
+    }
+
+    public void setTurn(boolean turn) {
+        this.turn = turn;
+    }
+
+    public boolean getTurn() {
+        return turn;
+    }
+
+    public void setNextUser(User nextUser) {
+        this.nextUser = nextUser;
+    }
+
+    public User getNextUser() {
+        return nextUser;
+    }
+
+    public void wild() {
+        if (Game.prevCard.getRank() == "WILD") {
+            Game.prevCard.setColor("B"); // get from chose color, this is demo
+            Game.prevCard.setRank(null);
+        }
+    }
+
+    public void passTurn() {
+        this.getNextUser().setTurn(false);
+        this.setTurn(false);
+        this.getNextUser().getNextUser().setTurn(true);
+    }
+
+    public void skip() {
+        if (Game.prevCard.getRank() == "SKIP") {
+            this.passTurn();
+        }
+        else if(Game.prevCard.getRank() == "DRAWTWO") {
+            this.getNextUser().drawCard(); 
+            this.getNextUser().drawCard(); 
+            this.passTurn();
+        }
+        else if(Game.prevCard.getRank() == "DRAWFOUR") {
+            this.getNextUser().drawCard(); 
+            this.getNextUser().drawCard(); 
+            this.getNextUser().drawCard(); 
+            this.getNextUser().drawCard(); 
+            this.passTurn();
+            Game.prevCard.setColor("B"); // get from chose color, this is demo
+        }
     }
 }

@@ -3,14 +3,16 @@ public class Game {
 
     static MyPanel mainPanel; // display users
     static Card prevCard;
-    static Computer com1;
-
+    static Deck deck;
+    static Player player;
+    static Computers com;
+    static boolean isReverse;
     Game() {
         mainPanel = new MyPanel();
 
-        Deck deck = new Deck();
+        deck = new Deck();
 
-        Player player = new Player(deck, "SOUTH");
+        player = new Player(deck, "SOUTH");
 
         prevCard = deck.getOneCard();
         prevCard.setLocation(Deck.X + Card.WIDTH * 2, Deck.Y);
@@ -18,13 +20,14 @@ public class Game {
         mainPanel.add(deck);
         mainPanel.add(prevCard);
 
-        com1 = new Computer(deck, "NORTH");
+        com = new Computers(deck);
 
-        Computer com2 = new Computer(deck, "WEST");
-        Computer com3 = new Computer(deck, "EAST");
+        isReverse = true; // chieu kim dong ho
+    }
 
-        com1.computerHitCard();
-        com2.computerHitCard();
-        com3.computerHitCard();
+    public void playedCard() {
+        //player.setTurn(true);
+        com.getComputer(0).setTurn(true);
+        com.computer0Played();
     }
 }
