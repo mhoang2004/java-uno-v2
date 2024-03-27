@@ -18,6 +18,28 @@ public class Computer extends User {
         setCardsPosition();
     }
 
+    public Card drawCard() {
+        if (Game.deck.getDeck().size() == 0) {
+            System.out.println("Het bai roi cuu");
+        }
+
+        Card card = Game.deck.getOneCard();
+        cards.add(card);
+
+        Card backCard = new Card();
+
+        backCard.setLocation(Deck.X, Deck.Y);
+        backCard.setUser(this);
+
+        Game.addToMainPanel(backCard);
+
+        backCards.add(backCard);
+
+        backCard.drawCardAnimation();
+
+        return card;
+    }
+
     public void setCardsPosition() {
         setUserPosition();
 

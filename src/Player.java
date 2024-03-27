@@ -19,10 +19,27 @@ public class Player extends User {
         int xPadding = 0;
         int yPadding = 0;
         for (Card card : cards) {
-            System.out.println(card.getRank() + "-" + card.getColor());
             card.setLocation(xPos + xPadding, yPos + yPadding);
             xPadding += GAP_CARD_HORIZONTAL;
         }
-        System.out.println("================");
+    }
+
+    public Card drawCard() {
+        if (Game.deck.getDeck().size() == 0) {
+            System.out.println("Het bai roi cuu");
+        }
+
+        Card card = Game.deck.getOneCard();
+        card.setLocation(Deck.X, Deck.Y);
+        card.addMouseListener(card); // only player not computer
+        card.setUser(this);
+
+        Game.addToMainPanel(card);
+
+        cards.add(card);
+
+        card.drawCardAnimation();
+
+        return card;
     }
 }

@@ -14,6 +14,11 @@ public class Computers {
         com.add(new Computer(deck, "NORTH"));
         com.add(new Computer(deck, "EAST"));
 
+        // demo
+        // com.get(0).drawCard();
+        // com.get(1).drawCard();
+        // com.get(2).drawCard();
+
         // set next user
         com.get(0).setNextUser(com.get(1));
         com.get(1).setNextUser(com.get(2));

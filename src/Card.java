@@ -129,7 +129,6 @@ public class Card extends JLabel implements MouseListener {
                 } else {
                     // handle others things
                     user.setCardsPosition();
-                    System.out.println("User size: " + user.sizeCards());
 
                     ((Timer) e.getSource()).stop();
                 }
