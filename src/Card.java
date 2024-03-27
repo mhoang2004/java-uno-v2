@@ -85,10 +85,66 @@ public class Card extends JLabel implements MouseListener {
         this.rank = rank;
     }
 
+    public void drawCardAnimation() {
+        Card tempCard = this;
+
+        // Ending point
+        final int x2;
+        final int y2;
+        String position = user.getPosition();
+
+        if (position.equals("SOUTH") || position.equals("NORTH")) {
+            x2 = user.getXPos() + (user.sizeCards() * User.GAP_CARD_HORIZONTAL);
+            y2 = user.getYPos();
+        } else {
+            x2 = user.getXPos();
+            y2 = user.getYPos() + (user.sizeCards() * User.GAP_CARD_VERTICAL);
+        }
+
+        Timer timer = new Timer(10, new ActionListener() {
+            // Starting point
+            int x1 = Deck.X;
+            int y1 = Deck.Y;
+
+            int dx = x2 - x1;
+            int dy = y2 - y1;
+
+            int distance = (int) Math.sqrt(dx * dx + dy * dy);
+            int velocity = 10;
+            int steps = (int) Math.ceil(distance / velocity);
+
+            int dxStep = (int) dx / steps;
+            int dyStep = (int) dy / steps;
+
+            int countStep = 0;
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (countStep < steps) {
+                    x1 += dxStep;
+                    y1 += dyStep;
+                    countStep++;
+                    tempCard.setLocation(x1, y1);
+                    tempCard.repaint();
+                } else {
+                    // handle others things
+                    user.setCardsPosition();
+                    System.out.println("User size: " + user.sizeCards());
+
+                    ((Timer) e.getSource()).stop();
+                }
+
+            }
+        });
+
+        timer.start();
+    }
+
     public void hitCardAnimation() {
         Game.mainPanel.setLayer(this, MyPanel.LAYER++);
 
         Card tempCard = this;
+
         Timer timer = new Timer(1, new ActionListener() {
             // Starting point
             int x1 = tempCard.getX();
@@ -133,12 +189,11 @@ public class Card extends JLabel implements MouseListener {
 
     @Override
     public void mouseClicked(MouseEvent e) {
+        // if (user.getTurn() == true) {
         this.removeMouseListener(this);
         this.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-
-        if (user.getTurn() == true) {
-            this.hitCardAnimation();
-        }
+        this.hitCardAnimation();
+        // }
     }
 
     @Override

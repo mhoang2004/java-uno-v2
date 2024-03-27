@@ -15,6 +15,5 @@ public class MyFrame extends JFrame {
         this.setIconImage(image.getImage());
 
         this.getContentPane().setBackground(BG_COLOR);
-        this.setLocationRelativeTo(null);
     }
 }

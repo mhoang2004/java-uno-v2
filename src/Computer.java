@@ -12,7 +12,7 @@ public class Computer extends User {
             Card backCard = new Card();
             backCard.setUser(this);
             backCards.add(backCard);
-            Game.mainPanel.add(backCard, Integer.valueOf(MyPanel.LAYER++));
+            Game.addToMainPanel(backCard);
         }
 
         setCardsPosition();
@@ -37,43 +37,43 @@ public class Computer extends User {
     public Card validCard() {
         // Test reverse
         // for(Card card : cards) {
-        //         if (card.getRank() == "REVERSE")
-        //             return card;
+        // if (card.getRank() == "REVERSE")
+        // return card;
         // }
 
-        //Test skip
+        // Test skip
         // for(Card card : cards) {
-        //         if (card.getRank() == "SKIP")
-        //             return card;
+        // if (card.getRank() == "SKIP")
+        // return card;
         // }
         this.isPlayedCard = false;
-        for(Card card : cards) {
-            if(card.getColor() == Game.prevCard.getColor()) {
-                if (card.getRank().length() == 1){
+        for (Card card : cards) {
+            if (card.getColor() == Game.prevCard.getColor()) {
+                if (card.getRank().length() == 1) {
                     this.isPlayedCard = true;
                     return card;
                 }
             }
-        }            
-        for(Card card : cards) {
+        }
+        for (Card card : cards) {
             if (card.getRank() == Game.prevCard.getRank()) {
                 this.isPlayedCard = true;
                 return card;
             }
         }
-        for(Card card : cards) {
+        for (Card card : cards) {
             if (card.getColor() == Game.prevCard.getColor()) {
                 this.isPlayedCard = true;
                 return card;
             }
         }
-        for(Card card : cards) {
+        for (Card card : cards) {
             if (card.getRank() == "WILD") {
                 this.isPlayedCard = true;
                 return card;
             }
         }
-        for(Card card : cards) {
+        for (Card card : cards) {
             if (card.getRank() == "DRAWFOUR") {
                 this.isPlayedCard = true;
                 return card;
@@ -81,40 +81,38 @@ public class Computer extends User {
         }
         return null;
     }
+
     // Check wild
     public boolean checkWild() {
         if (Game.prevCard.getRank() == "WILD") {
             return true;
-        }
-        else return false;
+        } else
+            return false;
     }
 
     public void computerHitCard() {
-        Card validCard = validCard(); // todo: function LogicComputerHit
+        Card validCard = cards.get(0); // todo: function LogicComputerHit
         int index = cards.indexOf(validCard);
 
-        Card choosenCard = backCards.get(index);
-        choosenCard.assignCard(validCard);
+        Card chosenCard = backCards.get(index);
+        chosenCard.assignCard(validCard);
 
-        choosenCard.hitCardAnimation();
+        chosenCard.hitCardAnimation();
         backCards.remove(index);
-
-        int test = 0;
-        for (Card backCard : backCards) {
-            System.out.println("Card: " + test++);
-        }
     }
 
-    public void computerTurn() { 
-        if (this.getTurn() == true) {
-            if (checkWild()) {
-                this.wild();
-            }
-            this.computerHitCard();
-        }
-        if (this.isPlayedCard == false) {
-            this.drawCard();
-            this.computerHitCard();
-        }
-    }    
+    public void computerTurn() {
+        this.computerHitCard();
+
+        // if (this.getTurn() == true) {
+        // if (checkWild()) {
+        // this.wild();
+        // }
+        // this.computerHitCard();
+        // }
+        // if (this.isPlayedCard == false) {
+        // this.drawCard();
+        // this.computerHitCard();
+        // }
+    }
 }

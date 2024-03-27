@@ -13,7 +13,6 @@ public class Computers {
         com.add(new Computer(deck, "WEST"));
         com.add(new Computer(deck, "NORTH"));
         com.add(new Computer(deck, "EAST"));
-        
 
         // set next user
         com.get(0).setNextUser(com.get(1));
@@ -23,6 +22,7 @@ public class Computers {
     public Computer getComputer(int index) {
         return com.get(index);
     }
+
     // REVERSE
     public void reverse() {
         if (Game.isReverse == true) {
@@ -40,11 +40,9 @@ public class Computers {
     public boolean checkSkip() {
         if (Game.prevCard.getRank() == "SKIP") {
             return true;
-        }
-        else if(Game.prevCard.getRank() == "DRAWTWO") {
+        } else if (Game.prevCard.getRank() == "DRAWTWO") {
             return true;
-        }
-        else if(Game.prevCard.getRank() == "DRAWFOUR") {
+        } else if (Game.prevCard.getRank() == "DRAWFOUR") {
             return true;
         }
         return false;
@@ -54,16 +52,13 @@ public class Computers {
         if (Game.isReverse == true) {
             if (index == 0) {
                 computer1Played();
-            }
-            else if (index == 1) {
+            } else if (index == 1) {
                 computer2Played();
             }
-        }
-        else if (Game.isReverse == false) {
+        } else if (Game.isReverse == false) {
             if (index == 2) {
                 computer1Played();
-            }
-            else if (index == 1) {
+            } else if (index == 1) {
                 computer0Played();
             }
         }
@@ -72,8 +67,7 @@ public class Computers {
     public void oppositeComputer(int index) {
         if (index == 0) {
             computer2Played();
-        }
-        else if (index == 2) {
+        } else if (index == 2) {
             computer0Played();
         }
     }
@@ -104,7 +98,7 @@ public class Computers {
         if ((Game.prevCard.getRank() == "REVERSE") && (com.get(index).isPlayedCard != false)) {
             this.reverse();
         }
-        com.get(index).nextUser.setTurn(true);
+        // com.get(index).nextUser.setTurn(true);
         com.get(index).setTurn(false);
 
         // SKIP
@@ -116,7 +110,7 @@ public class Computers {
 
         if (Game.isReverse == true) {
             delayReverse(index);
-        }else {
+        } else {
             delayReverse(index);
         }
     }
@@ -128,7 +122,7 @@ public class Computers {
     public void computer1Played() {
         computerPlayed(1);
     }
-    
+
     public void computer2Played() {
         computerPlayed(2);
     }

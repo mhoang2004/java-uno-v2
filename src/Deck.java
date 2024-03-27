@@ -26,6 +26,8 @@ public class Deck extends JLabel implements MouseListener {
         this.setHorizontalAlignment(JLabel.CENTER); // Center the image horizontally
         this.setVerticalAlignment(JLabel.CENTER); // Center the image vertically
         this.setCursor(new Cursor(Cursor.HAND_CURSOR));
+
+        addMouseListener(this);
     }
 
     private void createDeck() {
@@ -75,7 +77,7 @@ public class Deck extends JLabel implements MouseListener {
 
     @Override
     public void mouseClicked(MouseEvent e) {
-
+        Game.player.drawCard();
     }
 
     @Override

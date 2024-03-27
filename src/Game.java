@@ -1,3 +1,5 @@
+import javax.swing.JLabel;
+
 public class Game {
     static int COMPUTER_NUM = 4;
 
@@ -7,6 +9,7 @@ public class Game {
     static Player player;
     static Computers com;
     static boolean isReverse;
+
     Game() {
         mainPanel = new MyPanel();
 
@@ -17,16 +20,20 @@ public class Game {
         prevCard = deck.getOneCard();
         prevCard.setLocation(Deck.X + Card.WIDTH * 2, Deck.Y);
 
-        mainPanel.add(deck);
-        mainPanel.add(prevCard);
+        addToMainPanel(deck);
+        addToMainPanel(prevCard);
 
         com = new Computers(deck);
 
         isReverse = true; // chieu kim dong ho
     }
 
+    public static void addToMainPanel(JLabel card) {
+        mainPanel.add(card, Integer.valueOf(MyPanel.LAYER++));
+    }
+
     public void playedCard() {
-        //player.setTurn(true);
+        // player.setTurn(true);
         com.getComputer(0).setTurn(true);
         com.computer0Played();
     }
