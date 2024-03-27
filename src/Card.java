@@ -189,6 +189,10 @@ public class Card extends JLabel implements MouseListener {
     @Override
     public void mouseClicked(MouseEvent e) {
         // if (user.getTurn() == true) {
+        if(!this.user.checkValid(this))
+        {
+            return;
+        }
         this.removeMouseListener(this);
         this.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
         this.hitCardAnimation();

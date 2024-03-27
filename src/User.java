@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Comparator;
 
 public abstract class User {
     static final int INIT_CARD = 7;
@@ -23,6 +24,7 @@ public abstract class User {
             cards.add(card);
         }
         isPlayedCard = false;
+        sortCard();
     }
 
     public void setUserPosition() {
@@ -113,5 +115,78 @@ public abstract class User {
             this.passTurn();
             Game.prevCard.setColor("B"); // get from chose color, this is demo
         }
+    }
+    // Sort Card
+    public void sortCard() {
+        // Comparator cp = Comparator.comparing(Card::getRank);
+        // cards.sort(cp);
+        Card firstCard = new Card(cards.get(0));
+        for (int i = 1; i < cards.size(); i++) {
+            if (firstCard.getColor() != cards.get(i).getColor()) {
+                for (int j = i + 1; j < cards.size(); j++) {
+                    if (firstCard.getColor() == cards.get(j).getColor()) {
+                        Card cardTMP = cards.get(i);
+                        cards.set(i, cards.get(j));
+                        cards.set(j, cardTMP);
+                        break;
+                    }
+                }
+            }
+            firstCard = cards.get(i);
+        }   
+        for(int i=0; i< cards.size() -1; i++)
+        {
+            for(int j = i+1; j < cards.size(); j++ )
+            {
+                if(cards.get(i).getColor() == null || cards.get(j).getColor() == null)
+                {
+                   continue;
+                }
+                if(cards.get(i).getRank().compareTo(cards.get(j).getRank()) >= 0 && cards.get(i).getColor().equals(cards.get(j).getColor()))
+                {
+                    Card cardTMP = cards.get(i);
+                    cards.set(i, cards.get(j));
+                    cards.set(j, cardTMP);
+                    break;
+                }
+            }
+        }
+    }
+    // Check Valid Card
+    public boolean checkValid(Card card) {
+        Card prevCard = Game.prevCard;
+        
+        if (card.getColor() == prevCard.getColor()) {
+            return true;
+        }
+        if (card.getRank() == prevCard.getRank()) {
+            return true;
+        }
+        if (card.getColor() == null) {
+            return true;
+        }
+        return false;
+    }
+    // Check card
+    
+    public boolean checkCard ()
+    {
+        sortCard();
+        for (Card card : cards) {
+            if(checkValid(card))
+            {
+                //card.suggestedEffect();
+            }else{
+                card.setCard();
+            }
+        }
+        for (Card card : cards) {
+            if(checkValid(card)== true){
+
+                return true;
+            }
+        }
+        System.out.println("false");
+        return false;
     }
 }
