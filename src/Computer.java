@@ -104,37 +104,29 @@ public class Computer extends User {
         return null;
     }
 
-    // Check wild
-    public boolean checkWild() {
-        if (Game.prevCard.getRank() == "WILD") {
-            return true;
-        } else
-            return false;
-    }
-
     public void computerHitCard() {
-        Card validCard = cards.get(0); // todo: function LogicComputerHit
-        int index = cards.indexOf(validCard);
-
-        Card chosenCard = backCards.get(index);
-        chosenCard.assignCard(validCard);
-
-        chosenCard.hitCardAnimation();
-        backCards.remove(index);
+        Card validCard = validCard(); // todo: function LogicComputerHit
+        if (validCard != null) {
+            int index = cards.indexOf(validCard);
+    
+            Card chosenCard = backCards.get(index);
+            chosenCard.assignCard(validCard);
+            Game.prevCard.assignCard(validCard);
+            chosenCard.hitCardAnimation();
+            backCards.remove(index);
+        }
     }
 
     public void computerTurn() {
-        this.computerHitCard();
-
-        // if (this.getTurn() == true) {
-        // if (checkWild()) {
-        // this.wild();
-        // }
-        // this.computerHitCard();
-        // }
-        // if (this.isPlayedCard == false) {
-        // this.drawCard();
-        // this.computerHitCard();
-        // }
+        if (this.getTurn() == true) {
+            if (checkWild()) {
+                this.wild();
+            }
+            this.computerHitCard();
+            if (this.isPlayedCard == false) {
+                this.drawCard();
+                this.computerHitCard();
+            }
+        }
     }
 }

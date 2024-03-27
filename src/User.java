@@ -189,4 +189,23 @@ public abstract class User {
         System.out.println("false");
         return false;
     }
+    // Check wild
+    public boolean checkWild() {
+        if (Game.prevCard.getRank() == "WILD") {
+            return true;
+        } else
+            return false;
+    }
+
+    // Check skip
+    public boolean checkSkip() {
+        if (Game.prevCard.getRank() == "SKIP") {
+            return true;
+        } else if (Game.prevCard.getRank() == "DRAWTWO") {
+            return true;
+        } else if (Game.prevCard.getRank() == "DRAWFOUR") {
+            return true;
+        }
+        return false;
+    }
 }
