@@ -57,9 +57,12 @@ public class Card extends JLabel implements MouseListener {
     }
 
     public void assignCard(Card card) {
+
+        
         this.color = card.getColor();
         this.rank = card.getRank();
         this.setIcon(card.getIcon());
+        System.out.println("prevCard: " + Game.prevCard.toString());
     }
 
     public Boolean isSpecial() {
@@ -173,7 +176,7 @@ public class Card extends JLabel implements MouseListener {
                     countStep++;
                 } else {
                     // handle others things
-                    user.hitCard(tempCard);
+                    user.hitCard(tempCard, true);
 
                     ((Timer) e.getSource()).stop();
                 }
@@ -188,9 +191,15 @@ public class Card extends JLabel implements MouseListener {
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        this.removeMouseListener(this);
-        this.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-        this.hitCardAnimation();
+        
+        if(Game.check(this))
+        {
+            this.removeMouseListener(this);
+
+            this.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+            this.hitCardAnimation();
+        }
+            
     }
 
     @Override
@@ -212,4 +221,5 @@ public class Card extends JLabel implements MouseListener {
         this.setLocation(this.getX(), MyPanel.HEIGHT - 100);
         this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
     }
+
 }

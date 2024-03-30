@@ -108,12 +108,19 @@ public class Computer extends User {
         Card validCard = validCard(); // todo: function LogicComputerHit
         if (validCard != null) {
             int index = cards.indexOf(validCard);
-    
-            Card chosenCard = backCards.get(index);
+            Card chosenCard ;
+            try{
+                chosenCard = backCards.get(index);
+            }catch(IndexOutOfBoundsException x)
+            {
+                chosenCard = backCards.get(index-1);
+            }
             chosenCard.assignCard(validCard);
             Game.prevCard.assignCard(validCard);
             chosenCard.hitCardAnimation();
             backCards.remove(index);
+            cards.remove(index);
+            System.out.println(backCards.size());
         }
     }
 

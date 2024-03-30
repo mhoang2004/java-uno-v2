@@ -1,3 +1,4 @@
+import java.awt.Cursor;
 import java.util.ArrayList;
 import java.util.Comparator;
 
@@ -51,12 +52,12 @@ public abstract class User {
         return cards.size();
     }
 
-    public void hitCard(Card card) {
+    public void hitCard(Card card, boolean check) {
         // Game.prevCard.assignCard(card);
 
         cards.remove(card);
-
         setCardsPosition();
+
     }
 
     public void setTurn(boolean turn) {
@@ -154,6 +155,7 @@ public abstract class User {
     }
     // Check Valid Card
     public boolean checkValid(Card card) {
+        System.out.println("Checkingggggg");
         Card prevCard = Game.prevCard;
         
         if (card.getColor() == prevCard.getColor()) {

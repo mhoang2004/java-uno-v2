@@ -1,14 +1,14 @@
 import java.util.ArrayList;
-import javax.swing.JLabel;
+import java.util.Iterator;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-public class Game {
+public class Game{
     final int COMPUTER_NUM = 3;
     static MyPanel mainPanel; // display users
     static Card prevCard;
     static Deck deck;
-
     static Player player;
     private boolean isReverse;
     private ArrayList<Computer> com;
@@ -21,6 +21,10 @@ public class Game {
         player = new Player(deck, "SOUTH");
 
         prevCard = deck.getOneCard();
+        while (prevCard.isSpecial())
+        {
+            prevCard = deck.getOneCard();
+        }
         prevCard.setLocation(Deck.X + Card.WIDTH * 2, Deck.Y);
 
         addToMainPanel(deck);
@@ -144,47 +148,68 @@ public class Game {
     public void computer2Played() {
         computerPlayed(2);
     }
+    public static boolean check (Card card)
+    {
+        return !(player.getTurn() == false) && player.checkValid(card);
+    }
+    public boolean playerPlayed(Card card) {
+            System.out.println(check(card));
+            if(!check(card))
+            {
+                return false; 
+            }
 
-    public void playerPlayed(Card card) {
-        if ((player.getTurn() == false)) {
-            return;
-        }
-        if (!player.checkValid(card)) {
-            return;
-        }
-        if (player.checkWild()) {
-            player.wild();
-        }
-        player.hitCard(card);
-        prevCard.assignCard(card);
-        player.isPlayedCard = true;
-        // REVERSE
-        if ((Game.prevCard.getRank() == "REVERSE") && (player.isPlayedCard != false)) {
-            this.reverse();
-        }
-        player.getNextUser().setTurn(true);
-        player.setTurn(false);
-        // SKIP
-        if ((player.checkSkip()) && (player.isPlayedCard != false)) {
-            player.skip();
-            delaySkip(3);
-            return;
-        }
-        delayReverse(3);
+            System.out.println(check(card));
+                if (player.checkWild()) {
+                    player.wild();
+                }
+                player.hitCard(card, check(card));
+                prevCard.assignCard(card);
+            player.isPlayedCard = true;
+            // REVERSE
+            // System.out.println("hiiiiii");
+            if ((Game.prevCard.getRank() == "REVERSE") && (player.isPlayedCard != false)) {
+                this.reverse();
+            }
+            player.getNextUser().setTurn(true);
+            player.setTurn(false);
+            // SKIP
+            if ((player.checkSkip()) && (player.isPlayedCard != false)) {
+                player.skip();
+                delaySkip(3);
+                return true;
+            }
+            delayReverse(3);  
+            return true;  
+              
     }
 
     public void isMouseClicked() {
         player.setTurn(true);
-        MouseListener mouseListener = new MouseAdapter() {
+        
+        MouseListener mouseListener = new MouseAdapter() 
+        {     
+           
+            
             @Override
-            public void mouseClicked(MouseEvent e) {
-                for (Card card : player.cards) {
-                    if (e.getSource() == card) {
-                        playerPlayed(card);
+            public void mouseClicked(MouseEvent e) 
+            { 
+                int size = player.cards.size();
+                boolean check = true;
+                for (int i=0; i< size ; i++)
+                {
+                    if (e.getSource() == player.cards.get(i))
+                    {
+                        if(playerPlayed( player.cards.get(i)))
+                        {
+                            size--;
+                        }
                     }
-                }
+                }         
             }
         };
+        
+        
         for (Card card : player.cards) {
             card.addMouseListener(mouseListener);
         }
