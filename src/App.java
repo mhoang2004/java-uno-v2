@@ -5,7 +5,7 @@ public class App {
         frame = new MyFrame();
         Game game = new Game();
 
-        game.isMouseClicked();
+        game.mouseClicked();
 
         frame.add(Game.mainPanel);
 

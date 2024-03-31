@@ -55,7 +55,7 @@ public class Computer extends User {
             }
         }
     }
-
+    // Máy chọn ra 1 lá để đánh
     public Card validCard() {
         // Test reverse
         // for(Card card : cards) {
@@ -68,42 +68,42 @@ public class Computer extends User {
         // if (card.getRank() == "SKIP")
         // return card;
         // }
-        this.isPlayedCard = false;
+        this.isUserHit = false;
         for (Card card : cards) {
             if (card.getColor() == Game.prevCard.getColor()) {
                 if (card.getRank().length() == 1) {
-                    this.isPlayedCard = true;
+                    this.isUserHit = true;
                     return card;
                 }
             }
         }
         for (Card card : cards) {
             if (card.getRank() == Game.prevCard.getRank()) {
-                this.isPlayedCard = true;
+                this.isUserHit = true;
                 return card;
             }
         }
         for (Card card : cards) {
             if (card.getColor() == Game.prevCard.getColor()) {
-                this.isPlayedCard = true;
+                this.isUserHit = true;
                 return card;
             }
         }
         for (Card card : cards) {
             if (card.getRank() == "WILD") {
-                this.isPlayedCard = true;
+                this.isUserHit = true;
                 return card;
             }
         }
         for (Card card : cards) {
             if (card.getRank() == "DRAWFOUR") {
-                this.isPlayedCard = true;
+                this.isUserHit = true;
                 return card;
             }
         }
         return null;
     }
-
+    // Máy đánh ra lá đã chọn
     public void computerHitCard() {
         Card validCard = validCard(); // todo: function LogicComputerHit
         if (validCard != null) {
@@ -123,14 +123,14 @@ public class Computer extends User {
             System.out.println(backCards.size());
         }
     }
-
+    // Kiểm tra lá wild và nếu máy không có lá nào đánh được thì sau khi rút bài chọn đánh luôn lá đó nếu đánh được
     public void computerTurn() {
         if (this.getTurn() == true) {
             if (checkWild()) {
                 this.wild();
             }
             this.computerHitCard();
-            if (this.isPlayedCard == false) {
+            if (this.isUserHit == false) {
                 this.drawCard();
                 this.computerHitCard();
             }

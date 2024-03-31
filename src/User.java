@@ -9,9 +9,9 @@ public abstract class User {
 
     protected ArrayList<Card> cards;
     protected String position;
-    protected User nextUser;
-    protected boolean turn;
-    protected boolean isPlayedCard;
+    protected User nextUser; // User kế tiếp
+    protected boolean isTurn; // xem lượt đó có phải của user này không
+    protected boolean isUserHit; // xem lượt đó user có ra bài không
     int xPos;
     int yPos;
 
@@ -24,7 +24,7 @@ public abstract class User {
             card.setUser(this);
             cards.add(card);
         }
-        isPlayedCard = false;
+        isUserHit = false;
         sortCard();
     }
 
@@ -60,12 +60,12 @@ public abstract class User {
 
     }
 
-    public void setTurn(boolean turn) {
-        this.turn = turn;
+    public void setTurn(boolean isTurn) {
+        this.isTurn = isTurn;
     }
 
     public boolean getTurn() {
-        return turn;
+        return isTurn;
     }
 
     public String getPosition() {
@@ -79,7 +79,7 @@ public abstract class User {
     public int getYPos() {
         return yPos;
     }
-
+    
     public void setNextUser(User nextUser) {
         this.nextUser = nextUser;
     }
@@ -87,20 +87,20 @@ public abstract class User {
     public User getNextUser() {
         return nextUser;
     }
-
+    // khi user đánh ra là wild
     public void wild() {
         if (Game.prevCard.getRank() == "WILD") {
             Game.prevCard.setColor("B"); // get from chose color, this is demo
             Game.prevCard.setRank(null);
         }
     }
-
+    // pass qua hẳn 1 user, cấm đi lượt đó 
     public void passTurn() {
         this.getNextUser().setTurn(false);
         this.setTurn(false);
         this.getNextUser().getNextUser().setTurn(true);
     }
-
+    // khi user đánh ra lá skip, drawtwo, drawfour, rút bài rồi qua lượt, không được đánh
     public void skip() {
         if (Game.prevCard.getRank() == "SKIP") {
             this.passTurn();
@@ -191,7 +191,7 @@ public abstract class User {
         System.out.println("false");
         return false;
     }
-    // Check wild
+    // Kiểm tra lá prevCard có phảỉ lá wild
     public boolean checkWild() {
         if (Game.prevCard.getRank() == "WILD") {
             return true;
@@ -199,7 +199,7 @@ public abstract class User {
             return false;
     }
 
-    // Check skip
+    // Kiểm tra lá prevCard có phảỉ lá skip, drawtwo hay drawfour
     public boolean checkSkip() {
         if (Game.prevCard.getRank() == "SKIP") {
             return true;
