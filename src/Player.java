@@ -4,13 +4,14 @@ public class Player extends User {
     Player(Deck deck, String position) {
         super(deck, position);
         setCardsPosition();
-
+        isPlayer = true;
         for (Card card : cards) {
             card.addMouseListener(card);
             card.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 
             Game.addToMainPanel(card);
         }
+        
     }
 
     public void setCardsPosition() {

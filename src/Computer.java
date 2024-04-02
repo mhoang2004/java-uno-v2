@@ -5,7 +5,7 @@ public class Computer extends User {
 
     Computer(Deck deck, String position) {
         super(deck, position);
-
+        isPlayer = false;
         backCards = new ArrayList<>();
 
         for (Card card : cards) {

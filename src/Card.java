@@ -188,20 +188,27 @@ public class Card extends JLabel implements MouseListener {
 
         timer.start();
     }
-
+    
     @Override
     public void mouseClicked(MouseEvent e) {
-        
+       
         if(Game.check(this))
         {
-            this.removeMouseListener(this);
-
-            this.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-            this.hitCardAnimation();
+            if(this.color == null)
+            {
+                    new MyFrame(user, this);
+            }else{
+                hitCard();
+            }
         }
             
     }
-
+    void hitCard()
+    {
+        this.removeMouseListener(this);
+        this.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+        this.hitCardAnimation();
+    } 
     @Override
     public void mousePressed(MouseEvent e) {
     }

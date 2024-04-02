@@ -12,11 +12,14 @@ public abstract class User {
     protected User nextUser; // User kế tiếp
     protected boolean isTurn; // xem lượt đó có phải của user này không
     protected boolean isUserHit; // xem lượt đó user có ra bài không
+    protected boolean isPlayer;
+
     int xPos;
     int yPos;
 
     User(Deck deck, String position) {
         this.position = position;
+        isPlayer = true;
         cards = new ArrayList<Card>();
 
         for (int i = 0; i < INIT_CARD; i++) {
@@ -24,6 +27,7 @@ public abstract class User {
             card.setUser(this);
             cards.add(card);
         }
+
         isUserHit = false;
         sortCard();
     }
@@ -43,15 +47,12 @@ public abstract class User {
             yPos = (MyPanel.HEIGHT - (Card.HEIGHT + (sizeCards() - 1) * GAP_CARD_VERTICAL)) / 2;
         }
     }
-
     public abstract void setCardsPosition();
-
-    public abstract Card drawCard();
-
     public int sizeCards() {
         return cards.size();
     }
-
+    // action card
+    public abstract Card drawCard();
     public void hitCard(Card card, boolean check) {
         // Game.prevCard.assignCard(card);
 
@@ -87,13 +88,8 @@ public abstract class User {
     public User getNextUser() {
         return nextUser;
     }
-    // khi user đánh ra là wild
-    public void wild() {
-        if (Game.prevCard.getRank() == "WILD") {
-            Game.prevCard.setColor("B"); // get from chose color, this is demo
-            Game.prevCard.setRank(null);
-        }
-    }
+    
+
     // pass qua hẳn 1 user, cấm đi lượt đó 
     public void passTurn() {
         this.getNextUser().setTurn(false);
@@ -198,7 +194,17 @@ public abstract class User {
         } else
             return false;
     }
+    // khi user đánh ra là wild
+    public void wild() {
+        if (Game.prevCard.getRank() == "WILD")
+        {
+            Game.prevCard.setColor("B"); // get from chose color, this is demo
+            Game.prevCard.setRank(null);
+                            
 
+           
+        }
+    }   
     // Kiểm tra lá prevCard có phảỉ lá skip, drawtwo hay drawfour
     public boolean checkSkip() {
         if (Game.prevCard.getRank() == "SKIP") {

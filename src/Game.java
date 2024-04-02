@@ -10,8 +10,8 @@ public class Game{
     static Card prevCard;
     static Deck deck;
     static Player player;
-    private boolean isReverse; // kiểm tra chiều bài đang đánh
-    private ArrayList<Computer> com;
+    private static boolean isReverse; // kiểm tra chiều bài đang đánh
+    private static ArrayList<Computer> com;
     //private boolean isTurnPlayer;
     Game() {
         mainPanel = new MyPanel();
@@ -47,26 +47,29 @@ public class Game{
     public static void addToMainPanel(JLabel card) {
         mainPanel.add(card, Integer.valueOf(MyPanel.LAYER++));
     }
-
+    public static boolean getIsReverse()
+    {
+        return isReverse;
+    }
     // Khi lá prevCard là lá đổi chiều, thực hiện đổi user tiếp theo
-    public void reverse() {
-        if (this.isReverse == true) {
+    public static void reverse() {
+        if (isReverse == true) {
             com.get(2).setNextUser(com.get(1));
             com.get(1).setNextUser(com.get(0));
             com.get(0).setNextUser(player);
             player.setNextUser(com.get(2));
-            this.isReverse = false; // ngược chiều kim đồng hồ
+            isReverse = false; // ngược chiều kim đồng hồ
         } else {
             com.get(0).setNextUser(com.get(1));
             com.get(1).setNextUser(com.get(2));
             com.get(2).setNextUser(player);
             player.setNextUser(com.get(0));
-            this.isReverse = true; // đúng chiều kim đồng hồ
+            isReverse = true; // đúng chiều kim đồng hồ
         }
     }
     // Qua lượt đánh của user kế tiếp
-    public void nextComputer(int index) {
-        if (this.isReverse == true) {
+    public static void nextComputer(int index) {
+        if (isReverse == true) {
             if (index == 0) {
                 computer1Hit();
             } else if (index == 1) {
@@ -76,7 +79,7 @@ public class Game{
             } else if (index == 3) {
                 computer0Hit();
             }
-        } else if (this.isReverse == false) {
+        } else if (isReverse == false) {
             if (index == 3) {
                 computer2Hit();
             } else if (index == 2) {
@@ -89,7 +92,7 @@ public class Game{
         } 
     }
     // Qua lượt đánh của user đối diện, trường hợp này pass qua 1 user là lúc sử dụng lá skip
-    public void oppositeComputer(int index) {
+    public static void oppositeComputer(int index) {
         if (index == 0) {
             computer2Hit();
         } else if (index == 1) {
@@ -101,7 +104,7 @@ public class Game{
         }
     }
     // Set thời gian máy đánh chậm lại 2s, cho kịp nhìn
-    public void delayReverse(int index) {
+    public static void delayReverse(int index) {
         Timer timer = new Timer(2000, new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 nextComputer(index);
@@ -111,7 +114,7 @@ public class Game{
         timer.start();
     }
     // Set thời gian máy đánh chậm lại 2 giây nhưng cho trường hợp đánh ra lá skip
-    public void delaySkip(int index) {
+    public static void delaySkip(int index) {
         Timer timer = new Timer(2000, new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 oppositeComputer(index);
@@ -121,11 +124,11 @@ public class Game{
         timer.start();
     }
     // Máy đánh ra lá bài rồi chuyển qua user tiếp theo, check lá reverse, skip ở trong đây.
-    public void computerHit(int index) {
+    public  static void computerHit(int index) {
         com.get(index).computerTurn();
         // REVERSE
         if ((Game.prevCard.getRank() == "REVERSE") && (com.get(index).isUserHit != false)) {
-            this.reverse();
+            reverse();
         }
         com.get(index).nextUser.setTurn(true);
         com.get(index).setTurn(false);
@@ -138,15 +141,15 @@ public class Game{
         delayReverse(index);
     }
     // Lượt đánh của máy 0
-    public void computer0Hit() {
+    public static void computer0Hit() {
         computerHit(0);
     }
     // Lượt đánh của máy 1
-    public void computer1Hit() {
+    public static void computer1Hit() {
         computerHit(1);
     }
     // Lượt đánh của máy 2
-    public void computer2Hit() {
+    public static void computer2Hit() {
         computerHit(2);
     }
     public static boolean check (Card card)
@@ -164,26 +167,28 @@ public class Game{
             System.out.println(check(card));
                 if (player.checkWild()) {
                     player.wild();
+                    prevCard.assignCard(card);
+                    player.isUserHit = true;
+                }else{
+                    player.hitCard(card, check(card));
+                    prevCard.assignCard(card);
+                    player.isUserHit = true;
+                    
                 }
-                player.hitCard(card, check(card));
-                prevCard.assignCard(card);
-            player.isUserHit = true;
-            // REVERSE
-            // System.out.println("hiiiiii");
-            if ((Game.prevCard.getRank() == "REVERSE") && (player.isUserHit != false)) {
-                this.reverse();
-            }
-            player.getNextUser().setTurn(true);
-            player.setTurn(false);
-            // SKIP
-            if ((player.checkSkip()) && (player.isUserHit != false)) {
-                player.skip();
-                delaySkip(3);
-                return true;
-            }
-            delayReverse(3);  
-            return true;  
-              
+                // REVERSE
+                if ((Game.prevCard.getRank() == "REVERSE") && (player.isUserHit != false)) {
+                    this.reverse();
+                }
+                player.getNextUser().setTurn(true);
+                player.setTurn(false);
+                // SKIP
+                if ((player.checkSkip()) && (player.isUserHit != false)) {
+                    player.skip();
+                    delaySkip(3);
+                    return true;
+                }
+                delayReverse(3);  
+                return true;    
     }
     // bắt sự kiện chuột click vào 1 lá bài của player
     public void mouseClicked() { 
@@ -197,7 +202,6 @@ public class Game{
             public void mouseClicked(MouseEvent e) 
             { 
                 int size = player.cards.size();
-                boolean check = true;
                 for (int i=0; i< size ; i++)
                 {
                     if (e.getSource() == player.cards.get(i))
