@@ -102,8 +102,7 @@ public abstract class User {
         this.getNextUser().getNextUser().setTurn(true);
     }
 
-    // khi user đánh ra lá skip, drawtwo, drawfour, rút bài rồi qua lượt, không được
-    // đánh
+    // khi user đánh ra lá skip, drawtwo, drawfour, rút bài rồi qua lượt, không được đánh
     public void skip() {
         if (Game.prevCard.getRank() == "SKIP") {
             this.passTurn();
@@ -219,7 +218,7 @@ public abstract class User {
             this.setTurn(false);
             Game.delayReverse(3);
         }
-         
+        
         return src;
     }
 

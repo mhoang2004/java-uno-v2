@@ -75,7 +75,7 @@ public class Card extends JLabel implements MouseListener {
 
     public void setColor(String color) {
         this.color = color;
-        this.rank = null;
+        // this.rank = null; 
     }
 
     public String getRank() {

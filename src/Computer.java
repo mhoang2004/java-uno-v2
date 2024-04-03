@@ -43,6 +43,7 @@ public class Computer extends User {
 
         backCard.drawCardAnimation();
 
+        System.out.println("draw:" + card);
         return card;
     }
 
@@ -112,6 +113,14 @@ public class Computer extends User {
         // if (card.getRank() == "SKIP")
         // return card;
         // }
+        // Test drawfour
+        // this.isUserHit = false;
+        // for(Card card : cards) {
+        //     if (card.getColor() == null) {
+        //         this.isUserHit = true;
+        //         return card;
+        //     }
+        // }
         this.isUserHit = false;
         for (Card card : cards) {
             if (this.checkValid(card) == true) {
@@ -119,37 +128,46 @@ public class Computer extends User {
                 return card;
             }
         }
+        // this.isUserHit = false;
         // for (Card card : cards) {
-        // if (card.getColor() == Game.prevCard.getColor()) {
-        // if (card.getRank().length() == 1) {
-        // this.isUserHit = true;
-        // return card;
-        // }
-        // }
-        // }
-        // for (Card card : cards) {
-        // if (card.getRank() == Game.prevCard.getRank()) {
-        // this.isUserHit = true;
-        // return card;
-        // }
+        //     if (card.getColor() == Game.prevCard.getColor()) {
+        //         if (card.getRank().length() == 1) {
+        //             this.isUserHit = true;
+        //             return card;
+        //         }
+        //     }
         // }
         // for (Card card : cards) {
-        // if (card.getColor() == Game.prevCard.getColor()) {
-        // this.isUserHit = true;
-        // return card;
-        // }
-        // }
-        // for (Card card : cards) {
-        // if (card.getRank() == "WILD") {
-        // this.isUserHit = true;
-        // return card;
-        // }
+        //     if (card.getRank() == Game.prevCard.getRank()) {
+        //         if (card.getRank().length() == 1) {
+        //             this.isUserHit = true;
+        //             return card;
+        //         }
+        //     }
         // }
         // for (Card card : cards) {
-        // if (card.getRank() == "DRAWFOUR") {
-        // this.isUserHit = true;
-        // return card;
+        //     if (card.getColor() == Game.prevCard.getColor()) {
+        //         this.isUserHit = true;
+        //         return card;
+        //     }
         // }
+        // for (Card card : cards) {
+        //     if (card.getRank() == Game.prevCard.getRank()) {
+        //         this.isUserHit = true;
+        //         return card;
+        //     }
+        // }
+        // for (Card card : cards) {
+        //     if (card.getRank() == "WILD") {
+        //         this.isUserHit = true;
+        //         return card;
+        //     }
+        // }
+        // for (Card card : cards) {
+        //     if (card.getRank() == "DRAWFOUR") {
+        //         this.isUserHit = true;
+        //         return card;
+        //     }
         // }
         return null;
     }
@@ -167,7 +185,6 @@ public class Computer extends User {
 
                 Game.prevCard.setColor(validCard.getColor());
                 Game.prevCard.setRank(validCard.getRank());
-
                 chosenCard.hitCardAnimation();
                 backCards.remove(index);
                 cards.remove(index);
@@ -191,7 +208,7 @@ public class Computer extends User {
             else if (this.isUserHit == false) {
                 this.drawCard();
                 this.computerHitCard();
-                if (checkChangeColor()) {
+                if ((this.isUserHit == true) && (checkChangeColor())) {
                     Game.prevCard.setColor(this.chooseColor());
                 }
             }

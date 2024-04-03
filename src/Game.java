@@ -226,5 +226,6 @@ public class Game {
         for (Card card : player.cards) {
             card.addMouseListener(mouseListener);
         }
+        
     }
 }

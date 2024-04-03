@@ -40,7 +40,7 @@ public class Player extends User {
         cards.add(card);
 
         card.drawCardAnimation();
-
+        
         return card;
     }
 
