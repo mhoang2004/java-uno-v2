@@ -11,12 +11,13 @@ import javax.swing.JTextField;
 
 public class MyFrame extends JFrame {
     static final Color BG_COLOR = new Color(3, 104, 63);
-    private JButton buttonBLUE;   
-    private JButton buttonYELLOW;   
-    private JButton buttonGREEN;   
+    private JButton buttonBLUE;
+    private JButton buttonYELLOW;
+    private JButton buttonGREEN;
     private JButton buttonRED;
     private User user;
     private Card card;
+
     MyFrame() {
         this.setTitle("Uno Game");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -27,8 +28,8 @@ public class MyFrame extends JFrame {
 
         this.getContentPane().setBackground(BG_COLOR);
     }
-    public MyFrame(User user, Card card)
-    {
+
+    public MyFrame(User user, Card card) {
         this.card = card;
         this.user = user;
         buttonBLUE = new JButton("BLUE");
@@ -38,8 +39,8 @@ public class MyFrame extends JFrame {
         this.init();
         this.setVisible(true);
     }
-    void init()
-    {
+
+    void init() {
         this.setTitle("Chose Color"); // set title
         this.setSize(500, 100); // x-dimension and y-dimension
         JLabel buts = new JLabel();
@@ -61,17 +62,20 @@ public class MyFrame extends JFrame {
         this.setLocationRelativeTo(null);
         this.setVisible(true);
     }
-    void changePrevCard(String src)
-    {
-        Card tmp = new Card(src , null);
-        Game.prevCard.assignCard(tmp);
-        if(Game.getIsReverse() == true){
+
+    void changePrevCard(String src) {
+        Card tmp = new Card(src, null);
+
+        Game.prevCard.setColor(tmp.getColor());
+        Game.prevCard.setRank(tmp.getRank());
+
+        if (Game.getIsReverse() == true) {
             Game.delayReverse(3);
-        }else{
+        } else {
             Game.delayReverse(0);
         }
-       
+
         card.hitCard();
-        
+
     }
 }

@@ -1,6 +1,4 @@
-import java.awt.Cursor;
 import java.util.ArrayList;
-import java.util.Comparator;
 
 public abstract class User {
     static final int INIT_CARD = 7;
@@ -47,12 +45,16 @@ public abstract class User {
             yPos = (MyPanel.HEIGHT - (Card.HEIGHT + (sizeCards() - 1) * GAP_CARD_VERTICAL)) / 2;
         }
     }
+
     public abstract void setCardsPosition();
+
     public int sizeCards() {
         return cards.size();
     }
+
     // action card
     public abstract Card drawCard();
+
     public void hitCard(Card card, boolean check) {
         // Game.prevCard.assignCard(card);
 
@@ -80,7 +82,7 @@ public abstract class User {
     public int getYPos() {
         return yPos;
     }
-    
+
     public void setNextUser(User nextUser) {
         this.nextUser = nextUser;
     }
@@ -88,15 +90,16 @@ public abstract class User {
     public User getNextUser() {
         return nextUser;
     }
-    
 
-    // pass qua hẳn 1 user, cấm đi lượt đó 
+    // pass qua hẳn 1 user, cấm đi lượt đó
     public void passTurn() {
         this.getNextUser().setTurn(false);
         this.setTurn(false);
         this.getNextUser().getNextUser().setTurn(true);
     }
-    // khi user đánh ra lá skip, drawtwo, drawfour, rút bài rồi qua lượt, không được đánh
+
+    // khi user đánh ra lá skip, drawtwo, drawfour, rút bài rồi qua lượt, không được
+    // đánh
     public void skip() {
         if (Game.prevCard.getRank() == "SKIP") {
             this.passTurn();
@@ -113,6 +116,7 @@ public abstract class User {
             Game.prevCard.setColor("B"); // get from chose color, this is demo
         }
     }
+
     // Sort Card
     public void sortCard() {
         // Comparator cp = Comparator.comparing(Card::getRank);
@@ -130,17 +134,14 @@ public abstract class User {
                 }
             }
             firstCard = cards.get(i);
-        }   
-        for(int i=0; i< cards.size() -1; i++)
-        {
-            for(int j = i+1; j < cards.size(); j++ )
-            {
-                if(cards.get(i).getColor() == null || cards.get(j).getColor() == null)
-                {
-                   continue;
+        }
+        for (int i = 0; i < cards.size() - 1; i++) {
+            for (int j = i + 1; j < cards.size(); j++) {
+                if (cards.get(i).getColor() == null || cards.get(j).getColor() == null) {
+                    continue;
                 }
-                if(cards.get(i).getRank().compareTo(cards.get(j).getRank()) >= 0 && cards.get(i).getColor().equals(cards.get(j).getColor()))
-                {
+                if (cards.get(i).getRank().compareTo(cards.get(j).getRank()) >= 0
+                        && cards.get(i).getColor().equals(cards.get(j).getColor())) {
                     Card cardTMP = cards.get(i);
                     cards.set(i, cards.get(j));
                     cards.set(j, cardTMP);
@@ -149,11 +150,12 @@ public abstract class User {
             }
         }
     }
+
     // Check Valid Card
     public boolean checkValid(Card card) {
         System.out.println("Checkingggggg");
         Card prevCard = Game.prevCard;
-        
+
         if (card.getColor() == prevCard.getColor()) {
             return true;
         }
@@ -166,20 +168,18 @@ public abstract class User {
         return false;
     }
     // Check card
-    
-    public boolean checkCard ()
-    {
+
+    public boolean checkCard() {
         sortCard();
         for (Card card : cards) {
-            if(checkValid(card))
-            {
-                //card.suggestedEffect();
-            }else{
+            if (checkValid(card)) {
+                // card.suggestedEffect();
+            } else {
                 card.setCard();
             }
         }
         for (Card card : cards) {
-            if(checkValid(card)== true){
+            if (checkValid(card) == true) {
 
                 return true;
             }
@@ -187,6 +187,7 @@ public abstract class User {
         System.out.println("false");
         return false;
     }
+
     // Kiểm tra lá prevCard có phảỉ lá wild
     public boolean checkWild() {
         if (Game.prevCard.getRank() == "WILD") {
@@ -194,17 +195,15 @@ public abstract class User {
         } else
             return false;
     }
+
     // khi user đánh ra là wild
     public void wild() {
-        if (Game.prevCard.getRank() == "WILD")
-        {
+        if (Game.prevCard.getRank() == "WILD") {
             Game.prevCard.setColor("B"); // get from chose color, this is demo
             Game.prevCard.setRank(null);
-                            
-
-           
         }
-    }   
+    }
+
     // Kiểm tra lá prevCard có phảỉ lá skip, drawtwo hay drawfour
     public boolean checkSkip() {
         if (Game.prevCard.getRank() == "SKIP") {

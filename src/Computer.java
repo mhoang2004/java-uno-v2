@@ -55,6 +55,7 @@ public class Computer extends User {
             }
         }
     }
+
     // Máy chọn ra 1 lá để đánh
     public Card validCard() {
         // Test reverse
@@ -103,27 +104,32 @@ public class Computer extends User {
         }
         return null;
     }
+
     // Máy đánh ra lá đã chọn
     public void computerHitCard() {
         Card validCard = validCard(); // todo: function LogicComputerHit
         if (validCard != null) {
             int index = cards.indexOf(validCard);
-            Card chosenCard ;
-            try{
+            Card chosenCard;
+            try {
                 chosenCard = backCards.get(index);
-            }catch(IndexOutOfBoundsException x)
-            {
-                chosenCard = backCards.get(index-1);
+            } catch (IndexOutOfBoundsException x) {
+                chosenCard = backCards.get(index - 1);
             }
             chosenCard.assignCard(validCard);
-            Game.prevCard.assignCard(validCard);
+
+            Game.prevCard.setColor(validCard.getColor());
+            Game.prevCard.setRank(validCard.getRank());
+
             chosenCard.hitCardAnimation();
             backCards.remove(index);
             cards.remove(index);
             System.out.println(backCards.size());
         }
     }
-    // Kiểm tra lá wild và nếu máy không có lá nào đánh được thì sau khi rút bài chọn đánh luôn lá đó nếu đánh được
+
+    // Kiểm tra lá wild và nếu máy không có lá nào đánh được thì sau khi rút bài
+    // chọn đánh luôn lá đó nếu đánh được
     public void computerTurn() {
         if (this.getTurn() == true) {
             if (checkWild()) {

@@ -57,8 +57,6 @@ public class Card extends JLabel implements MouseListener {
     }
 
     public void assignCard(Card card) {
-
-        
         this.color = card.getColor();
         this.rank = card.getRank();
         this.setIcon(card.getIcon());
@@ -188,27 +186,26 @@ public class Card extends JLabel implements MouseListener {
 
         timer.start();
     }
-    
+
     @Override
     public void mouseClicked(MouseEvent e) {
-       
-        if(Game.check(this))
-        {
-            if(this.color == null)
-            {
-                    new MyFrame(user, this);
-            }else{
+
+        if (Game.check(this)) {
+            if (this.color == null) {
+                new MyFrame(user, this);
+            } else {
                 hitCard();
             }
         }
-            
+
     }
-    void hitCard()
-    {
+
+    void hitCard() {
         this.removeMouseListener(this);
         this.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
         this.hitCardAnimation();
-    } 
+    }
+
     @Override
     public void mousePressed(MouseEvent e) {
     }
