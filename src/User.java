@@ -24,6 +24,10 @@ public abstract class User {
 
         for (int i = 0; i < INIT_CARD; i++) {
             Card card = deck.getOneCard();
+            // while(i==0 && card.getColor() != null)
+            // {
+            //      card = deck.getOneCard();
+            // }
             card.setUser(this);
             cards.add(card);
         }
@@ -51,6 +55,7 @@ public abstract class User {
     public int sizeCards() {
         return cards.size();
     }
+   
     // action card
     public abstract Card drawCard();
     public void hitCard(Card card, boolean check) {
@@ -104,14 +109,7 @@ public abstract class User {
             this.getNextUser().drawCard();
             this.getNextUser().drawCard();
             this.passTurn();
-        } else if (Game.prevCard.getRank() == "DRAWFOUR") {
-            this.getNextUser().drawCard();
-            this.getNextUser().drawCard();
-            this.getNextUser().drawCard();
-            this.getNextUser().drawCard();
-            this.passTurn();
-            Game.prevCard.setColor("B"); // get from chose color, this is demo
-        }
+        } 
     }
     // Sort Card
     public void sortCard() {
@@ -151,15 +149,30 @@ public abstract class User {
     }
     // Check Valid Card
     public boolean checkValid(Card card) {
-        System.out.println("Checkingggggg");
         Card prevCard = Game.prevCard;
+        if (card.getColor()== null) {
+            return true;
+        }
+        // if (prevCard.getRank() == null && card.getColor().charAt(0) == prevCard.getColor().charAt(0) ) {
+        //     return true;
+        // }
+        if (card.getColor() ==  null) {
+            return true;
+        }
+        if (card.getRank() == prevCard.getRank()) 
+        {
+            return true;
+        }
+        try{
+            if (card.getColor().charAt(0) == prevCard.getColor().charAt(0)) 
+            {
+                return true;
+            }
+        }catch(NullPointerException e){
+            return true;
+        }
         
-        if (card.getColor() == prevCard.getColor()) {
-            return true;
-        }
-        if (card.getRank() == prevCard.getRank()) {
-            return true;
-        }
+        
         if (card.getColor() == null) {
             return true;
         }
@@ -194,17 +207,24 @@ public abstract class User {
         } else
             return false;
     }
-    // khi user đánh ra là wild
-    public void wild() {
-        if (Game.prevCard.getRank() == "WILD")
+    // khi user đánh ra là wild 
+    String changePrevCard(String src, Card card)
+    {
+        Card tmp = new Card(src , card.getRank());
+        Game.prevCard.assignCard(tmp);
+        if(card.getRank() == "DRAWFOUR")
         {
-            Game.prevCard.setColor("B"); // get from chose color, this is demo
-            Game.prevCard.setRank(null);
-                            
-
-           
+            // this.passTurn();
+            Game.delaySkip(3);
+        }else if(Game.getIsReverse() == true){
+            Game.delayReverse(3);
+        }else{
+            Game.delayReverse(0);
         }
-    }   
+       
+        card.hitCard();
+        return src;
+    }  
     // Kiểm tra lá prevCard có phảỉ lá skip, drawtwo hay drawfour
     public boolean checkSkip() {
         if (Game.prevCard.getRank() == "SKIP") {

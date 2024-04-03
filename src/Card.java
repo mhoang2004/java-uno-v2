@@ -196,6 +196,12 @@ public class Card extends JLabel implements MouseListener {
         {
             if(this.color == null)
             {
+                if (this.getRank() == "DRAWFOUR") {
+                    user.getNextUser().drawCard();
+                    user.getNextUser().drawCard();
+                    user.getNextUser().drawCard();
+                    user.getNextUser().drawCard();                  
+                }
                     new MyFrame(user, this);
             }else{
                 hitCard();

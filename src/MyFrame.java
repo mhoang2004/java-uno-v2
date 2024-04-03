@@ -63,15 +63,6 @@ public class MyFrame extends JFrame {
     }
     void changePrevCard(String src)
     {
-        Card tmp = new Card(src , null);
-        Game.prevCard.assignCard(tmp);
-        if(Game.getIsReverse() == true){
-            Game.delayReverse(3);
-        }else{
-            Game.delayReverse(0);
-        }
-       
-        card.hitCard();
-        
+        user.changePrevCard(src, card);
     }
 }
