@@ -64,18 +64,6 @@ public class MyFrame extends JFrame {
     }
 
     void changePrevCard(String src) {
-        Card tmp = new Card(src, null);
-
-        Game.prevCard.setColor(tmp.getColor());
-        Game.prevCard.setRank(tmp.getRank());
-
-        if (Game.getIsReverse() == true) {
-            Game.delayReverse(3);
-        } else {
-            Game.delayReverse(0);
-        }
-
-        card.hitCard();
-
+        user.changePrevCard(src, card);
     }
 }

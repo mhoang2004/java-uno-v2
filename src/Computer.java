@@ -18,6 +18,10 @@ public class Computer extends User {
         setCardsPosition();
     }
 
+    public ArrayList<Card> getCards() {
+        return cards;
+    }
+
     public Card drawCard() {
         if (Game.deck.getDeck().size() == 0) {
             System.out.println("Het bai roi cuu");
@@ -71,75 +75,70 @@ public class Computer extends User {
         // }
         this.isUserHit = false;
         for (Card card : cards) {
-            if (card.getColor() == Game.prevCard.getColor()) {
-                if (card.getRank().length() == 1) {
-                    this.isUserHit = true;
-                    return card;
-                }
-            }
-        }
-        for (Card card : cards) {
-            if (card.getRank() == Game.prevCard.getRank()) {
+            if (this.checkValid(card) == true) {
                 this.isUserHit = true;
                 return card;
             }
         }
-        for (Card card : cards) {
-            if (card.getColor() == Game.prevCard.getColor()) {
-                this.isUserHit = true;
-                return card;
-            }
-        }
-        for (Card card : cards) {
-            if (card.getRank() == "WILD") {
-                this.isUserHit = true;
-                return card;
-            }
-        }
-        for (Card card : cards) {
-            if (card.getRank() == "DRAWFOUR") {
-                this.isUserHit = true;
-                return card;
-            }
-        }
+        // for (Card card : cards) {
+        // if (card.getColor() == Game.prevCard.getColor()) {
+        // if (card.getRank().length() == 1) {
+        // this.isUserHit = true;
+        // return card;
+        // }
+        // }
+        // }
+        // for (Card card : cards) {
+        // if (card.getRank() == Game.prevCard.getRank()) {
+        // this.isUserHit = true;
+        // return card;
+        // }
+        // }
+        // for (Card card : cards) {
+        // if (card.getColor() == Game.prevCard.getColor()) {
+        // this.isUserHit = true;
+        // return card;
+        // }
+        // }
+        // for (Card card : cards) {
+        // if (card.getRank() == "WILD") {
+        // this.isUserHit = true;
+        // return card;
+        // }
+        // }
+        // for (Card card : cards) {
+        // if (card.getRank() == "DRAWFOUR") {
+        // this.isUserHit = true;
+        // return card;
+        // }
+        // }
         return null;
     }
 
     // Máy đánh ra lá đã chọn
+
     public void computerHitCard() {
         Card validCard = validCard(); // todo: function LogicComputerHit
+        Card chosenCard = null;
         if (validCard != null) {
             int index = cards.indexOf(validCard);
-            Card chosenCard;
-            try {
-                chosenCard = backCards.get(index);
-            } catch (IndexOutOfBoundsException x) {
-                chosenCard = backCards.get(index - 1);
+            chosenCard = backCards.get(index);
+            if (this.getTurn() == true) {
+                chosenCard.assignCard(validCard);
+                Game.prevCard.assignCard(validCard);
+                chosenCard.hitCardAnimation();
+                backCards.remove(index);
+                cards.remove(index);
+                if (chosenCard.getColor() == null) {
+                    Game.prevCard.setColor(cards.get(0).getColor());
+                    Game.prevCard.setRank(chosenCard.getRank());
+                }
+
             }
-            chosenCard.assignCard(validCard);
-
-            Game.prevCard.setColor(validCard.getColor());
-            Game.prevCard.setRank(validCard.getRank());
-
-            chosenCard.hitCardAnimation();
-            backCards.remove(index);
-            cards.remove(index);
-            System.out.println(backCards.size());
+        } else {
+            this.drawCard();
+            return;
         }
     }
 
-    // Kiểm tra lá wild và nếu máy không có lá nào đánh được thì sau khi rút bài
-    // chọn đánh luôn lá đó nếu đánh được
-    public void computerTurn() {
-        if (this.getTurn() == true) {
-            if (checkWild()) {
-                this.wild();
-            }
-            this.computerHitCard();
-            if (this.isUserHit == false) {
-                this.drawCard();
-                this.computerHitCard();
-            }
-        }
-    }
 }

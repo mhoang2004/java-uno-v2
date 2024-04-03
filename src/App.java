@@ -6,7 +6,7 @@ public class App {
         Game game = new Game();
 
         game.mouseClicked();
-
+        
         frame.add(Game.mainPanel);
 
         frame.pack();

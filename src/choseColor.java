@@ -14,8 +14,7 @@ public class choseColor  implements ActionListener{
         src = e.getActionCommand();
         src =src.charAt(0) +"";
         view.changePrevCard(src);
-        System.out.println("test: " + Game.prevCard.toString());    
-            
+        System.out.println("test: " + Game.prevCard.toString());             
         view.setVisible(false);
     }
 }

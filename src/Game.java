@@ -14,6 +14,7 @@ public class Game {
 
     // private boolean isTurnPlayer;
     Game() {
+
         mainPanel = new MyPanel();
 
         deck = new Deck();
@@ -132,7 +133,7 @@ public class Game {
     // Máy đánh ra lá bài rồi chuyển qua user tiếp theo, check lá reverse, skip ở
     // trong đây.
     public static void computerHit(int index) {
-        com.get(index).computerTurn();
+        com.get(index).computerHitCard();
         // REVERSE
         if ((Game.prevCard.getRank() == "REVERSE") && (com.get(index).isUserHit != false)) {
             reverse();
@@ -169,46 +170,43 @@ public class Game {
 
     // Lượt đánh của player
     public boolean playerHit(Card card) {
-        System.out.println(check(card));
+
         if (!check(card)) {
             return false;
         }
+        if (card.getColor() == null) {
 
-        System.out.println(check(card));
-        if (player.checkWild()) {
-            player.wild();
-            Game.prevCard.setColor(card.getColor());
-            Game.prevCard.setRank(card.getRank());
-
-            player.isUserHit = true;
         } else {
             player.hitCard(card, check(card));
-            Game.prevCard.setColor(card.getColor());
-            Game.prevCard.setRank(card.getRank());
-
+            prevCard.assignCard(card);
             player.isUserHit = true;
-
+            // REVERSE
+            if ((Game.prevCard.getRank() == "REVERSE") && (player.isUserHit != false)) {
+                Game.reverse();
+            }
+            player.getNextUser().setTurn(true);
+            player.setTurn(false);
+            // SKIP
+            if ((player.checkSkip()) && (player.isUserHit != false)) {
+                player.skip();
+                delaySkip(3);
+                return true;
+            }
+            delayReverse(3);
         }
-        // REVERSE
-        if ((Game.prevCard.getRank() == "REVERSE") && (player.isUserHit != false)) {
-            this.reverse();
-        }
-        player.getNextUser().setTurn(true);
-        player.setTurn(false);
-        // SKIP
-        if ((player.checkSkip()) && (player.isUserHit != false)) {
-            player.skip();
-            delaySkip(3);
-            return true;
-        }
-        delayReverse(3);
         return true;
+
     }
 
     // bắt sự kiện chuột click vào 1 lá bài của player
     public void mouseClicked() {
         player.setTurn(true);
-
+        for (int i = 0; i < 3; i++) {
+            System.out.println("COMPUTER " + i + ": ");
+            for (int j = 0; j < com.get(i).getCards().size(); j++) {
+                System.out.println(com.get(i).getCards().get(j));
+            }
+        }
         MouseListener mouseListener = new MouseAdapter() {
 
             @Override
