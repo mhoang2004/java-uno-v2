@@ -113,10 +113,10 @@ public class Computer extends User {
         // if (card.getRank() == "SKIP")
         // return card;
         // }
-        // Test drawfour
+        // Test drawfour, drawtwo
         // this.isUserHit = false;
         // for(Card card : cards) {
-        //     if (card.getColor() == null) {
+        //     if (card.getRank() == "DRAWFOUR" || card.getRank() == "DRAWTWO") {
         //         this.isUserHit = true;
         //         return card;
         //     }
