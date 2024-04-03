@@ -125,7 +125,10 @@ public class Computer extends User {
             chosenCard = backCards.get(index);
             if (this.getTurn() == true) {
                 chosenCard.assignCard(validCard);
-                Game.prevCard.assignCard(validCard);
+
+                Game.prevCard.setColor(validCard.getColor());
+                Game.prevCard.setRank(validCard.getRank());
+
                 chosenCard.hitCardAnimation();
                 backCards.remove(index);
                 cards.remove(index);

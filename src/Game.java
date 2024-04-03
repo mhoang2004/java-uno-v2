@@ -178,7 +178,8 @@ public class Game {
 
         } else {
             player.hitCard(card, check(card));
-            prevCard.assignCard(card);
+            Game.prevCard.setColor(card.getColor());
+            Game.prevCard.setRank(card.getRank());
             player.isUserHit = true;
             // REVERSE
             if ((Game.prevCard.getRank() == "REVERSE") && (player.isUserHit != false)) {
