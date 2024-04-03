@@ -112,6 +112,13 @@ public abstract class User {
             this.getNextUser().drawCard();
             this.passTurn();
         }
+        else if (Game.prevCard.getRank() == "DRAWFOUR") {
+            this.getNextUser().drawCard();
+            this.getNextUser().drawCard();
+            this.getNextUser().drawCard();
+            this.getNextUser().drawCard();
+            this.passTurn();
+        }
     }
 
     // Sort Card
@@ -198,28 +205,21 @@ public abstract class User {
         return false;
     }
 
-    // Kiểm tra lá prevCard có phảỉ lá wild
-    public boolean checkWild() {
-        if (Game.prevCard.getRank() == "WILD") {
-            return true;
-        } else
-            return false;
-    }
-
-    // khi user đánh ra là wild
+    // khi user đánh ra là wild hoặc drawfour
     String changePrevCard(String src, Card card) {
+        card.hitCard();
         Card tmp = new Card(src, card.getRank());
         Game.prevCard.assignCard(tmp);
         if (card.getRank() == "DRAWFOUR") {
-            // this.passTurn();
+            this.passTurn();
             Game.delaySkip(3);
-        } else if (Game.getIsReverse() == true) {
-            Game.delayReverse(3);
-        } else {
-            Game.delayReverse(0);
         }
-
-        card.hitCard();
+        else {
+            this.nextUser.setTurn(true);
+            this.setTurn(false);
+            Game.delayReverse(3);
+        }
+         
         return src;
     }
 

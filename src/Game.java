@@ -70,7 +70,7 @@ public class Game {
     }
 
     // Qua lượt đánh của user kế tiếp
-    public static void nextComputer(int index) {
+    public static void nextUser(int index) {
         if (isReverse == true) {
             if (index == 0) {
                 computer1Hit();
@@ -96,7 +96,7 @@ public class Game {
 
     // Qua lượt đánh của user đối diện, trường hợp này pass qua 1 user là lúc sử
     // dụng lá skip
-    public static void oppositeComputer(int index) {
+    public static void oppositeUser(int index) {
         if (index == 0) {
             computer2Hit();
         } else if (index == 1) {
@@ -112,7 +112,7 @@ public class Game {
     public static void delayReverse(int index) {
         Timer timer = new Timer(2000, new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                nextComputer(index);
+                nextUser(index);
                 ((Timer) e.getSource()).stop();
             }
         });
@@ -123,7 +123,7 @@ public class Game {
     public static void delaySkip(int index) {
         Timer timer = new Timer(2000, new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                oppositeComputer(index);
+                oppositeUser(index);
                 ((Timer) e.getSource()).stop();
             }
         });
@@ -133,7 +133,7 @@ public class Game {
     // Máy đánh ra lá bài rồi chuyển qua user tiếp theo, check lá reverse, skip ở
     // trong đây.
     public static void computerHit(int index) {
-        com.get(index).computerHitCard();
+        com.get(index).computerTurn();
         // REVERSE
         if ((Game.prevCard.getRank() == "REVERSE") && (com.get(index).isUserHit != false)) {
             reverse();

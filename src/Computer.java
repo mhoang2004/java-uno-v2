@@ -1,4 +1,6 @@
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Computer extends User {
     private ArrayList<Card> backCards;
@@ -58,6 +60,43 @@ public class Computer extends User {
                 yPadding += GAP_CARD_VERTICAL;
             }
         }
+    }
+    // Kiểm tra lá prevCard có phải là cần chọn màu không
+    public boolean checkChangeColor() {
+        if (Game.prevCard.getRank() == "WILD") {
+            return true;
+        } 
+        else if (Game.prevCard.getRank() == "DRAWFOUR") {
+            return true;
+        } 
+        else
+            return false;
+    }
+    // Máy chọn màu khi đánh ra lá wild hoặc drawfour
+    public String chooseColor() {
+        Map<String, Integer> hm  = new HashMap<String, Integer>(); 
+        hm.put("B", 0); 
+        hm.put("R", 0); 
+        hm.put("Y", 0); 
+        hm.put("G", 0); 
+        for (Card card : cards) {
+            for (Map.Entry<String, Integer> e : hm.entrySet()) {
+                if (e.getKey() == card.getColor()) {
+                    e.setValue(e.getValue() + 1);
+                }
+            }
+        }
+        int max = 0;
+        for (Map.Entry<String, Integer> e : hm.entrySet()) {
+            if (e.getValue() >= max) max = e.getValue();
+        }
+        for (Map.Entry<String, Integer> e : hm.entrySet()) {
+            if (e.getValue() == max) {
+                System.out.println("Change Color: " + e.getKey());
+                return e.getKey();
+            }
+        }
+        return null;
     }
 
     // Máy chọn ra 1 lá để đánh
@@ -138,10 +177,26 @@ public class Computer extends User {
                 }
 
             }
-        } else {
-            this.drawCard();
-            return;
+        } 
+    }
+    // Đổi màu prevCard nếu máy đánh ra là lá wild hay drawfour và nếu máy không có lá nào đánh được thì sau khi rút bài chọn đánh luôn lá đó nếu đánh được
+    public void computerTurn() {
+        if (this.getTurn() == true) {
+            this.computerHitCard();
+            if (this.isUserHit == true){
+                if (checkChangeColor()) {
+                    Game.prevCard.setColor(this.chooseColor());
+                }
+            }
+            else if (this.isUserHit == false) {
+                this.drawCard();
+                this.computerHitCard();
+                if (checkChangeColor()) {
+                    Game.prevCard.setColor(this.chooseColor());
+                }
+            }
         }
     }
+    
 
 }
