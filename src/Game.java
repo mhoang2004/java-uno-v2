@@ -76,6 +76,10 @@ public class Game {
                 computer1Hit();
             } else if (index == 1) {
                 computer2Hit();
+                if(prevCard.getRank().equals("SKIP") &&player.checkCard() == false)
+                {
+                    Game.addToMainPanel(new DrawCard());
+                }
             } else if (index == 2) {
                 checkDrawCard();
             } else if (index == 3) {
@@ -84,6 +88,10 @@ public class Game {
         } else if (isReverse == false) {
             if (index == 3) {
                 computer2Hit();
+                if(prevCard.getRank().equals("SKIP") &&player.checkCard() == false)
+                {
+                    Game.addToMainPanel(new DrawCard());
+                }
             } else if (index == 2) {
                 computer1Hit();
             } else if (index == 1) {

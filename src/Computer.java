@@ -210,12 +210,17 @@ public class Computer extends User {
                     Game.prevCard.setColor(this.chooseColor());
                 }
             } else if (this.isUserHit == false) {
-                this.drawCard();
-                this.computerHitCard();
+                Card cardDrawn = this.drawCard();
+                if(this.checkValid(cardDrawn) == true)
+                {
+                    cardDrawn.hitCardAnimation();
+                    Game.prevCard.assignCard(cardDrawn);
+                } 
                 if ((this.isUserHit == true) && (checkChangeColor())) {
                     Game.prevCard.setColor(this.chooseColor());
                 }
             }
         }
     }
+
 }

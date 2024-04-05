@@ -12,7 +12,7 @@ import javax.swing.JTextArea;
 public class DrawCard extends JLabel implements ActionListener{
     Card cardDrawn;
     static int WIDTH = 500;
-    static int HEIGHT = 50;
+    static int HEIGHT = 80;
     private  JButton buttonTrue ;
     private JTextArea noti;
     private  JButton buttonFalse;
@@ -37,7 +37,8 @@ public class DrawCard extends JLabel implements ActionListener{
         this.add(button);
         }
     @Override
-    public void actionPerformed(ActionEvent e) {
+    public void actionPerformed(ActionEvent e) 
+    {
         String src = e.getActionCommand();
         
 
@@ -52,8 +53,9 @@ public class DrawCard extends JLabel implements ActionListener{
         }
         Game.mainPanel.remove(this);
         Game.mainPanel.repaint();
-        Game.nextUser(3);
+        Game.player.getNextUser().setTurn(true);
+        Game.player.setTurn(false);
+        Game.delayReverse(3);
     }
-    
-    
+        
 }
