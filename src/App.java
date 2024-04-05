@@ -5,10 +5,10 @@ public class App {
         frame = new MyFrame();
         Game game = new Game();
 
-        game.mouseClicked();
+        game.start();
         
         frame.add(Game.mainPanel);
-
+        // button uno
         frame.pack();
         frame.setVisible(true);
     }

@@ -173,8 +173,8 @@ public class Card extends JLabel implements MouseListener {
                 } else {
                     // stuff handle after animation
                     user.hitCard(tempCard, true);
-
-                    if (tempCard.color == null) {
+                    System.out.println(Game.player.getTurn());
+                    if ((tempCard.color == null) && (user.getIsPlayer())) {
                         // choose color
                         if(user.isPlayer == true)
                         {
@@ -200,7 +200,31 @@ public class Card extends JLabel implements MouseListener {
     @Override
     public void mouseClicked(MouseEvent e) {
         if (Game.check(this)) {
-            hitCard();
+            hitCard(); 
+
+            if (this.getColor() == null) {
+    
+            } else {
+                
+                Game.player.hitCard(this, Game.check(this));
+                Game.prevCard.setColor(this.getColor());
+                Game.prevCard.setRank(this.getRank());
+                Game.player.isUserHit = true;
+    
+                // REVERSE
+                if ((Game.prevCard.getRank() == "REVERSE") && (Game.player.isUserHit != false)) {
+                    Game.reverse();
+                }
+                Game.player.getNextUser().setTurn(true);
+                Game.player.setTurn(false);
+    
+                // SKIP
+                if ((Game.player.checkSkip()) && (Game.player.isUserHit != false)) {
+                    Game.player.skip();
+                    Game.delaySkip(3);
+                }
+                Game.delayReverse(3);
+            }  
         }
     }
 

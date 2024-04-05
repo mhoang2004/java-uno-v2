@@ -17,7 +17,7 @@ public abstract class User {
 
     User(Deck deck, String position) {
         this.position = position;
-        isPlayer = true;
+        
         cards = new ArrayList<Card>();
 
         for (int i = 0; i < INIT_CARD; i++) {
@@ -65,6 +65,10 @@ public abstract class User {
         setCardsPosition();
     }
 
+    public boolean getIsPlayer() {
+        return isPlayer;
+    }
+    
     public void setTurn(boolean isTurn) {
         this.isTurn = isTurn;
     }
