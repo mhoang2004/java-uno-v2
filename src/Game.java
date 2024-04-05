@@ -133,13 +133,13 @@ public class Game {
     // Máy đánh ra lá bài rồi chuyển qua user tiếp theo, check lá reverse, skip ở
     // trong đây.
     public static void computerHit(int index) {
-        com.get(index).setTurn(true);
+        
         com.get(index).computerTurn();
         // REVERSE
         if ((Game.prevCard.getRank() == "REVERSE") && (com.get(index).isUserHit != false)) {
             reverse();
         }
-
+        com.get(index).getNextUser().setTurn(true);
         com.get(index).setTurn(false);
         // SKIP
         if ((com.get(index).checkSkip()) && (com.get(index).isUserHit != false)) {
@@ -168,65 +168,8 @@ public class Game {
     public static boolean check(Card card) {
         return !(player.getTurn() == false) && player.checkValid(card);
     }
-
-    // Lượt đánh của player
-    public boolean playerHit(Card card) {
-
-        if (!check(card)) {
-            return false;
-        }
-        if (card.getColor() == null) {
-
-        } else {
-            player.setTurn(true);
-            player.hitCard(card, check(card));
-            Game.prevCard.setColor(card.getColor());
-            Game.prevCard.setRank(card.getRank());
-            player.isUserHit = true;
-
-            // REVERSE
-            if ((Game.prevCard.getRank() == "REVERSE") && (player.isUserHit != false)) {
-                Game.reverse();
-            }
-
-            player.setTurn(false);
-
-            // SKIP
-            if ((player.checkSkip()) && (player.isUserHit != false)) {
-                player.skip();
-                delaySkip(3);
-                return true;
-            }
-            delayReverse(3);
-        }
-        return true;
-
-    }
-
     // bắt sự kiện chuột click vào 1 lá bài của player
-    public void mouseClicked() {
+    public void start() {
         player.setTurn(true);
-
-        MouseListener mouseListener = new MouseAdapter() {
-
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                int size = player.cards.size();
-                for (int i = 0; i < size; i++) {
-                    if (e.getSource() == player.cards.get(i)) {
-                        if (playerHit(player.cards.get(i))) {
-                            size--;
-                        }
-                    }
-                }
-            }
-        };
-
-        for (Card card : player.cards) {
-            card.addMouseListener(mouseListener);
-        }
-        for (Card card : deck.getDeck()) {
-            card.addMouseListener(mouseListener);
-        }
     }
 }

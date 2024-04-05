@@ -43,6 +43,7 @@ public class Computer extends User {
 
         backCard.drawCardAnimation();
 
+        System.out.println("Draw card" + card);
         return card;
     }
 
@@ -115,14 +116,14 @@ public class Computer extends User {
         // if (card.getRank() == "SKIP")
         // return card;
         // }
-        // Test drawfour, drawtwo
+        //Test drawfour, wild
         // this.isUserHit = false;
         // for(Card card : cards) {
-        // if (card.getRank() == "DRAWFOUR" || card.getRank() == "DRAWTWO") {
-        // this.isUserHit = true;
-        // return card;
+        //     if (card.getRank() == "DRAWFOUR" || card.getRank() == "WILD") {
+        //     this.isUserHit = true;
+        //     return card;
         // }
-        // }
+        //}
         this.isUserHit = false;
         for (Card card : cards) {
             if (this.checkValid(card) == true) {

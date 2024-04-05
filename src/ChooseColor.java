@@ -43,6 +43,7 @@ public class ChooseColor extends JLabel implements ActionListener {
     }
 
     @Override
+    // player click choose color
     public void actionPerformed(ActionEvent e) {
         // get the color
         String src = e.getActionCommand().charAt(0) + "";
@@ -62,7 +63,7 @@ public class ChooseColor extends JLabel implements ActionListener {
 
             Game.player.passTurn();
             Game.delaySkip(3);
-        } else { // WILD CARD
+        } else if (Game.prevCard.getRank() == "WILD"){ // WILD CARD
             Game.player.getNextUser().setTurn(true);
             Game.player.setTurn(false);
             Game.delayReverse(3);
