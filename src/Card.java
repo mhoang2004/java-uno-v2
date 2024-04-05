@@ -141,12 +141,11 @@ public class Card extends JLabel implements MouseListener {
         Game.mainPanel.setLayer(this, MyPanel.LAYER++);
 
         Card tempCard = this;
-
         Timer timer = new Timer(1, new ActionListener() {
             // Starting point
             int x1 = tempCard.getX();
             int y1 = tempCard.getY();
-
+            
             // Ending point
             int x2 = Deck.X + 2 * Card.WIDTH;
             int y2 = Deck.Y;
@@ -172,7 +171,6 @@ public class Card extends JLabel implements MouseListener {
                 } else {
                     // stuff handle after animation
                     user.hitCard(tempCard, true);
-                    System.out.println(Game.player.getTurn());
                     if ((tempCard.color == null) && (user.getIsPlayer())) {
                         // choose color
                         Game.addToMainPanel(new ChooseColor());
@@ -202,7 +200,9 @@ public class Card extends JLabel implements MouseListener {
                 Game.prevCard.setColor(this.getColor());
                 Game.prevCard.setRank(this.getRank());
                 Game.player.isUserHit = true;
-    
+                if (Game.endGame()) {
+                    Game.isEndGame = true;
+                }
                 // REVERSE
                 if ((Game.prevCard.getRank() == "REVERSE") && (Game.player.isUserHit != false)) {
                     Game.reverse();

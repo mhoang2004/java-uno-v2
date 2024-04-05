@@ -11,7 +11,7 @@ public class Game {
     static Player player;
     static boolean isReverse; // kiểm tra chiều bài đang đánh
     static ArrayList<Computer> com;
-
+    static boolean isEndGame;
     // private boolean isTurnPlayer;
     Game() {
 
@@ -42,6 +42,7 @@ public class Game {
         player.setNextUser(com.get(0));
 
         isReverse = true; // chiều kim đồng hồ
+        isEndGame = false;
     }
 
     public static void addToMainPanel(JLabel card) {
@@ -149,6 +150,9 @@ public class Game {
     // Máy đánh ra lá bài rồi chuyển qua user tiếp theo, check lá reverse, skip ở trong đây.
     public static void computerHit(int index) {
         com.get(index).computerTurn();
+        if (endGame()) {
+            isEndGame = true;
+        }
         // REVERSE
         if ((Game.prevCard.getRank() == "REVERSE") && (com.get(index).isUserHit != false)) {
             reverse();
@@ -182,8 +186,13 @@ public class Game {
     public static boolean check(Card card) {
         return !(player.getTurn() == false) && player.checkValid(card);
     }
-    // bắt sự kiện chuột click vào 1 lá bài của player
+    
     public void start() {
         player.setTurn(true);
+    }
+
+    public static boolean endGame() {
+        return (player.sizeCards() == 0 || com.get(0).sizeCards() == 0 || 
+            com.get(1).sizeCards() == 0 || com.get(2).sizeCards() == 0);
     }
 }

@@ -43,7 +43,7 @@ public class Computer extends User {
 
         backCard.drawCardAnimation();
 
-        System.out.println("Draw card" + card);
+        System.out.println("Draw card " + card);
         return card;
     }
 
@@ -176,7 +176,6 @@ public class Computer extends User {
     }
 
     // Máy đánh ra lá đã chọn
-
     public void computerHitCard() {
         Card validCard = validCard(); // todo: function LogicComputerHit
         Card chosenCard = null;
@@ -192,14 +191,13 @@ public class Computer extends User {
                 chosenCard.hitCardAnimation();
                 backCards.remove(index);
                 cards.remove(index);
-                if (chosenCard.getColor() == null) {
-                    Game.prevCard.setColor(cards.get(0).getColor());
-                    Game.prevCard.setRank(chosenCard.getRank());
-                }
+                // if (chosenCard.getColor() == null) {
+                //     Game.prevCard.setColor(cards.get(0).getColor());
+                //     Game.prevCard.setRank(chosenCard.getRank());
+                // }
             }
         }
     }
-
     // Đổi màu prevCard nếu máy đánh ra là lá wild hay drawfour và nếu máy không có
     // lá nào đánh được thì sau khi rút bài chọn đánh luôn lá đó nếu đánh được
     public void computerTurn() {
@@ -210,12 +208,8 @@ public class Computer extends User {
                     Game.prevCard.setColor(this.chooseColor());
                 }
             } else if (this.isUserHit == false) {
-                Card cardDrawn = this.drawCard();
-                if(this.checkValid(cardDrawn) == true)
-                {
-                    cardDrawn.hitCardAnimation();
-                    Game.prevCard.assignCard(cardDrawn);
-                } 
+                this.drawCard();
+                this.computerHitCard();
                 if ((this.isUserHit == true) && (checkChangeColor())) {
                     Game.prevCard.setColor(this.chooseColor());
                 }

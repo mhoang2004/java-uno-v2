@@ -1,5 +1,7 @@
 import java.util.ArrayList;
 
+import javax.script.ScriptContext;
+
 public abstract class User {
     static final int INIT_CARD = 7;
     static final int GAP_CARD_HORIZONTAL = 50;
@@ -205,22 +207,22 @@ public abstract class User {
     }
 
     // khi user đánh ra là wild hoặc drawfour
-    String changePrevCard(String src, Card card) {
-        card.hitCard();
+    // String changePrevCard(String src, Card card) {
+    //     card.hitCard();
 
-        Card tmp = new Card(src, card.getRank());
+    //     Card tmp = new Card(src, card.getRank());
 
-        if (card.getRank() == "DRAWFOUR") {
-            this.passTurn();
-            Game.delaySkip(3);
-        } else {
-            this.nextUser.setTurn(true);
-            this.setTurn(false);
-            Game.delayReverse(3);
-        }
+    //     if (card.getRank() == "DRAWFOUR") {
+    //         this.passTurn();
+    //         Game.delaySkip(3);
+    //     } else {
+    //         this.nextUser.setTurn(true);
+    //         this.setTurn(false);
+    //         Game.delayReverse(3);
+    //     }
 
-        return src;
-    }
+    //     return src;
+    // }
 
     // Kiểm tra lá prevCard có phảỉ lá skip, drawtwo hay drawfour
     public boolean checkSkip() {
@@ -232,5 +234,24 @@ public abstract class User {
             return true;
         }
         return false;
+    }
+    // tính điểm
+    public int scores() {
+        int scores = 0;
+        for (Card card : cards) {
+            if (card.getRank().length() == 1) {
+                scores = scores + Integer.parseInt(card.getRank());
+            }
+            // if (card.getRank() == "DRAWTWO" || card.getRank() == "SKIP" || card.getRank() == "REVERSE") {
+            //     scores = scores + 20;
+            // }
+            if (card.getRank().length() > 1 && card.getColor() != null) {
+                scores = scores + 20;
+            }
+            if (card.getColor() == null) {
+                scores = scores + 50;
+            }
+        }
+        return scores;
     }
 }

@@ -1,3 +1,5 @@
+import javax.swing.SwingUtilities;
+
 public class App {
     static MyFrame frame;
 
@@ -7,6 +9,16 @@ public class App {
 
         game.start();
         
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                if (Game.isEndGame == true) {
+                    Game game = new Game();
+                    game.start();
+                }
+            }
+        });
+
         frame.add(Game.mainPanel);
         // button uno
         frame.pack();
