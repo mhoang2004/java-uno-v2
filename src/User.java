@@ -60,11 +60,9 @@ public abstract class User {
     public abstract Card drawCard();
 
     public void hitCard(Card card, boolean check) {
-        // Game.prevCard.assignCard(card);
-
         cards.remove(card);
-        setCardsPosition();
 
+        setCardsPosition();
     }
 
     public void setTurn(boolean isTurn) {
@@ -102,7 +100,7 @@ public abstract class User {
         this.getNextUser().getNextUser().setTurn(true);
     }
 
-    // khi user đánh ra lá skip, drawtwo, drawfour, rút bài rồi qua lượt, không được đánh
+    // khi user đánh ra lá skip, drawtwo, drawfour, rút bài rồi qua lượt, không đánh
     public void skip() {
         if (Game.prevCard.getRank() == "SKIP") {
             this.passTurn();
@@ -110,8 +108,7 @@ public abstract class User {
             this.getNextUser().drawCard();
             this.getNextUser().drawCard();
             this.passTurn();
-        }
-        else if (Game.prevCard.getRank() == "DRAWFOUR") {
+        } else if (Game.prevCard.getRank() == "DRAWFOUR") {
             this.getNextUser().drawCard();
             this.getNextUser().drawCard();
             this.getNextUser().drawCard();
@@ -207,18 +204,18 @@ public abstract class User {
     // khi user đánh ra là wild hoặc drawfour
     String changePrevCard(String src, Card card) {
         card.hitCard();
+
         Card tmp = new Card(src, card.getRank());
-        Game.prevCard.assignCard(tmp);
+
         if (card.getRank() == "DRAWFOUR") {
             this.passTurn();
             Game.delaySkip(3);
-        }
-        else {
+        } else {
             this.nextUser.setTurn(true);
             this.setTurn(false);
             Game.delayReverse(3);
         }
-        
+
         return src;
     }
 

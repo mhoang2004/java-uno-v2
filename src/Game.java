@@ -119,7 +119,7 @@ public class Game {
         timer.start();
     }
 
-    // Set thời gian máy đánh chậm lại 2 giây nhưng cho trường hợp đánh ra lá skip
+    // Set thời gian máy đánh chậm lại 2 giây cho trường hợp đánh ra lá skip
     public static void delaySkip(int index) {
         Timer timer = new Timer(2000, new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -133,12 +133,13 @@ public class Game {
     // Máy đánh ra lá bài rồi chuyển qua user tiếp theo, check lá reverse, skip ở
     // trong đây.
     public static void computerHit(int index) {
+        com.get(index).setTurn(true);
         com.get(index).computerTurn();
         // REVERSE
         if ((Game.prevCard.getRank() == "REVERSE") && (com.get(index).isUserHit != false)) {
             reverse();
         }
-        com.get(index).nextUser.setTurn(true);
+
         com.get(index).setTurn(false);
         // SKIP
         if ((com.get(index).checkSkip()) && (com.get(index).isUserHit != false)) {
@@ -177,16 +178,19 @@ public class Game {
         if (card.getColor() == null) {
 
         } else {
+            player.setTurn(true);
             player.hitCard(card, check(card));
             Game.prevCard.setColor(card.getColor());
             Game.prevCard.setRank(card.getRank());
             player.isUserHit = true;
+
             // REVERSE
             if ((Game.prevCard.getRank() == "REVERSE") && (player.isUserHit != false)) {
                 Game.reverse();
             }
-            player.getNextUser().setTurn(true);
+
             player.setTurn(false);
+
             // SKIP
             if ((player.checkSkip()) && (player.isUserHit != false)) {
                 player.skip();
@@ -202,12 +206,7 @@ public class Game {
     // bắt sự kiện chuột click vào 1 lá bài của player
     public void mouseClicked() {
         player.setTurn(true);
-        for (int i = 0; i < 3; i++) {
-            System.out.println("COMPUTER " + i + ": ");
-            for (int j = 0; j < com.get(i).getCards().size(); j++) {
-                System.out.println(com.get(i).getCards().get(j));
-            }
-        }
+
         MouseListener mouseListener = new MouseAdapter() {
 
             @Override

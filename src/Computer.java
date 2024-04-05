@@ -43,7 +43,6 @@ public class Computer extends User {
 
         backCard.drawCardAnimation();
 
-        System.out.println("draw:" + card);
         return card;
     }
 
@@ -62,24 +61,26 @@ public class Computer extends User {
             }
         }
     }
+
     // Kiểm tra lá prevCard có phải là cần chọn màu không
     public boolean checkChangeColor() {
         if (Game.prevCard.getRank() == "WILD") {
             return true;
-        } 
-        else if (Game.prevCard.getRank() == "DRAWFOUR") {
+        } else if (Game.prevCard.getRank() == "DRAWFOUR") {
             return true;
-        } 
-        else
-            return false;
+        }
+
+        return false;
     }
+
     // Máy chọn màu khi đánh ra lá wild hoặc drawfour
     public String chooseColor() {
-        Map<String, Integer> hm  = new HashMap<String, Integer>(); 
-        hm.put("B", 0); 
-        hm.put("R", 0); 
-        hm.put("Y", 0); 
-        hm.put("G", 0); 
+        Map<String, Integer> hm = new HashMap<String, Integer>();
+        hm.put("B", 0);
+        hm.put("R", 0);
+        hm.put("Y", 0);
+        hm.put("G", 0);
+
         for (Card card : cards) {
             for (Map.Entry<String, Integer> e : hm.entrySet()) {
                 if (e.getKey() == card.getColor()) {
@@ -89,7 +90,8 @@ public class Computer extends User {
         }
         int max = 0;
         for (Map.Entry<String, Integer> e : hm.entrySet()) {
-            if (e.getValue() >= max) max = e.getValue();
+            if (e.getValue() >= max)
+                max = e.getValue();
         }
         for (Map.Entry<String, Integer> e : hm.entrySet()) {
             if (e.getValue() == max) {
@@ -116,10 +118,10 @@ public class Computer extends User {
         // Test drawfour, drawtwo
         // this.isUserHit = false;
         // for(Card card : cards) {
-        //     if (card.getRank() == "DRAWFOUR" || card.getRank() == "DRAWTWO") {
-        //         this.isUserHit = true;
-        //         return card;
-        //     }
+        // if (card.getRank() == "DRAWFOUR" || card.getRank() == "DRAWTWO") {
+        // this.isUserHit = true;
+        // return card;
+        // }
         // }
         this.isUserHit = false;
         for (Card card : cards) {
@@ -130,44 +132,44 @@ public class Computer extends User {
         }
         // this.isUserHit = false;
         // for (Card card : cards) {
-        //     if (card.getColor() == Game.prevCard.getColor()) {
-        //         if (card.getRank().length() == 1) {
-        //             this.isUserHit = true;
-        //             return card;
-        //         }
-        //     }
+        // if (card.getColor() == Game.prevCard.getColor()) {
+        // if (card.getRank().length() == 1) {
+        // this.isUserHit = true;
+        // return card;
+        // }
+        // }
         // }
         // for (Card card : cards) {
-        //     if (card.getRank() == Game.prevCard.getRank()) {
-        //         if (card.getRank().length() == 1) {
-        //             this.isUserHit = true;
-        //             return card;
-        //         }
-        //     }
+        // if (card.getRank() == Game.prevCard.getRank()) {
+        // if (card.getRank().length() == 1) {
+        // this.isUserHit = true;
+        // return card;
+        // }
+        // }
         // }
         // for (Card card : cards) {
-        //     if (card.getColor() == Game.prevCard.getColor()) {
-        //         this.isUserHit = true;
-        //         return card;
-        //     }
+        // if (card.getColor() == Game.prevCard.getColor()) {
+        // this.isUserHit = true;
+        // return card;
+        // }
         // }
         // for (Card card : cards) {
-        //     if (card.getRank() == Game.prevCard.getRank()) {
-        //         this.isUserHit = true;
-        //         return card;
-        //     }
+        // if (card.getRank() == Game.prevCard.getRank()) {
+        // this.isUserHit = true;
+        // return card;
+        // }
         // }
         // for (Card card : cards) {
-        //     if (card.getRank() == "WILD") {
-        //         this.isUserHit = true;
-        //         return card;
-        //     }
+        // if (card.getRank() == "WILD") {
+        // this.isUserHit = true;
+        // return card;
+        // }
         // }
         // for (Card card : cards) {
-        //     if (card.getRank() == "DRAWFOUR") {
-        //         this.isUserHit = true;
-        //         return card;
-        //     }
+        // if (card.getRank() == "DRAWFOUR") {
+        // this.isUserHit = true;
+        // return card;
+        // }
         // }
         return null;
     }
@@ -177,6 +179,7 @@ public class Computer extends User {
     public void computerHitCard() {
         Card validCard = validCard(); // todo: function LogicComputerHit
         Card chosenCard = null;
+
         if (validCard != null) {
             int index = cards.indexOf(validCard);
             chosenCard = backCards.get(index);
@@ -192,20 +195,20 @@ public class Computer extends User {
                     Game.prevCard.setColor(cards.get(0).getColor());
                     Game.prevCard.setRank(chosenCard.getRank());
                 }
-
             }
-        } 
+        }
     }
-    // Đổi màu prevCard nếu máy đánh ra là lá wild hay drawfour và nếu máy không có lá nào đánh được thì sau khi rút bài chọn đánh luôn lá đó nếu đánh được
+
+    // Đổi màu prevCard nếu máy đánh ra là lá wild hay drawfour và nếu máy không có
+    // lá nào đánh được thì sau khi rút bài chọn đánh luôn lá đó nếu đánh được
     public void computerTurn() {
         if (this.getTurn() == true) {
             this.computerHitCard();
-            if (this.isUserHit == true){
+            if (this.isUserHit == true) {
                 if (checkChangeColor()) {
                     Game.prevCard.setColor(this.chooseColor());
                 }
-            }
-            else if (this.isUserHit == false) {
+            } else if (this.isUserHit == false) {
                 this.drawCard();
                 this.computerHitCard();
                 if ((this.isUserHit == true) && (checkChangeColor())) {
@@ -214,6 +217,5 @@ public class Computer extends User {
             }
         }
     }
-    
 
 }

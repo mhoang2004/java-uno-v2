@@ -75,7 +75,7 @@ public class Card extends JLabel implements MouseListener {
 
     public void setColor(String color) {
         this.color = color;
-        // this.rank = null; 
+        // this.rank = null;
     }
 
     public String getRank() {
@@ -130,10 +130,8 @@ public class Card extends JLabel implements MouseListener {
                 } else {
                     // handle others things
                     user.setCardsPosition();
-
                     ((Timer) e.getSource()).stop();
                 }
-
             }
         });
 
@@ -173,8 +171,13 @@ public class Card extends JLabel implements MouseListener {
                     y1 += dyStep;
                     countStep++;
                 } else {
-                    // handle others things
+                    // stuff handle after animation
                     user.hitCard(tempCard, true);
+
+                    if (tempCard.color == null) {
+                        // choose color
+                        Game.addToMainPanel(new ChooseColor());
+                    }
 
                     ((Timer) e.getSource()).stop();
                 }
@@ -189,26 +192,18 @@ public class Card extends JLabel implements MouseListener {
 
     @Override
     public void mouseClicked(MouseEvent e) {
-
         if (Game.check(this)) {
-            if (this.color == null) {
-                if (this.getRank() == "DRAWFOUR") {
-                    user.getNextUser().drawCard();
-                    user.getNextUser().drawCard();
-                    user.getNextUser().drawCard();
-                    user.getNextUser().drawCard();
-                }
-                new MyFrame(user, this);
-            } else {
-                hitCard();
-            }
+            hitCard();
         }
-
     }
 
     void hitCard() {
         this.removeMouseListener(this);
         this.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+
+        Game.prevCard.setColor(this.getColor());
+        Game.prevCard.setRank(this.getRank());
+
         this.hitCardAnimation();
     }
 
