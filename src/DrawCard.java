@@ -50,8 +50,8 @@ public class DrawCard extends JLabel implements ActionListener{
                 
             }
         }
-        Game.player.getNextUser().setTurn(true);
-        Game.player.setTurn(false);
+        Game.mainPanel.remove(this);
+        Game.mainPanel.repaint();
         Game.nextUser(3);
     }
     
