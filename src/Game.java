@@ -77,7 +77,7 @@ public class Game {
             } else if (index == 1) {
                 computer2Hit();
             } else if (index == 2) {
-                player.setTurn(true);
+                checkDrawCard();
             } else if (index == 3) {
                 computer0Hit();
             }
@@ -89,11 +89,19 @@ public class Game {
             } else if (index == 1) {
                 computer0Hit();
             } else if (index == 0) {
-                player.setTurn(true);
+                checkDrawCard();
             }
         }
     }
-
+    public static void checkDrawCard()
+    {
+        if(player.checkCard() == false)
+        {
+            Game.addToMainPanel(new DrawCard());
+        }else{
+            player.setTurn(true);
+        } 
+    }
     // Qua lượt đánh của user đối diện, trường hợp này pass qua 1 user là lúc sử
     // dụng lá skip
     public static void oppositeUser(int index) {
@@ -153,6 +161,7 @@ public class Game {
     // Lượt đánh của máy 0
     public static void computer0Hit() {
         computerHit(0);
+        
     }
 
     // Lượt đánh của máy 1

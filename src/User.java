@@ -49,7 +49,7 @@ public abstract class User {
             yPos = (MyPanel.HEIGHT - (Card.HEIGHT + (sizeCards() - 1) * GAP_CARD_VERTICAL)) / 2;
         }
     }
-
+    abstract boolean isPlayer();
     public abstract void setCardsPosition();
 
     public int sizeCards() {
@@ -183,14 +183,14 @@ public abstract class User {
     // Check card
 
     public boolean checkCard() {
-        sortCard();
-        for (Card card : cards) {
-            if (checkValid(card)) {
-                // card.suggestedEffect();
-            } else {
-                card.setCard();
-            }
-        }
+        // sortCard();
+        // for (Card card : cards) {
+        //     if (checkValid(card)) {
+        //         // card.suggestedEffect();
+        //     } else {
+        //         card.setCard();
+        //     }
+        // }
         for (Card card : cards) {
             if (checkValid(card) == true) {
 

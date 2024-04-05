@@ -42,4 +42,9 @@ public class Player extends User {
 
         return card;
     }
+
+    @Override
+    boolean isPlayer() {
+        return true;
+    }
 }
