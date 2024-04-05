@@ -9,8 +9,8 @@ public class Game {
     static Card prevCard;
     static Deck deck;
     static Player player;
-    private static boolean isReverse; // kiểm tra chiều bài đang đánh
-    private static ArrayList<Computer> com;
+    static boolean isReverse; // kiểm tra chiều bài đang đánh
+    static ArrayList<Computer> com;
 
     // private boolean isTurnPlayer;
     Game() {
@@ -138,10 +138,8 @@ public class Game {
         timer.start();
     }
 
-    // Máy đánh ra lá bài rồi chuyển qua user tiếp theo, check lá reverse, skip ở
-    // trong đây.
+    // Máy đánh ra lá bài rồi chuyển qua user tiếp theo, check lá reverse, skip ở trong đây.
     public static void computerHit(int index) {
-        
         com.get(index).computerTurn();
         // REVERSE
         if ((Game.prevCard.getRank() == "REVERSE") && (com.get(index).isUserHit != false)) {
@@ -161,7 +159,6 @@ public class Game {
     // Lượt đánh của máy 0
     public static void computer0Hit() {
         computerHit(0);
-        
     }
 
     // Lượt đánh của máy 1

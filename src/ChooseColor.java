@@ -10,10 +10,8 @@ import javax.swing.JLabel;
 public class ChooseColor extends JLabel implements ActionListener {
     static int WIDTH = 500;
     static int HEIGHT = 50;
-    private Card blackCard;
 
-    ChooseColor(Card blackCard) {
-        this.blackCard = blackCard;
+    ChooseColor() {
         this.setBounds((MyPanel.WIDTH - WIDTH) / 2, (MyPanel.HEIGHT - HEIGHT) / 2, WIDTH, HEIGHT);
         this.setLayout(new GridLayout());
         this.setCursor(new Cursor(Cursor.HAND_CURSOR));
@@ -50,8 +48,6 @@ public class ChooseColor extends JLabel implements ActionListener {
         // get the color
         String src = e.getActionCommand().charAt(0) + "";
         Game.prevCard.setColor(src);
-    
-        Game.prevCard.setRank(blackCard.getRank());
 
         // remove this
         Game.mainPanel.remove(this);

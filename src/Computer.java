@@ -218,10 +218,4 @@ public class Computer extends User {
             }
         }
     }
-
-    @Override
-    boolean isPlayer() {
-        return false;
-    }
-
 }

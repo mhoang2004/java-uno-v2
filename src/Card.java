@@ -176,10 +176,7 @@ public class Card extends JLabel implements MouseListener {
                     System.out.println(Game.player.getTurn());
                     if ((tempCard.color == null) && (user.getIsPlayer())) {
                         // choose color
-                        if(user.isPlayer == true)
-                        {
-                            Game.addToMainPanel(new ChooseColor(thisCard()));
-                        }
+                        Game.addToMainPanel(new ChooseColor());
                         
                     }
 
@@ -192,10 +189,6 @@ public class Card extends JLabel implements MouseListener {
         });
 
         timer.start();
-    }
-    private Card thisCard()
-    {
-        return this;
     }
     @Override
     public void mouseClicked(MouseEvent e) {
