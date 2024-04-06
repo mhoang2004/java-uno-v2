@@ -1,5 +1,6 @@
 import javax.swing.*;
 import javax.swing.border.Border;
+import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
 import java.awt.event.MouseEvent;
@@ -51,10 +52,15 @@ public class Card extends JLabel implements MouseListener {
         this.setVerticalAlignment(JLabel.CENTER); // Center the image vertically
         this.setSize(Card.WIDTH, Card.HEIGHT);
     }
-        public void suggestedEffect() {
+    public void suggestedEffect() {
         Border border = new LineBorder(Color.YELLOW, 5);
         setBorder(border);
+        
         }
+    public void removeEffect()
+    {
+        setBorder(new EmptyBorder(0, 0, 0, 0));
+    }
     public void setUser(User user) {
         this.user = user;
     }
@@ -197,6 +203,7 @@ public class Card extends JLabel implements MouseListener {
     @Override
     public void mouseClicked(MouseEvent e) {
         if (Game.check(this)) {
+            this.removeEffect();
             hitCard(); 
 
             if (this.getColor() == null) {
@@ -224,6 +231,10 @@ public class Card extends JLabel implements MouseListener {
                 }
                 Game.delayReverse(3);
             }  
+            for(Card card : user.cards)
+            {
+                card.removeEffect();
+            }
         }
     }
 

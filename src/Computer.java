@@ -217,4 +217,9 @@ public class Computer extends User {
         }
     }
 
+    @Override
+    public boolean isPlayer() {
+        return false;
+    }
+
 }

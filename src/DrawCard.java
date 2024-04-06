@@ -56,6 +56,7 @@ public class DrawCard extends JLabel implements ActionListener{
             }
         }
         Game.deck.setEnabled(true);
+        Game.mainPanel.setEnabled(true);
         Game.mainPanel.remove(this);
         Game.mainPanel.repaint();
         if(cardDrawn.getColor() != null)

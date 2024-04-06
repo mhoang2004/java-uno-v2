@@ -25,6 +25,9 @@ public class Game {
         while (prevCard.isSpecial()) {
             prevCard = deck.getOneCard();
         }
+        while (player.checkValid(prevCard) == false) {
+            prevCard = deck.getOneCard();
+        }
         prevCard.setLocation(Deck.X + Card.WIDTH * 2, Deck.Y);
 
         addToMainPanel(deck);
@@ -80,8 +83,10 @@ public class Game {
                 if(prevCard.getRank().equals("SKIP") &&player.checkCard() == false)
                 {
                     // Game.addToMainPanel(new DrawCard());
+                   
                 }
             } else if (index == 2) {
+                
                 checkDrawCard();
             } else if (index == 3) {
                 computer0Hit();
@@ -153,6 +158,10 @@ public class Game {
         if (endGame()) {
             isEndGame = true;
         }
+        if(com.get(index).getNextUser().isPlayer() == true && !com.get(index).checkSkip())
+        {
+            player.suggestedEffect();
+        }
         // REVERSE
         if ((Game.prevCard.getRank() == "REVERSE") && (com.get(index).isUserHit != false)) {
             reverse();
@@ -188,6 +197,7 @@ public class Game {
     }
     
     public void start() {
+        player.suggestedEffect();
         player.setTurn(true);
     }
 

@@ -12,7 +12,17 @@ public class Player extends User {
             Game.addToMainPanel(card);
         }
     }
-
+    public void suggestedEffect()
+    {
+        for (Card card : cards) {
+            if(this.checkValid(card) == true)
+            {
+                card.suggestedEffect();
+            }else{
+                card.removeEffect();
+            }
+        }
+    }
     public void setCardsPosition() {
         setUserPosition();
 
@@ -41,5 +51,9 @@ public class Player extends User {
         card.drawCardAnimation();
         // this.sortCard();
         return card;
+    }
+    @Override
+    public boolean isPlayer() {
+       return true;
     }
 }

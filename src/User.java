@@ -56,7 +56,7 @@ public abstract class User {
     public int sizeCards() {
         return cards.size();
     }
-
+    public abstract boolean isPlayer();
     // action card
     public abstract Card drawCard();
 
@@ -202,7 +202,6 @@ public abstract class User {
                 return true;
             }
         }
-        System.out.println("false");
         return false;
     }
 
