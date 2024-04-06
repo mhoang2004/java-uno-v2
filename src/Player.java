@@ -33,13 +33,13 @@ public class Player extends User {
         card.setLocation(Deck.X, Deck.Y);
         card.addMouseListener(card); // only player not computer
         card.setUser(this);
-
+        
         Game.addToMainPanel(card);
 
         cards.add(card);
 
         card.drawCardAnimation();
-
+        // this.sortCard();
         return card;
     }
 }

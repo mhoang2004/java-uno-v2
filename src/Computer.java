@@ -42,7 +42,6 @@ public class Computer extends User {
         backCards.add(backCard);
 
         backCard.drawCardAnimation();
-
         System.out.println("Draw card " + card);
         return card;
     }
@@ -209,10 +208,11 @@ public class Computer extends User {
                 }
             } else if (this.isUserHit == false) {
                 this.drawCard();
-                this.computerHitCard();
-                if ((this.isUserHit == true) && (checkChangeColor())) {
-                    Game.prevCard.setColor(this.chooseColor());
-                }
+                // Lổi
+                // this.computerHitCard();
+                // if ((this.isUserHit == true) && (checkChangeColor())) {
+                //     Game.prevCard.setColor(this.chooseColor());
+                // }
             }
         }
     }

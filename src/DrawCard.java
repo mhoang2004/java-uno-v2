@@ -1,28 +1,33 @@
+import java.awt.Color;
 import java.awt.Cursor;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
+import javax.swing.border.Border;
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
+import javax.swing.border.Border;
 
 public class DrawCard extends JLabel implements ActionListener{
     Card cardDrawn;
-    static int WIDTH = 500;
-    static int HEIGHT = 80;
+    static int WIDTH = 400;
+    static int HEIGHT = 60;
     private  JButton buttonTrue ;
-    private JTextArea noti;
+
     private  JButton buttonFalse;
-    DrawCard()
+    DrawCard(Card cardDrawn)
     {
-        cardDrawn = Game.player.drawCard();
+        this.cardDrawn = cardDrawn;
         this.setBounds((MyPanel.WIDTH - WIDTH) / 2, (MyPanel.HEIGHT - HEIGHT) / 2, WIDTH, HEIGHT);
-         noti = new JTextArea("Bạn muốn giữ lá bài vừa rút hay đánh nó ?????");
-         buttonTrue = new JButton("OK");
-         buttonFalse = new JButton("NO");
+        buttonTrue = new JButton("KEEP");
+        buttonFalse = new JButton("PLAY");
+        buttonTrue.setBackground(new Color(30, 194, 235));
+        buttonFalse.setBackground(new Color(30, 194, 235));
         this.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
         JLabel button = new JLabel();
@@ -31,19 +36,18 @@ public class DrawCard extends JLabel implements ActionListener{
         button.add(buttonFalse);
         buttonTrue.addActionListener(this);
         buttonFalse.addActionListener(this);
-
-        this.setLayout(new GridLayout(2, 1));
-        this.add(noti);
+        buttonTrue.setFont(new Font("Arial", Font.BOLD, 20));
+        buttonFalse.setFont(new Font("Arial", Font.BOLD, 20));
+        this.setLayout(new GridLayout(1, 2));
+        button.setBorder(BorderFactory.createLineBorder(Color.black));
+        // this.add(noti);
         this.add(button);
         }
     @Override
     public void actionPerformed(ActionEvent e) 
     {
         String src = e.getActionCommand();
-        
-
-
-        if(src.equals("OK"))
+        if(src.equals("PLAY"))
         {
             if(Game.player.checkValid(cardDrawn) == true){
                 Game.player.setTurn(true);
@@ -51,11 +55,16 @@ public class DrawCard extends JLabel implements ActionListener{
                 
             }
         }
+        Game.deck.setEnabled(true);
         Game.mainPanel.remove(this);
         Game.mainPanel.repaint();
-        Game.player.getNextUser().setTurn(true);
-        Game.player.setTurn(false);
-        Game.delayReverse(3);
+        if(cardDrawn.getColor() != null)
+        {
+            Game.player.getNextUser().setTurn(true);
+            // Game.player.setTurn(false);
+            Game.delayReverse(3);
+        }
+       
     }
         
 }

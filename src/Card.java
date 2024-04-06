@@ -1,8 +1,12 @@
 import javax.swing.*;
+import javax.swing.border.Border;
+import javax.swing.border.LineBorder;
+
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.Color;
 import java.awt.Cursor;
 
 public class Card extends JLabel implements MouseListener {
@@ -47,7 +51,10 @@ public class Card extends JLabel implements MouseListener {
         this.setVerticalAlignment(JLabel.CENTER); // Center the image vertically
         this.setSize(Card.WIDTH, Card.HEIGHT);
     }
-
+        public void suggestedEffect() {
+        Border border = new LineBorder(Color.YELLOW, 5);
+        setBorder(border);
+        }
     public void setUser(User user) {
         this.user = user;
     }

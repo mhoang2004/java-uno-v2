@@ -79,7 +79,7 @@ public class Game {
                 computer2Hit();
                 if(prevCard.getRank().equals("SKIP") &&player.checkCard() == false)
                 {
-                    Game.addToMainPanel(new DrawCard());
+                    // Game.addToMainPanel(new DrawCard());
                 }
             } else if (index == 2) {
                 checkDrawCard();
@@ -91,7 +91,7 @@ public class Game {
                 computer2Hit();
                 if(prevCard.getRank().equals("SKIP") &&player.checkCard() == false)
                 {
-                    Game.addToMainPanel(new DrawCard());
+                    // Game.addToMainPanel(new DrawCard());
                 }
             } else if (index == 2) {
                 computer1Hit();
@@ -106,7 +106,7 @@ public class Game {
     {
         if(player.checkCard() == false)
         {
-            Game.addToMainPanel(new DrawCard());
+            // Game.addToMainPanel(new DrawCard());
         }else{
             player.setTurn(true);
         } 
