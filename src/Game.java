@@ -46,19 +46,6 @@ public class Game {
 
         isReverse = true; // chiều kim đồng hồ
         isEndGame = false;
-
-        System.out.println("Com1");
-        for (Card card : com.get(0).cards) {
-            System.out.println(card);
-        }
-        System.out.println("Com2");
-        for (Card card : com.get(1).cards) {
-            System.out.println(card);
-        }
-        System.out.println("Com3");
-        for (Card card : com.get(2).cards) {
-            System.out.println(card);
-        }
     }
 
     public static void addToMainPanel(JLabel card) {
@@ -93,48 +80,39 @@ public class Game {
                 computer1Hit();
             } else if (index == 1) {
                 computer2Hit();
-                if(prevCard.getRank().equals("SKIP") && player.checkCard() == false)
-                {
-                    // Game.addToMainPanel(new DrawCard());
-                   
-                }
             } else if (index == 2) {
-                checkDrawCard();
+
             } else if (index == 3) {
                 computer0Hit();
             }
         } else if (isReverse == false) {
             if (index == 3) {
                 computer2Hit();
-                if(prevCard.getRank().equals("SKIP") &&player.checkCard() == false)
-                {
-                    // Game.addToMainPanel(new DrawCard());
-                }
             } else if (index == 2) {
                 computer1Hit();
             } else if (index == 1) {
                 computer0Hit();
             } else if (index == 0) {
-                checkDrawCard();
+
             }
         }
     }
-    public static void checkDrawCard()
-    {
-        if(player.checkCard() == false)
-        {
-            // Game.addToMainPanel(new DrawCard());
-        }else{
-            player.setTurn(true);
-        } 
-    }
+    // public static void checkDrawCard()
+    // {
+    //     if(player.checkCard() == false)
+    //     {
+    //         // Game.addToMainPanel(new DrawCard());
+    //     }else{
+    //         player.setTurn(true);
+    //     } 
+    // }
     // Qua lượt đánh của user đối diện, trường hợp này pass qua 1 user là lúc sử
     // dụng lá skip
     public static void oppositeUser(int index) {
         if (index == 0) {
             computer2Hit();
         } else if (index == 1) {
-            player.setTurn(true);
+
         } else if (index == 2) {
             computer0Hit();
         } else if (index == 3) {
@@ -166,9 +144,8 @@ public class Game {
 
     // Máy đánh ra lá bài rồi chuyển qua user tiếp theo, check lá reverse, skip ở trong đây.
     public static void computerHit(int index) {
-        System.out.println("---Com " + index + "----");
+        if(com.get(index).getTurn() == false) return;
         com.get(index).computerTurn();
-        System.out.println("prevCard: " + Game.prevCard.toString());
         if (endGame()) {
             isEndGame = true;
         }

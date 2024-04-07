@@ -60,7 +60,7 @@ public class Computer extends User {
         backCards.add(backCard);
 
         backCard.drawCardAnimation();
-        System.out.println("Draw card " + card);
+        //System.out.println("Draw card " + card);
         return card;
     }
 
@@ -285,37 +285,34 @@ public class Computer extends User {
         if (validCard != null) {
             int index = cards.indexOf(validCard);
             chosenCard = backCards.get(index);
-            if (this.getTurn() == true) {
-                chosenCard.assignCard(validCard);
 
-                Game.prevCard.setColor(validCard.getColor());
-                Game.prevCard.setRank(validCard.getRank());
-                chosenCard.hitCardAnimation();
-                backCards.remove(index);
-                cards.remove(index);
-                // if (chosenCard.getColor() == null) {
-                //     Game.prevCard.setColor(cards.get(0).getColor());
-                //     Game.prevCard.setRank(chosenCard.getRank());
-                // }
-            }
+            chosenCard.assignCard(validCard);
+
+            Game.prevCard.setColor(validCard.getColor());
+            Game.prevCard.setRank(validCard.getRank());
+            chosenCard.hitCardAnimation();
+            backCards.remove(index);
+            cards.remove(index);
+            // if (chosenCard.getColor() == null) {
+            //     Game.prevCard.setColor(cards.get(0).getColor());
+            //     Game.prevCard.setRank(chosenCard.getRank());
+            // }
         }
     }
     // Đổi màu prevCard nếu máy đánh ra là lá wild hay drawfour và nếu máy không có
     // lá nào đánh được thì sau khi rút bài chọn đánh luôn lá đó nếu đánh được
     public void computerTurn() {
-        if (this.getTurn() == true) {
-            this.computerHitCard();
-            if (this.isUserHit == true) {
-                if (checkChangeColor()) {
-                    Game.prevCard.setColor(this.chooseColor());
-                }
-            } else if (this.isUserHit == false) {
-                this.drawCard();
-                // Lổi
-                // this.computerHitCard();
-                if ((this.isUserHit == true) && (checkChangeColor())) {
-                    Game.prevCard.setColor(this.chooseColor());
-                }
+        this.computerHitCard();
+        if (this.isUserHit == true) {
+            if (checkChangeColor()) {
+                Game.prevCard.setColor(this.chooseColor());
+            }
+        } else if (this.isUserHit == false) {
+            this.drawCard();
+            // Lổi
+            // this.computerHitCard();
+            if ((this.isUserHit == true) && (checkChangeColor())) {
+                Game.prevCard.setColor(this.chooseColor());
             }
         }
     }
