@@ -46,6 +46,19 @@ public class Game {
 
         isReverse = true; // chiều kim đồng hồ
         isEndGame = false;
+
+        System.out.println("Com1");
+        for (Card card : com.get(0).cards) {
+            System.out.println(card);
+        }
+        System.out.println("Com2");
+        for (Card card : com.get(1).cards) {
+            System.out.println(card);
+        }
+        System.out.println("Com3");
+        for (Card card : com.get(2).cards) {
+            System.out.println(card);
+        }
     }
 
     public static void addToMainPanel(JLabel card) {
@@ -80,13 +93,12 @@ public class Game {
                 computer1Hit();
             } else if (index == 1) {
                 computer2Hit();
-                if(prevCard.getRank().equals("SKIP") &&player.checkCard() == false)
+                if(prevCard.getRank().equals("SKIP") && player.checkCard() == false)
                 {
                     // Game.addToMainPanel(new DrawCard());
                    
                 }
             } else if (index == 2) {
-                
                 checkDrawCard();
             } else if (index == 3) {
                 computer0Hit();
@@ -154,17 +166,18 @@ public class Game {
 
     // Máy đánh ra lá bài rồi chuyển qua user tiếp theo, check lá reverse, skip ở trong đây.
     public static void computerHit(int index) {
+        System.out.println("---Com " + index + "----");
         com.get(index).computerTurn();
+        System.out.println("prevCard: " + Game.prevCard.toString());
         if (endGame()) {
             isEndGame = true;
-        }
-        if(com.get(index).getNextUser().isPlayer() == true && !com.get(index).checkSkip())
-        {
-            player.suggestedEffect();
         }
         // REVERSE
         if ((Game.prevCard.getRank() == "REVERSE") && (com.get(index).isUserHit != false)) {
             reverse();
+        }
+        if(com.get(index).getNextUser().isPlayer() == true && !com.get(index).checkSkip()) {
+            player.suggestedEffect();
         }
         com.get(index).getNextUser().setTurn(true);
         com.get(index).setTurn(false);

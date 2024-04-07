@@ -1,10 +1,14 @@
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class Computer extends User {
     private ArrayList<Card> backCards;
-
+    private Map<String, Integer> mpColor;
+    private Map<String, Integer> mpRank;
     Computer(Deck deck, String position) {
         super(deck, position);
         isPlayer = false;
@@ -18,6 +22,20 @@ public class Computer extends User {
         }
 
         setCardsPosition();
+        // init Map
+        mpColor = new HashMap<>();
+        mpRank = new HashMap<>();
+    }
+
+    public void addElement(Map<String, Integer> map, String element) {
+        if (element != null) {
+            if (map.containsKey(element)) {
+                int count = map.get(element);
+                map.put(element, count + 1);
+            } else {
+                map.put(element, 1);
+            }
+        }
     }
 
     public ArrayList<Card> getCards() {
@@ -73,6 +91,15 @@ public class Computer extends User {
         return false;
     }
 
+    public String getMaxValue(Map<String, Integer> map) {
+        return map.entrySet().stream().max(Map.Entry.comparingByValue())
+                .map(Map.Entry::getKey).orElse(null);
+    }
+
+    public String getMinValue(Map<String, Integer> map) {
+        return map.entrySet().stream().min(Map.Entry.comparingByValue())
+                .map(Map.Entry::getKey).orElse(null);
+    }
     // Máy chọn màu khi đánh ra lá wild hoặc drawfour
     public String chooseColor() {
         Map<String, Integer> hm = new HashMap<String, Integer>();
@@ -101,76 +128,152 @@ public class Computer extends User {
         }
         return null;
     }
-
+    public Card getKeyMaxValue(String rank) {
+        if (mpRank.containsKey(rank))  {
+            if (mpRank.get(rank) == 1) {
+                for (Card card : cards)
+                    if (card.getRank() == rank) 
+                        return card;
+            }
+            else {
+                Map<String, Integer> mpRankColor = new HashMap<>();
+                for (Card card : cards)
+                    if (card.getRank() == rank)
+                        this.addElement(mpRankColor, card.getColor());
+                for (Card card : cards)
+                    if (card.getColor() == this.getMaxValue(mpRankColor) && card.getRank() == Game.prevCard.getRank()) 
+                        return card;
+            }
+        }
+        return null;
+    }
+    public Card getKeyMaxValueSpecial(String rank) {
+        if(mpRank.containsKey(rank)) {
+            if (Game.prevCard.getRank() != rank) {
+                for (Card card : cards) {
+                    if (card.getRank() == rank && card.getColor() == Game.prevCard.getColor()) 
+                        return card;
+                }
+            }
+            else {
+                Card res = this.getKeyMaxValue(rank);
+                if (res != null) 
+                    return res;
+            }
+        }
+        return null;
+    }
     // Máy chọn ra 1 lá để đánh
     public Card validCard() {
-        // Test reverse
-        // for(Card card : cards) {
-        // if (card.getRank() == "REVERSE")
-        // return card;
-        // }
-
-        // Test skip
-        // for(Card card : cards) {
-        // if (card.getRank() == "SKIP")
-        // return card;
-        // }
-        //Test drawfour, wild
-        // this.isUserHit = false;
-        // for(Card card : cards) {
-        //     if (card.getRank() == "DRAWFOUR" || card.getRank() == "WILD") {
-        //     this.isUserHit = true;
-        //     return card;
-        // }
-        //}
         this.isUserHit = false;
+        // test skip
+        // for (Card card : cards) {
+        //     if (this.checkValid(card) == true && card.getRank().length() > 1) {
+        //         this.isUserHit = true;
+        //         return card;
+        //     }
+        // }
+        boolean isHaveCard = false; // check player have card to play
+        for (Card card : cards) {
+            if (this.checkValid(card) == true) {
+                isHaveCard = true;
+                if (card.getColor() == Game.prevCard.getColor()) addElement(mpColor, card.getColor());
+                if (card.getRank() == Game.prevCard.getRank()) addElement(mpRank, card.getRank());
+            }
+        }
+        if(isHaveCard == false) return null;
+        // return card drawTwo or drawFour if next user have a lot of card
+        if(this.getNextUser().sizeCards() <= 2) {
+            Card res = this.getKeyMaxValueSpecial("DRAWTWO");
+            if (res != null) {
+                this.isUserHit = true;
+                return res;
+            }
+            else if (mpRank.containsKey("DRAWFOUR")){
+                for (Card card : cards) 
+                    if (card.getRank() == "DRAWFOUR") {
+                        this.isUserHit = true;
+                        return card;
+                    }
+            }
+        }
+        else {
+            // getRank.length == 1
+            Map<String, Integer> mpRank1 = new HashMap<>();
+            for (Card card : cards) {
+                if (card.getRank().length() == 1 && card.getColor() == Game.prevCard.getColor()) 
+                    addElement(mpRank1, card.getRank());
+            }
+            if (mpRank1.size() != 0) {
+                for (Card card : cards) {
+                    if (mpRank1.containsKey(card.getRank())) 
+                        addElement(mpRank1, card.getRank());
+                }
+                for (Card card : cards){
+                    if(card.getColor() == Game.prevCard.getColor() && card.getRank() == this.getMaxValue(mpRank1)) {
+                        this.isUserHit = true;
+                        return card;
+                    }
+                }
+            }
+            else {
+                Map<String, Integer> mpColor1 = new HashMap<>();
+                for (Card card : cards) {
+                    if (card.getRank().length() == 1) {
+                        if(card.getRank() == Game.prevCard.getRank()) {
+                            addElement(mpColor1, card.getColor());
+                        }
+                    }
+                }
+                for (Card card : cards) {
+                    if (mpColor1.containsKey(card.getColor())) 
+                        addElement(mpColor1, card.getColor());
+                }
+                for (Card card : cards){
+                    if(card.getRank() == Game.prevCard.getRank() && card.getColor() == this.getMaxValue(mpColor1)) {
+                        this.isUserHit = true;
+                        return card;
+                    }
+                }
+            }
+            // getRank.length > 1, reverse, skip, drawtwo
+            Card res = this.getKeyMaxValueSpecial("REVERSE");
+            if (res != null) {
+                this.isUserHit = true;
+                return res;
+            }
+            res = this.getKeyMaxValueSpecial("SKIP");
+            if (res != null) {
+                this.isUserHit = true;
+                return res;
+            }
+            res = this.getKeyMaxValueSpecial("DRAWTWO");
+            if (res != null) {
+                this.isUserHit = true;
+                return res;
+            }
+            if (mpRank.containsKey("WILD")){
+                for (Card card : cards) 
+                    if (card.getRank() == "WILD") {
+                        this.isUserHit = true;
+                        return card;
+                    }
+            }
+            else if (mpRank.containsKey("DRAWFOUR")){
+                for (Card card : cards) 
+                    if (card.getRank() == "DRAWFOUR") {
+                        this.isUserHit = true;
+                        return card;
+                    }
+            }
+            
+        }
         for (Card card : cards) {
             if (this.checkValid(card) == true) {
                 this.isUserHit = true;
                 return card;
             }
         }
-        // this.isUserHit = false;
-        // for (Card card : cards) {
-        // if (card.getColor() == Game.prevCard.getColor()) {
-        // if (card.getRank().length() == 1) {
-        // this.isUserHit = true;
-        // return card;
-        // }
-        // }
-        // }
-        // for (Card card : cards) {
-        // if (card.getRank() == Game.prevCard.getRank()) {
-        // if (card.getRank().length() == 1) {
-        // this.isUserHit = true;
-        // return card;
-        // }
-        // }
-        // }
-        // for (Card card : cards) {
-        // if (card.getColor() == Game.prevCard.getColor()) {
-        // this.isUserHit = true;
-        // return card;
-        // }
-        // }
-        // for (Card card : cards) {
-        // if (card.getRank() == Game.prevCard.getRank()) {
-        // this.isUserHit = true;
-        // return card;
-        // }
-        // }
-        // for (Card card : cards) {
-        // if (card.getRank() == "WILD") {
-        // this.isUserHit = true;
-        // return card;
-        // }
-        // }
-        // for (Card card : cards) {
-        // if (card.getRank() == "DRAWFOUR") {
-        // this.isUserHit = true;
-        // return card;
-        // }
-        // }
         return null;
     }
 
@@ -210,9 +313,9 @@ public class Computer extends User {
                 this.drawCard();
                 // Lổi
                 // this.computerHitCard();
-                // if ((this.isUserHit == true) && (checkChangeColor())) {
-                //     Game.prevCard.setColor(this.chooseColor());
-                // }
+                if ((this.isUserHit == true) && (checkChangeColor())) {
+                    Game.prevCard.setColor(this.chooseColor());
+                }
             }
         }
     }

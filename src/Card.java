@@ -73,7 +73,6 @@ public class Card extends JLabel implements MouseListener {
         this.color = card.getColor();
         this.rank = card.getRank();
         this.setIcon(card.getIcon());
-        System.out.println("prevCard: " + Game.prevCard.toString());
     }
 
     public Boolean isSpecial() {
@@ -214,6 +213,8 @@ public class Card extends JLabel implements MouseListener {
                 Game.prevCard.setColor(this.getColor());
                 Game.prevCard.setRank(this.getRank());
                 Game.player.isUserHit = true;
+                System.out.println("---Player----");
+                System.out.println("prevCard: " + Game.prevCard.toString());
                 if (Game.endGame()) {
                     Game.isEndGame = true;
                 }

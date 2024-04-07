@@ -31,7 +31,7 @@ public abstract class User {
             card.setUser(this);
             cards.add(card);
         }
-
+        isTurn = false;
         isUserHit = false;
         sortCard();
     }
