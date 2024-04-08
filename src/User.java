@@ -97,15 +97,13 @@ public abstract class User {
     public User getNextUser() {
         return nextUser;
     }
-
-    // pass qua hẳn 1 user, cấm đi lượt đó
+    // pass one user, ban that turn
     public void passTurn() {
         this.getNextUser().setTurn(false);
         this.setTurn(false);
         this.getNextUser().getNextUser().setTurn(true);
     }
-
-    // khi user đánh ra lá skip, drawtwo, drawfour, rút bài rồi qua lượt, không đánh
+    // when user play skip, drawtwo, drawfour, draw and pass turn, not play
     public void skip() {
         if (Game.prevCard.getRank() == "SKIP") {
             this.passTurn();
@@ -155,7 +153,6 @@ public abstract class User {
             }
         }
     }
-
     // Check Valid Card
     public boolean checkValid(Card card) {
         Card prevCard = Game.prevCard;
@@ -186,7 +183,6 @@ public abstract class User {
         return false;
     }
     // Check card
-
     public boolean checkCard() {
         // sortCard();
         // for (Card card : cards) {
@@ -223,7 +219,7 @@ public abstract class User {
     //     return src;
     // }
 
-    // Kiểm tra lá prevCard có phảỉ lá skip, drawtwo hay drawfour
+    // Check prevCard is skip, drawtwo or drawfour
     public boolean checkSkip() {
         if (Game.prevCard.getRank() == "SKIP") {
             return true;
@@ -234,7 +230,7 @@ public abstract class User {
         }
         return false;
     }
-    // tính điểm
+    // score
     public int scores() {
         int scores = 0;
         for (Card card : cards) {

@@ -12,6 +12,7 @@ public class Game {
     static boolean isReverse; // kiểm tra chiều bài đang đánh
     static ArrayList<Computer> com;
     static boolean isEndGame;
+    static ButtonUno buttonUno;
     // private boolean isTurnPlayer;
     Game() {
 
@@ -30,9 +31,13 @@ public class Game {
         }
         prevCard.setLocation(Deck.X + Card.WIDTH * 2, Deck.Y);
 
+        buttonUno = new ButtonUno();
+        buttonUno.addMouseListener(buttonUno); 
+
         addToMainPanel(deck);
         addToMainPanel(prevCard);
-
+        addToMainPanel(buttonUno);
+        
         com = new ArrayList<>();
         com.add(new Computer(deck, "WEST"));
         com.add(new Computer(deck, "NORTH"));
@@ -55,8 +60,7 @@ public class Game {
     public static boolean getIsReverse() {
         return isReverse;
     }
-
-    // Khi lá prevCard là lá đổi chiều, thực hiện đổi user tiếp theo
+    // When prevCard is reverse, change next user
     public static void reverse() {
         if (isReverse == true) {
             com.get(2).setNextUser(com.get(1));
@@ -72,8 +76,7 @@ public class Game {
             isReverse = true; // đúng chiều kim đồng hồ
         }
     }
-
-    // Qua lượt đánh của user kế tiếp
+    // Skip next user
     public static void nextUser(int index) {
         if (isReverse == true) {
             if (index == 0) {
@@ -106,8 +109,7 @@ public class Game {
     //         player.setTurn(true);
     //     } 
     // }
-    // Qua lượt đánh của user đối diện, trường hợp này pass qua 1 user là lúc sử
-    // dụng lá skip
+    // Pass turn opposite user, this case pass a user when use skip card 
     public static void oppositeUser(int index) {
         if (index == 0) {
             computer2Hit();
@@ -119,8 +121,7 @@ public class Game {
             computer1Hit();
         }
     }
-
-    // Set thời gian máy đánh chậm lại 2s, cho kịp nhìn
+    // Set computer`s time, delay 2s
     public static void delayReverse(int index) {
         Timer timer = new Timer(2000, new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -130,8 +131,7 @@ public class Game {
         });
         timer.start();
     }
-
-    // Set thời gian máy đánh chậm lại 2 giây cho trường hợp đánh ra lá skip
+    // Set computer`s time, delay 2s, this case pass a user when use skip card 
     public static void delaySkip(int index) {
         Timer timer = new Timer(2000, new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -141,8 +141,7 @@ public class Game {
         });
         timer.start();
     }
-    
-    // Máy đánh ra lá bài rồi chuyển qua user tiếp theo, check lá reverse, skip ở trong đây.
+    // Computer play card, pass next user, check reverse, skip this here
     public static void computerHit(int index) {
         if(com.get(index).getTurn() == false) return;
         com.get(index).computerTurn();
@@ -171,18 +170,15 @@ public class Game {
         }
         delayReverse(index);
     }
-
-    // Lượt đánh của máy 0
+    // Turn`s computer 0
     public static void computer0Hit() {
         computerHit(0);
     }
-
-    // Lượt đánh của máy 1
+    // Turn`s computer 1
     public static void computer1Hit() {
         computerHit(1);
     }
-
-    // Lượt đánh của máy 2
+    // Turn`s computer 2
     public static void computer2Hit() {
         computerHit(2);
     }

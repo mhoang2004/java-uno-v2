@@ -79,8 +79,7 @@ public class Computer extends User {
             }
         }
     }
-
-    // Kiểm tra lá prevCard có phải là cần chọn màu không
+    // Check prevCard is wild or drawfour
     public boolean checkChangeColor() {
         if (Game.prevCard.getRank() == "WILD") {
             return true;
@@ -100,7 +99,7 @@ public class Computer extends User {
         return map.entrySet().stream().min(Map.Entry.comparingByValue())
                 .map(Map.Entry::getKey).orElse(null);
     }
-    // Máy chọn màu khi đánh ra lá wild hoặc drawfour
+    // Computer choose color when play wild or drawfour
     public String chooseColor() {
         Map<String, Integer> hm = new HashMap<String, Integer>();
         hm.put("B", 0);
@@ -163,7 +162,7 @@ public class Computer extends User {
         }
         return null;
     }
-    // Máy chọn ra 1 lá để đánh
+    // Computer select one card to play
     public Card validCard() {
         this.isUserHit = false;
         // test skip
@@ -276,8 +275,7 @@ public class Computer extends User {
         }
         return null;
     }
-
-    // Máy đánh ra lá đã chọn
+    // Computer play this card selected
     public void computerHitCard() {
         Card validCard = validCard(); // todo: function LogicComputerHit
         Card chosenCard = null;
@@ -299,8 +297,8 @@ public class Computer extends User {
             // }
         }
     }
-    // Đổi màu prevCard nếu máy đánh ra là lá wild hay drawfour và nếu máy không có
-    // lá nào đánh được thì sau khi rút bài chọn đánh luôn lá đó nếu đánh được
+    // Change color prevcard if computer play card is wild or drawfour
+    // if dont have card then play this card when it can play
     public void computerTurn() {
         this.computerHitCard();
         if (this.isUserHit == true) {
