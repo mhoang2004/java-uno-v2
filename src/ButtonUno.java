@@ -19,7 +19,7 @@ public class ButtonUno extends JLabel implements MouseListener {
         this.setIcon(icon);
         this.setHorizontalAlignment(JLabel.CENTER); // Center the image horizontally
         this.setVerticalAlignment(JLabel.CENTER); // Center the image vertically
-        this.setBounds((MyPanel.WIDTH - WIDTH) / 2, (MyPanel.HEIGHT - HEIGHT) / 2 + 200, WIDTH, HEIGHT);
+        this.setBounds((MyPanel.WIDTH - WIDTH) / 2 + 300, (MyPanel.HEIGHT - HEIGHT) / 2 + 200, WIDTH, HEIGHT);
         // this.setContentAreaFilled(false);
         this.setOpaque(false);
         this.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -39,7 +39,14 @@ public class ButtonUno extends JLabel implements MouseListener {
         // TODO Auto-generated method stub
         System.out.println("button uno clicked");
         unoClicked = true;
-        System.out.println(unoClicked);
+        if (Game.player.sizeCards() > 1) {
+            System.out.println("Please no click button uno. You must draw card");
+            Game.player.drawCard();
+        }
+        else if (Game.player.sizeCards() == 1){
+            System.out.println("Good job!");
+        }
+        this.setUnoClicked();
     }
 
     @Override

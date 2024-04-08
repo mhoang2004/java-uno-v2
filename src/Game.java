@@ -36,7 +36,6 @@ public class Game {
 
         addToMainPanel(deck);
         addToMainPanel(prevCard);
-        addToMainPanel(buttonUno);
         
         com = new ArrayList<>();
         com.add(new Computer(deck, "WEST"));
@@ -168,7 +167,7 @@ public class Game {
                 return;
             }
             delayReverse(index);
-                    }                 
+        }                 
     }
     // Turn`s computer 0
     public static void computer0Hit() {
@@ -195,5 +194,31 @@ public class Game {
     public static boolean endGame() {
         return (player.sizeCards() == 0 || com.get(0).sizeCards() == 0 || 
             com.get(1).sizeCards() == 0 || com.get(2).sizeCards() == 0);
+    }
+
+    public static void displayButtonUno() {
+        if (player.sizeCards() <= 2) {
+            addToMainPanel(buttonUno);
+        }
+    }
+
+    public static void setButtonUno() {
+        buttonUno.setUnoClicked();
+    }
+    // check player click button uno
+    public static void checkUno() {
+        if (player.sizeCards() == 1) {
+            // wait player 3s to click button uno
+            Timer timer = new Timer(3000, new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    if (buttonUno.getUnoClicked() == false) {
+                        System.out.println("Please click button uno. You must draw card");
+                        player.drawCard();
+                    }
+                    ((Timer) e.getSource()).stop();
+                }
+            });
+            timer.start();
+        }
     }
 }

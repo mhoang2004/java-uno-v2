@@ -203,6 +203,7 @@ public class Card extends JLabel implements MouseListener {
     @Override
     public void mouseClicked(MouseEvent e) {
         if (Game.check(this)) {
+            Game.setButtonUno();
             this.removeEffect();
             hitCard(); 
             System.out.println(user.sizeCards());
@@ -218,7 +219,8 @@ public class Card extends JLabel implements MouseListener {
                     Game.prevCard.setColor(this.getColor());
                     Game.prevCard.setRank(this.getRank());
                     Game.player.isUserHit = true;
-                    
+                    Game.displayButtonUno();
+                    Game.checkUno();
                     // REVERSE
                     if ((Game.prevCard.getRank() == "REVERSE") && (Game.player.isUserHit != false)) {
                         Game.reverse();
