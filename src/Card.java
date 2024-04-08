@@ -198,37 +198,47 @@ public class Card extends JLabel implements MouseListener {
         });
 
         timer.start();
+        
     }
     @Override
     public void mouseClicked(MouseEvent e) {
         if (Game.check(this)) {
             this.removeEffect();
-            hitCard();                 
-                Game.player.hitCard(this, Game.check(this));
-                Game.prevCard.setColor(this.getColor());
-                Game.prevCard.setRank(this.getRank());
-                Game.player.isUserHit = true;
-                if (Game.endGame()) {
-                    Game.isEndGame = true;
-                }
-                // REVERSE
-                if ((Game.prevCard.getRank() == "REVERSE") && (Game.player.isUserHit != false)) {
-                    Game.reverse();
-                }
-                Game.player.getNextUser().setTurn(true);
-                Game.player.setTurn(false);
+            hitCard(); 
+            System.out.println(user.sizeCards());
+            if (user.sizeCards() -1 == 0) {
+                    Game.addToMainPanel(new EndGame());
+
+            }else{
+                if (this.getColor() == null) {
     
-                // SKIP
-                if ((Game.player.checkSkip()) && (Game.player.isUserHit != false)) {
-                    Game.player.skip();
-                    Game.delaySkip(3);
+                } else 
+                {                 
+                    Game.player.hitCard(this, Game.check(this));
+                    Game.prevCard.setColor(this.getColor());
+                    Game.prevCard.setRank(this.getRank());
+                    Game.player.isUserHit = true;
+                    
+                    // REVERSE
+                    if ((Game.prevCard.getRank() == "REVERSE") && (Game.player.isUserHit != false)) {
+                        Game.reverse();
+                    }
+                    Game.player.getNextUser().setTurn(true);
+                    Game.player.setTurn(false);
+        
+                    // SKIP
+                    if ((Game.player.checkSkip()) && (Game.player.isUserHit != false)) {
+                        Game.player.skip();
+                        Game.delaySkip(3);
+                    }
+                    Game.delayReverse(3);
+                }  
+                for(Card card : user.cards)
+                {
+                    card.removeEffect();
                 }
-                Game.delayReverse(3);
-            }  
-            for(Card card : user.cards)
-            {
-                card.removeEffect();
             }
+        }    
     }
 
     void hitCard() {

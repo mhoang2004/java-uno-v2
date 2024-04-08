@@ -96,7 +96,7 @@ public class Game {
             } else if (index == 1) {
                 computer0Hit();
             } else if (index == 0) {
-
+                
             }
         }
     }
@@ -145,30 +145,30 @@ public class Game {
     public static void computerHit(int index) {
         if(com.get(index).getTurn() == false) return;
         com.get(index).computerTurn();
-        if (endGame()) {
-            isEndGame = true;
-        }
-        
-        // REVERSE
-        if ((Game.prevCard.getRank() == "REVERSE") && (com.get(index).isUserHit != false)) {
-            reverse();
-        }
-        if(com.get(index).getNextUser().isPlayer() == true && !com.get(index).checkSkip()) {
-            player.suggestedEffect();
-        }
-        com.get(index).getNextUser().setTurn(true);
-        com.get(index).setTurn(false);
-        // SKIP
-        if ((com.get(index).checkSkip()) && (com.get(index).isUserHit != false)) {
-            com.get(index).skip();
-            if(index == 1)
-            {
+        if (com.get(index).endGame()) {
+            Game.addToMainPanel(new EndGame());
+        }else{
+            // REVERSE
+            if ((Game.prevCard.getRank() == "REVERSE") && (com.get(index).isUserHit != false)) {
+                reverse();
+            }
+            if(com.get(index).getNextUser().isPlayer() == true && !com.get(index).checkSkip()) {
                 player.suggestedEffect();
             }
-            delaySkip(index);
-            return;
-        }
-        delayReverse(index);
+            com.get(index).getNextUser().setTurn(true);
+            com.get(index).setTurn(false);
+            // SKIP
+            if ((com.get(index).checkSkip()) && (com.get(index).isUserHit != false)) {
+                com.get(index).skip();
+                if(index == 1)
+                {
+                    player.suggestedEffect();
+                }
+                delaySkip(index);
+                return;
+            }
+            delayReverse(index);
+                    }                 
     }
     // Turn`s computer 0
     public static void computer0Hit() {

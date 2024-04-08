@@ -249,4 +249,7 @@ public abstract class User {
         }
         return scores;
     }
+    public  boolean endGame() {
+        return (sizeCards() == 0 );
+    }
 }

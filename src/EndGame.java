@@ -3,6 +3,7 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -19,6 +20,7 @@ public class EndGame extends JLabel implements ActionListener{
         buttonOK = new JButton("OK");
         buttonOK.setFont(new Font("Arial", Font.BOLD, 30));
         buttonOK.setBackground(new Color(30, 194, 235));
+        buttonOK.addActionListener(this);
         labelEndGame = new JLabel("END GAME", SwingConstants.CENTER);
         
         labelEndGame.setFont(new Font("Arial", Font.BOLD, 50));
@@ -31,7 +33,10 @@ public class EndGame extends JLabel implements ActionListener{
     }
     @Override
     public void actionPerformed(ActionEvent e) {
-        Game.mainPanel.setVisible(false);
+        System.out.println("CLICKINGGGGGGGGGG");
+        App.frame.dispatchEvent(new WindowEvent( App.frame, WindowEvent.WINDOW_CLOSING));
+        
+        App.frame.setVisible(false);
     }
     
 }
