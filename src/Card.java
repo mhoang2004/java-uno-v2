@@ -203,12 +203,7 @@ public class Card extends JLabel implements MouseListener {
     public void mouseClicked(MouseEvent e) {
         if (Game.check(this)) {
             this.removeEffect();
-            hitCard(); 
-
-            if (this.getColor() == null) {
-    
-            } else {
-                
+            hitCard();                 
                 Game.player.hitCard(this, Game.check(this));
                 Game.prevCard.setColor(this.getColor());
                 Game.prevCard.setRank(this.getRank());
@@ -234,7 +229,6 @@ public class Card extends JLabel implements MouseListener {
             {
                 card.removeEffect();
             }
-        }
     }
 
     void hitCard() {

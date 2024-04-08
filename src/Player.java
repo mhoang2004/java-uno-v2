@@ -37,9 +37,14 @@ public class Player extends User {
     public Card drawCard() {
         if (Game.deck.getDeck().size() == 0) {
             System.out.println("Het bai roi cuu");
+            // Game.deck = new Deck();
         }
 
         Card card = Game.deck.getOneCard();
+        // while(!card.getRank().equals("DRAWFOUR")||!card.getRank().equals("DRAWTWO") ||!card.getRank().equals("SKIP"))
+        // {
+        //     card = Game.deck.getOneCard();
+        // }
         card.setLocation(Deck.X, Deck.Y);
         card.addMouseListener(card); // only player not computer
         card.setUser(this);
@@ -55,5 +60,9 @@ public class Player extends User {
     @Override
     public boolean isPlayer() {
        return true;
+    }
+    public void hitting()
+    {
+
     }
 }

@@ -141,7 +141,7 @@ public class Game {
         });
         timer.start();
     }
-
+    
     // Máy đánh ra lá bài rồi chuyển qua user tiếp theo, check lá reverse, skip ở trong đây.
     public static void computerHit(int index) {
         if(com.get(index).getTurn() == false) return;
@@ -149,6 +149,7 @@ public class Game {
         if (endGame()) {
             isEndGame = true;
         }
+        
         // REVERSE
         if ((Game.prevCard.getRank() == "REVERSE") && (com.get(index).isUserHit != false)) {
             reverse();
@@ -161,6 +162,10 @@ public class Game {
         // SKIP
         if ((com.get(index).checkSkip()) && (com.get(index).isUserHit != false)) {
             com.get(index).skip();
+            if(index == 1)
+            {
+                player.suggestedEffect();
+            }
             delaySkip(index);
             return;
         }
