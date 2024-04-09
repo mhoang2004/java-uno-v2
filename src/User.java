@@ -9,9 +9,9 @@ public abstract class User {
 
     protected ArrayList<Card> cards;
     protected String position;
-    protected User nextUser; // User kế tiếp
-    protected boolean isTurn; // xem lượt đó có phải của user này không
-    protected boolean isUserHit; // xem lượt đó user có ra bài không
+    protected User nextUser; // next user
+    protected boolean isTurn;
+    protected boolean isUserHit; // did user hit a card?
     protected boolean isPlayer;
 
     int xPos;
@@ -19,7 +19,7 @@ public abstract class User {
 
     User(Deck deck, String position) {
         this.position = position;
-        
+
         cards = new ArrayList<Card>();
 
         for (int i = 0; i < INIT_CARD; i++) {
@@ -51,12 +51,15 @@ public abstract class User {
             yPos = (MyPanel.HEIGHT - (Card.HEIGHT + (sizeCards() - 1) * GAP_CARD_VERTICAL)) / 2;
         }
     }
+
     public abstract void setCardsPosition();
 
     public int sizeCards() {
         return cards.size();
     }
+
     public abstract boolean isPlayer();
+
     // action card
     public abstract Card drawCard();
 
@@ -69,7 +72,7 @@ public abstract class User {
     public boolean getIsPlayer() {
         return isPlayer;
     }
-    
+
     public void setTurn(boolean isTurn) {
         this.isTurn = isTurn;
     }
@@ -97,12 +100,14 @@ public abstract class User {
     public User getNextUser() {
         return nextUser;
     }
+
     // pass one user, ban that turn
     public void passTurn() {
         this.getNextUser().setTurn(false);
         this.setTurn(false);
         this.getNextUser().getNextUser().setTurn(true);
     }
+
     // when user play skip, drawtwo, drawfour, draw and pass turn, not play
     public void skip() {
         if (Game.prevCard.getRank() == "SKIP") {
@@ -153,6 +158,7 @@ public abstract class User {
             }
         }
     }
+
     // Check Valid Card
     public boolean checkValid(Card card) {
         Card prevCard = Game.prevCard;
@@ -182,15 +188,16 @@ public abstract class User {
         }
         return false;
     }
+
     // Check card
     public boolean checkCard() {
         // sortCard();
         // for (Card card : cards) {
-        //     if (checkValid(card)) {
-        //         // card.suggestedEffect();
-        //     } else {
-        //         card.setCard();
-        //     }
+        // if (checkValid(card)) {
+        // // card.suggestedEffect();
+        // } else {
+        // card.setCard();
+        // }
         // }
         for (Card card : cards) {
             if (checkValid(card) == true) {
@@ -203,20 +210,20 @@ public abstract class User {
 
     // khi user đánh ra là wild hoặc drawfour
     // String changePrevCard(String src, Card card) {
-    //     card.hitCard();
+    // card.hitCard();
 
-    //     Card tmp = new Card(src, card.getRank());
+    // Card tmp = new Card(src, card.getRank());
 
-    //     if (card.getRank() == "DRAWFOUR") {
-    //         this.passTurn();
-    //         Game.delaySkip(3);
-    //     } else {
-    //         this.nextUser.setTurn(true);
-    //         this.setTurn(false);
-    //         Game.delayReverse(3);
-    //     }
+    // if (card.getRank() == "DRAWFOUR") {
+    // this.passTurn();
+    // Game.delaySkip(3);
+    // } else {
+    // this.nextUser.setTurn(true);
+    // this.setTurn(false);
+    // Game.delayReverse(3);
+    // }
 
-    //     return src;
+    // return src;
     // }
 
     // Check prevCard is skip, drawtwo or drawfour
@@ -230,6 +237,7 @@ public abstract class User {
         }
         return false;
     }
+
     // score
     public int scores() {
         int scores = 0;
@@ -237,8 +245,9 @@ public abstract class User {
             if (card.getRank().length() == 1) {
                 scores = scores + Integer.parseInt(card.getRank());
             }
-            // if (card.getRank() == "DRAWTWO" || card.getRank() == "SKIP" || card.getRank() == "REVERSE") {
-            //     scores = scores + 20;
+            // if (card.getRank() == "DRAWTWO" || card.getRank() == "SKIP" || card.getRank()
+            // == "REVERSE") {
+            // scores = scores + 20;
             // }
             if (card.getRank().length() > 1 && card.getColor() != null) {
                 scores = scores + 20;
@@ -249,7 +258,8 @@ public abstract class User {
         }
         return scores;
     }
-    public  boolean endGame() {
-        return (sizeCards() == 0 );
+
+    public boolean endGame() {
+        return (sizeCards() == 0);
     }
 }

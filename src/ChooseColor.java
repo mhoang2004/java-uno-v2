@@ -38,7 +38,7 @@ public class ChooseColor extends JLabel implements ActionListener {
         button.setSize(WIDTH / 4, HEIGHT);
 
         button.addActionListener(this);
-        
+
         this.add(button);
     }
 
@@ -54,17 +54,19 @@ public class ChooseColor extends JLabel implements ActionListener {
         Game.mainPanel.repaint();
 
         // someone will draw card
-        // if ((Game.prevCard.getRank() == "REVERSE") && (Game.player.isUserHit != false)) {
-        //     Game.reverse();
+        // if ((Game.prevCard.getRank() == "REVERSE") && (Game.player.isUserHit !=
+        // false)) {
+        // Game.reverse();
         // }
         // Game.player.getNextUser().setTurn(true);
         // Game.player.setTurn(false);
 
         // // SKIP
         // if ((Game.player.checkSkip()) && (Game.player.isUserHit != false)) {
-        //     Game.player.skip();
-        //     Game.delaySkip(3);
+        // Game.player.skip();
+        // Game.delaySkip(3);
         // }
+
         Game.delayReverse(3);
         if (Game.prevCard.getRank() == "DRAWFOUR") {
             Game.player.getNextUser().drawCard();
@@ -75,7 +77,7 @@ public class ChooseColor extends JLabel implements ActionListener {
             Game.player.passTurn();
             Game.player.skip();
             Game.delaySkip(3);
-        } else if (Game.prevCard.getRank() == "WILD"){ // WILD CARD
+        } else if (Game.prevCard.getRank() == "WILD") { // WILD CARD
             Game.player.getNextUser().setTurn(true);
             Game.player.setTurn(false);
             Game.delayReverse(3);

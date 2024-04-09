@@ -1,27 +1,16 @@
-import java.awt.Color;
-import java.awt.Cursor;
-import java.awt.Font;
-import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import javax.swing.border.Border;
-import javax.swing.BorderFactory;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JTextArea;
-import javax.swing.border.Border;
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
 
-public class DrawCard extends JLabel implements ActionListener{
+public class DrawCard extends JLabel implements ActionListener {
     Card cardDrawn;
     static int WIDTH = 400;
     static int HEIGHT = 60;
-    private  JButton buttonTrue ;
+    private JButton buttonTrue;
 
-    private  JButton buttonFalse;
-    DrawCard(Card cardDrawn)
-    {
+    private JButton buttonFalse;
+
+    DrawCard(Card cardDrawn) {
         this.cardDrawn = cardDrawn;
         this.setBounds((MyPanel.WIDTH - WIDTH) / 2, (MyPanel.HEIGHT - HEIGHT) / 2, WIDTH, HEIGHT);
         buttonTrue = new JButton("KEEP");
@@ -31,7 +20,7 @@ public class DrawCard extends JLabel implements ActionListener{
         this.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
         JLabel button = new JLabel();
-        button.setLayout(new GridLayout(1,2));
+        button.setLayout(new GridLayout(1, 2));
         button.add(buttonTrue);
         button.add(buttonFalse);
         buttonTrue.addActionListener(this);
@@ -42,30 +31,28 @@ public class DrawCard extends JLabel implements ActionListener{
         button.setBorder(BorderFactory.createLineBorder(Color.black));
         // this.add(noti);
         this.add(button);
-        }
+    }
+
     @Override
-    public void actionPerformed(ActionEvent e) 
-    {
+    public void actionPerformed(ActionEvent e) {
         String src = e.getActionCommand();
-        if(src.equals("PLAY"))
-        {
-            if(Game.player.checkValid(cardDrawn) == true){
+        if (src.equals("PLAY")) {
+            if (Game.player.checkValid(cardDrawn) == true) {
                 Game.player.setTurn(true);
                 cardDrawn.hitCard();
-                
+
             }
         }
         Game.deck.setEnabled(true);
         Game.mainPanel.setEnabled(true);
         Game.mainPanel.remove(this);
         Game.mainPanel.repaint();
-        if(cardDrawn.getColor() != null)
-        {
+        if (cardDrawn.getColor() != null) {
             Game.player.getNextUser().setTurn(true);
             // Game.player.setTurn(false);
             Game.delayReverse(3);
         }
-       
+
     }
-        
+
 }

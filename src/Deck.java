@@ -1,10 +1,7 @@
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.util.ArrayList;
-import java.util.Random;
-import javax.swing.ImageIcon;
-import javax.swing.JLabel;
-import java.awt.Cursor;
+import java.awt.event.*;
+import java.util.*;
+import javax.swing.*;
+import java.awt.*;
 
 public class Deck extends JLabel implements MouseListener {
     static final String[] ranks = { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "DRAWTWO", "REVERSE", "SKIP" };
@@ -77,25 +74,23 @@ public class Deck extends JLabel implements MouseListener {
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        if(Game.player.getTurn() == true && Game.player.checkCard() == false )
-        {      
+        if (Game.player.getTurn() == true && Game.player.checkCard() == false) {
             this.setEnabled(false);
             Game.player.setTurn(false);
-            Card cardDrawn =  Game.player.drawCard(); 
+            Card cardDrawn = Game.player.drawCard();
 
-            if(Game.player.checkValid(cardDrawn))
-            {
+            if (Game.player.checkValid(cardDrawn)) {
                 // Game.mainPanel.setEnabled(false);
-                Game.addToMainPanel(new DrawCard(cardDrawn));     
-            }else{
+                Game.addToMainPanel(new DrawCard(cardDrawn));
+            } else {
                 Game.deck.setEnabled(true);
                 Game.player.getNextUser().setTurn(true);
                 // Game.player.setTurn(false);
                 Game.delayReverse(3);
-            }         
-      
+            }
+
         }
-        
+
     }
 
     @Override

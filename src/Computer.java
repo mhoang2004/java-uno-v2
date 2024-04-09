@@ -1,14 +1,10 @@
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
-import java.util.stream.Collectors;
+import java.util.*;
 
 public class Computer extends User {
     private ArrayList<Card> backCards;
     private Map<String, Integer> mpColor;
     private Map<String, Integer> mpRank;
+
     Computer(Deck deck, String position) {
         super(deck, position);
         isPlayer = false;
@@ -60,7 +56,7 @@ public class Computer extends User {
         backCards.add(backCard);
 
         backCard.drawCardAnimation();
-        //System.out.println("Draw card " + card);
+        // System.out.println("Draw card " + card);
         return card;
     }
 
@@ -79,6 +75,7 @@ public class Computer extends User {
             }
         }
     }
+
     // Check prevCard is wild or drawfour
     public boolean checkChangeColor() {
         if (Game.prevCard.getRank() == "WILD") {
@@ -99,6 +96,7 @@ public class Computer extends User {
         return map.entrySet().stream().min(Map.Entry.comparingByValue())
                 .map(Map.Entry::getKey).orElse(null);
     }
+
     // Computer choose color when play wild or drawfour
     public String chooseColor() {
         Map<String, Integer> hm = new HashMap<String, Integer>();
@@ -127,109 +125,110 @@ public class Computer extends User {
         }
         return null;
     }
+
     public Card getKeyMaxValue(String rank) {
-        if (mpRank.containsKey(rank))  {
+        if (mpRank.containsKey(rank)) {
             if (mpRank.get(rank) == 1) {
                 for (Card card : cards)
-                    if (card.getRank() == rank) 
+                    if (card.getRank() == rank)
                         return card;
-            }
-            else {
+            } else {
                 Map<String, Integer> mpRankColor = new HashMap<>();
                 for (Card card : cards)
                     if (card.getRank() == rank)
                         this.addElement(mpRankColor, card.getColor());
                 for (Card card : cards)
-                    if (card.getColor() == this.getMaxValue(mpRankColor) && card.getRank() == Game.prevCard.getRank()) 
+                    if (card.getColor() == this.getMaxValue(mpRankColor) && card.getRank() == Game.prevCard.getRank())
                         return card;
             }
         }
         return null;
     }
+
     public Card getKeyMaxValueSpecial(String rank) {
-        if(mpRank.containsKey(rank)) {
+        if (mpRank.containsKey(rank)) {
             if (Game.prevCard.getRank() != rank) {
                 for (Card card : cards) {
-                    if (card.getRank() == rank && card.getColor() == Game.prevCard.getColor()) 
+                    if (card.getRank() == rank && card.getColor() == Game.prevCard.getColor())
                         return card;
                 }
-            }
-            else {
+            } else {
                 Card res = this.getKeyMaxValue(rank);
-                if (res != null) 
+                if (res != null)
                     return res;
             }
         }
         return null;
     }
+
     // Computer select one card to play
     public Card validCard() {
         this.isUserHit = false;
         // test skip
         // for (Card card : cards) {
-        //     if (this.checkValid(card) == true && card.getRank().length() > 1) {
-        //         this.isUserHit = true;
-        //         return card;
-        //     }
+        // if (this.checkValid(card) == true && card.getRank().length() > 1) {
+        // this.isUserHit = true;
+        // return card;
+        // }
         // }
         boolean isHaveCard = false; // check player have card to play
         for (Card card : cards) {
             if (this.checkValid(card) == true) {
                 isHaveCard = true;
-                if (card.getColor() == Game.prevCard.getColor()) addElement(mpColor, card.getColor());
-                if (card.getRank() == Game.prevCard.getRank()) addElement(mpRank, card.getRank());
+                if (card.getColor() == Game.prevCard.getColor())
+                    addElement(mpColor, card.getColor());
+                if (card.getRank() == Game.prevCard.getRank())
+                    addElement(mpRank, card.getRank());
             }
         }
-        if(isHaveCard == false) return null;
+        if (isHaveCard == false)
+            return null;
         // return card drawTwo or drawFour if next user have a lot of card
-        if(this.getNextUser().sizeCards() <= 2) {
+        if (this.getNextUser().sizeCards() <= 2) {
             Card res = this.getKeyMaxValueSpecial("DRAWTWO");
             if (res != null) {
                 this.isUserHit = true;
                 return res;
-            }
-            else if (mpRank.containsKey("DRAWFOUR")){
-                for (Card card : cards) 
+            } else if (mpRank.containsKey("DRAWFOUR")) {
+                for (Card card : cards)
                     if (card.getRank() == "DRAWFOUR") {
                         this.isUserHit = true;
                         return card;
                     }
             }
-        }
-        else {
+        } else {
             // getRank.length == 1
             Map<String, Integer> mpRank1 = new HashMap<>();
             for (Card card : cards) {
-                if (card.getRank().length() == 1 && card.getColor() == Game.prevCard.getColor()) 
+                if (card.getRank().length() == 1 && card.getColor() == Game.prevCard.getColor())
                     addElement(mpRank1, card.getRank());
             }
             if (mpRank1.size() != 0) {
                 for (Card card : cards) {
-                    if (mpRank1.containsKey(card.getRank())) 
+                    if (mpRank1.containsKey(card.getRank()))
                         addElement(mpRank1, card.getRank());
                 }
-                for (Card card : cards){
-                    if(card.getColor() == Game.prevCard.getColor() && card.getRank() == this.getMaxValue(mpRank1)) {
+                for (Card card : cards) {
+                    if (card.getColor() == Game.prevCard.getColor() && card.getRank() == this.getMaxValue(mpRank1)) {
                         this.isUserHit = true;
                         return card;
                     }
                 }
-            }
-            else {
+            } else {
                 Map<String, Integer> mpColor1 = new HashMap<>();
                 for (Card card : cards) {
                     if (card.getRank().length() == 1) {
-                        if(card.getRank() == Game.prevCard.getRank()) {
+                        if (card.getRank() == Game.prevCard.getRank()) {
                             addElement(mpColor1, card.getColor());
                         }
                     }
                 }
                 for (Card card : cards) {
-                    if (mpColor1.containsKey(card.getColor())) 
+                    if (mpColor1.containsKey(card.getColor()))
                         addElement(mpColor1, card.getColor());
                 }
-                for (Card card : cards){
-                    if(card.getRank() == Game.prevCard.getRank() && card.getColor() == this.getMaxValue(mpColor1)) {
+                for (Card card : cards) {
+                    if (card.getRank() == Game.prevCard.getRank() && card.getColor() == this.getMaxValue(mpColor1)) {
                         this.isUserHit = true;
                         return card;
                     }
@@ -251,21 +250,20 @@ public class Computer extends User {
                 this.isUserHit = true;
                 return res;
             }
-            if (mpRank.containsKey("WILD")){
-                for (Card card : cards) 
+            if (mpRank.containsKey("WILD")) {
+                for (Card card : cards)
                     if (card.getRank() == "WILD") {
                         this.isUserHit = true;
                         return card;
                     }
-            }
-            else if (mpRank.containsKey("DRAWFOUR")){
-                for (Card card : cards) 
+            } else if (mpRank.containsKey("DRAWFOUR")) {
+                for (Card card : cards)
                     if (card.getRank() == "DRAWFOUR") {
                         this.isUserHit = true;
                         return card;
                     }
             }
-            
+
         }
         for (Card card : cards) {
             if (this.checkValid(card) == true) {
@@ -275,6 +273,7 @@ public class Computer extends User {
         }
         return null;
     }
+
     // Computer play this card selected
     public void computerHitCard() {
         Card validCard = validCard(); // todo: function LogicComputerHit
@@ -292,11 +291,12 @@ public class Computer extends User {
             backCards.remove(index);
             cards.remove(index);
             // if (chosenCard.getColor() == null) {
-            //     Game.prevCard.setColor(cards.get(0).getColor());
-            //     Game.prevCard.setRank(chosenCard.getRank());
+            // Game.prevCard.setColor(cards.get(0).getColor());
+            // Game.prevCard.setRank(chosenCard.getRank());
             // }
         }
     }
+
     // Change color prevcard if computer play card is wild or drawfour
     // if dont have card then play this card when it can play
     public void computerTurn() {
