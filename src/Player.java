@@ -12,17 +12,17 @@ public class Player extends User {
             Game.addToMainPanel(card);
         }
     }
-    public void suggestedEffect()
-    {
+
+    public void suggestedEffect() {
         for (Card card : cards) {
-            if(this.checkValid(card) == true)
-            {
+            if (this.checkValid(card) == true) {
                 card.suggestedEffect();
-            }else{
+            } else {
                 card.removeEffect();
             }
         }
     }
+
     public void setCardsPosition() {
         setUserPosition();
 
@@ -41,14 +41,15 @@ public class Player extends User {
         }
 
         Card card = Game.deck.getOneCard();
-        // while(!card.getRank().equals("DRAWFOUR")||!card.getRank().equals("DRAWTWO") ||!card.getRank().equals("SKIP"))
+        // while(!card.getRank().equals("DRAWFOUR")||!card.getRank().equals("DRAWTWO")
+        // ||!card.getRank().equals("SKIP"))
         // {
-        //     card = Game.deck.getOneCard();
+        // card = Game.deck.getOneCard();
         // }
         card.setLocation(Deck.X, Deck.Y);
         card.addMouseListener(card); // only player not computer
         card.setUser(this);
-        
+
         Game.addToMainPanel(card);
 
         cards.add(card);
@@ -57,12 +58,13 @@ public class Player extends User {
         // this.sortCard();
         return card;
     }
+
     @Override
     public boolean isPlayer() {
-       return true;
+        return true;
     }
-    public void hitting()
-    {
+
+    public void hitting() {
 
     }
 }

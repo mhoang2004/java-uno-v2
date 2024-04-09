@@ -40,7 +40,7 @@ public class Computer extends User {
 
     public Card drawCard() {
         if (Game.deck.getDeck().size() == 0) {
-            System.out.println("Het bai roi cuu");
+            System.out.println("Out of deck");
         }
 
         Card card = Game.deck.getOneCard();
@@ -307,11 +307,7 @@ public class Computer extends User {
             }
         } else if (this.isUserHit == false) {
             this.drawCard();
-            // Lổi
-            // this.computerHitCard();
-            if ((this.isUserHit == true) && (checkChangeColor())) {
-                Game.prevCard.setColor(this.chooseColor());
-            }
+            Card.isDrawOneCard = true;
         }
     }
 

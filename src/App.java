@@ -6,7 +6,7 @@ public class App {
     public static void main(String[] args) throws Exception {
         frame = new MyFrame();
         Game game = new Game();
-        
+
         game.start();
         // game.addToMainPanel(new EndGame());
         SwingUtilities.invokeLater(new Runnable() {
@@ -20,7 +20,7 @@ public class App {
         });
 
         frame.add(Game.mainPanel);
-        
+
         // button uno
         frame.pack();
         frame.setVisible(true);

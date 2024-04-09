@@ -44,5 +44,4 @@ public class Menu extends JLabel {
         frame.add(new Menu());
         frame.setVisible(true);
     }
-
 }

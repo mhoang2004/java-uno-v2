@@ -11,6 +11,7 @@ import java.awt.Color;
 import java.awt.Cursor;
 
 public class Card extends JLabel implements MouseListener {
+    static boolean isDrawOneCard = false;
     static final int WIDTH = 80;
     static final int HEIGHT = 120;
 
@@ -52,15 +53,17 @@ public class Card extends JLabel implements MouseListener {
         this.setVerticalAlignment(JLabel.CENTER); // Center the image vertically
         this.setSize(Card.WIDTH, Card.HEIGHT);
     }
+
     public void suggestedEffect() {
         Border border = new LineBorder(Color.YELLOW, 5);
         setBorder(border);
-        
-        }
-    public void removeEffect()
-    {
+
+    }
+
+    public void removeEffect() {
         setBorder(new EmptyBorder(0, 0, 0, 0));
     }
+
     public void setUser(User user) {
         this.user = user;
     }
@@ -141,6 +144,25 @@ public class Card extends JLabel implements MouseListener {
                 } else {
                     // handle others things
                     user.setCardsPosition();
+
+                    if (isDrawOneCard && !user.isPlayer) {
+
+                        isDrawOneCard = false;
+                        Card card = user.getLastCard();
+                        System.out.println(card);
+
+                        if (user.checkValid(card)) {
+                            Computer computer = (Computer) user;
+                            computer.computerHitCard();
+
+                            // skip or draw cards
+
+                            if ((computer.isUserHit == true) && (computer.checkChangeColor())) {
+                                Game.prevCard.setColor(computer.chooseColor());
+                            }
+                        }
+                    }
+
                     ((Timer) e.getSource()).stop();
                 }
             }
@@ -157,7 +179,7 @@ public class Card extends JLabel implements MouseListener {
             // Starting point
             int x1 = tempCard.getX();
             int y1 = tempCard.getY();
-            
+
             // Ending point
             int x2 = Deck.X + 2 * Card.WIDTH;
             int y2 = Deck.Y;
@@ -186,7 +208,7 @@ public class Card extends JLabel implements MouseListener {
                     if ((tempCard.color == null) && (user.getIsPlayer())) {
                         // choose color
                         Game.addToMainPanel(new ChooseColor());
-                        
+
                     }
 
                     ((Timer) e.getSource()).stop();
@@ -198,23 +220,23 @@ public class Card extends JLabel implements MouseListener {
         });
 
         timer.start();
-        
+
     }
+
     @Override
     public void mouseClicked(MouseEvent e) {
         if (Game.check(this)) {
             Game.setButtonUno();
             this.removeEffect();
-            hitCard(); 
+            hitCard();
             System.out.println(user.sizeCards());
-            if (user.sizeCards() -1 == 0) {
-                    Game.addToMainPanel(new EndGame());
+            if (user.sizeCards() - 1 == 0) {
+                Game.addToMainPanel(new EndGame());
 
-            }else{
+            } else {
                 if (this.getColor() == null) {
-    
-                } else 
-                {                 
+
+                } else {
                     Game.player.hitCard(this, Game.check(this));
                     Game.prevCard.setColor(this.getColor());
                     Game.prevCard.setRank(this.getRank());
@@ -227,20 +249,19 @@ public class Card extends JLabel implements MouseListener {
                     }
                     Game.player.getNextUser().setTurn(true);
                     Game.player.setTurn(false);
-        
+
                     // SKIP
                     if ((Game.player.checkSkip()) && (Game.player.isUserHit != false)) {
                         Game.player.skip();
                         Game.delaySkip(3);
                     }
                     Game.delayReverse(3);
-                }  
-                for(Card card : user.cards)
-                {
+                }
+                for (Card card : user.cards) {
                     card.removeEffect();
                 }
             }
-        }    
+        }
     }
 
     void hitCard() {

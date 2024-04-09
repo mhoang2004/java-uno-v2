@@ -101,6 +101,11 @@ public abstract class User {
         return nextUser;
     }
 
+    public Card getLastCard() {
+        int index = cards.size() - 1;
+        return cards.get(index);
+    }
+
     // pass one user, ban that turn
     public void passTurn() {
         this.getNextUser().setTurn(false);

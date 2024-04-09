@@ -12,7 +12,7 @@ public class ButtonUno extends JLabel implements MouseListener {
     private boolean unoClicked;
 
     ButtonUno() {
-        super();  
+        super();
         this.unoClicked = false;
         // get button
         ImageIcon icon = new ImageIcon("../resources/images/button-uno.png");
@@ -42,8 +42,7 @@ public class ButtonUno extends JLabel implements MouseListener {
         if (Game.player.sizeCards() > 1) {
             System.out.println("Please no click button uno. You must draw card");
             Game.player.drawCard();
-        }
-        else if (Game.player.sizeCards() == 1){
+        } else if (Game.player.sizeCards() == 1) {
             System.out.println("Good job!");
         }
         this.setUnoClicked();
