@@ -72,25 +72,28 @@ public class Deck extends JLabel implements MouseListener {
         return deck.remove(0);
     }
 
-    @Override
     public void mouseClicked(MouseEvent e) {
-        if (Game.player.getTurn() == true && Game.player.checkCard() == false) {
+        if(Game.player.getTurn() == true && Game.player.checkCard() == false )
+        {      
+            // Game.mainPanel.remove(Game.vector);
+            // Game.mainPanel.remove(Game.vector);
+            // Game.mainPanel.repaint();
             this.setEnabled(false);
             Game.player.setTurn(false);
-            Card cardDrawn = Game.player.drawCard();
-
-            if (Game.player.checkValid(cardDrawn)) {
+            Card cardDrawn =  Game.player.drawCard();             
+            if(Game.player.checkValid(cardDrawn))
+            {
                 // Game.mainPanel.setEnabled(false);
-                Game.addToMainPanel(new DrawCard(cardDrawn));
-            } else {
+                Game.addToMainPanel(new DrawCard(cardDrawn));     
+            }else{
                 Game.deck.setEnabled(true);
                 Game.player.getNextUser().setTurn(true);
                 // Game.player.setTurn(false);
                 Game.delayReverse(3);
-            }
-
+            }         
+      
         }
-
+        
     }
 
     @Override

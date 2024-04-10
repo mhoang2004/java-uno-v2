@@ -250,4 +250,22 @@ public class Game {
         else if (computer.equals(com.get(2))) return 2;
         else return -1;
     }
+    // check the case is special
+    public static void checkTheCase()
+    {
+        
+        
+        // REVERSE
+        if ((Game.prevCard.getRank() == "REVERSE") && (Game.player.isUserHit != false)) {
+            Game.reverse();
+        }
+        Game.player.getNextUser().setTurn(true);
+        Game.player.setTurn(false);
+        // SKIP
+        if (((Game.player.checkSkip() )&& (Game.player.isUserHit != false)) ) {
+            Game.player.skip();
+            Game.delaySkip(3);
+        }       
+        Game.delayReverse(3);
+    }
 }

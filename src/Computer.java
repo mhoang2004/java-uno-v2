@@ -288,8 +288,13 @@ public class Computer extends User {
             Game.prevCard.setColor(validCard.getColor());
             Game.prevCard.setRank(validCard.getRank());
             chosenCard.hitCardAnimation();
+            if (this.endGame())
+            {
+                Game.addToMainPanel(new EndGame());
+            }
             backCards.remove(index);
             cards.remove(index);
+            
             // if (chosenCard.getColor() == null) {
             // Game.prevCard.setColor(cards.get(0).getColor());
             // Game.prevCard.setRank(chosenCard.getRank());

@@ -248,43 +248,37 @@ public class Card extends JLabel implements MouseListener {
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        if (Game.check(this)) {
+        if (Game.check(this)) 
+        {
+            Game.setButtonUno();
             this.removeEffect();
-            hitCard();
-            System.out.println(user.sizeCards());
-            if (user.sizeCards() - 1 == 0) {
+            hitCard(); 
+            if(user.endGame() == true){
+                new EndGame();
+            }
+            Game.player.isUserHit = true;   
+            if (user.endGame())
+            {
                 Game.addToMainPanel(new EndGame());
 
-            } else {
+            }else{
                 if (this.getColor() == null) {
 
-                } else {
+                } else 
+                {                 
                     Game.player.hitCard(this, Game.check(this));
                     Game.prevCard.setColor(this.getColor());
-                    Game.prevCard.setRank(this.getRank());
-                    Game.player.isUserHit = true;
-                    Game.displayButtonUno();
-                    Game.setButtonUno();
-                    Game.checkUno();
-                    // REVERSE
-                    if ((Game.prevCard.getRank() == "REVERSE") && (Game.player.isUserHit != false)) {
-                        Game.reverse();
-                    }
-                    Game.player.getNextUser().setTurn(true);
-                    Game.player.setTurn(false);
-
-                    // SKIP
-                    if ((Game.player.checkSkip()) && (Game.player.isUserHit != false)) {
-                        Game.player.skip();
-                        Game.delaySkip(3);
-                    }
-                    Game.delayReverse(3);
-                }
-                for (Card card : user.cards) {
+                    Game.prevCard.setRank(this.getRank());   
+                    Game.checkTheCase();
+                } 
+                Game.displayButtonUno();
+                Game.checkUno(); 
+                for(Card card : user.cards)
+                {
                     card.removeEffect();
                 }
             }
-        }
+        }    
     }
 
     void hitCard() {

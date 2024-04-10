@@ -41,11 +41,10 @@ public class Player extends User {
         }
 
         Card card = Game.deck.getOneCard();
-        // while(!card.getRank().equals("DRAWFOUR")||!card.getRank().equals("DRAWTWO")
-        // ||!card.getRank().equals("SKIP"))
-        // {
-        // card = Game.deck.getOneCard();
-        // }
+        while(!card.isSpecial())
+        {
+            card = Game.deck.getOneCard();
+        }
         card.setLocation(Deck.X, Deck.Y);
         card.addMouseListener(card); // only player not computer
         card.setUser(this);

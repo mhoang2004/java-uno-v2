@@ -267,7 +267,7 @@ public abstract class User {
     }
 
     public boolean endGame() {
-        return (sizeCards() == 0);
+        return (sizeCards()  == 0);
     }
 
     public void banAnimation() {
