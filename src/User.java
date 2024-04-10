@@ -1,6 +1,7 @@
 import java.util.ArrayList;
-
-import javax.script.ScriptContext;
+import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public abstract class User {
     static final int INIT_CARD = 7;
@@ -14,8 +15,8 @@ public abstract class User {
     protected boolean isUserHit; // did user hit a card?
     protected boolean isPlayer;
 
-    int xPos;
-    int yPos;
+    protected int xPos;
+    protected int yPos;
 
     User(Deck deck, String position) {
         this.position = position;
@@ -266,5 +267,35 @@ public abstract class User {
 
     public boolean endGame() {
         return (sizeCards() == 0);
+    }
+
+    public void banAnimation() {
+        final int BAN_WIDTH = 80;
+        JLabel banLabel = new JLabel();
+
+        ImageIcon icon = new ImageIcon("../resources/images/ban.png");
+        int x, y;
+
+        if (position.equals("SOUTH") || position.equals("NORTH")) {
+            x = (MyPanel.WIDTH - BAN_WIDTH) / 2;
+            y = yPos;
+        } else {
+            x = xPos;
+            y = (MyPanel.HEIGHT - BAN_WIDTH) / 2;
+        }
+        banLabel.setBounds(x, y, BAN_WIDTH, BAN_WIDTH);
+        banLabel.setIcon(icon);
+        Game.addToMainPanel(banLabel);
+
+        // clear ban after 1 second
+        Timer timer = new Timer(1000, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Game.mainPanel.remove(banLabel);
+                Game.mainPanel.repaint();
+            }
+        });
+
+        timer.start();
     }
 }

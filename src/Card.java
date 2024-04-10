@@ -226,6 +226,7 @@ public class Card extends JLabel implements MouseListener {
     @Override
     public void mouseClicked(MouseEvent e) {
         if (Game.check(this)) {
+
             Game.setButtonUno();
             this.removeEffect();
             hitCard();
