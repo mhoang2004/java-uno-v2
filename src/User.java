@@ -299,4 +299,8 @@ public abstract class User {
 
         timer.start();
     }
+    public ArrayList<Card> getCard()
+    {
+        return cards;
+    }
 }

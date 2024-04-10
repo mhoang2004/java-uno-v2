@@ -47,9 +47,12 @@ public class ChooseColor extends JLabel implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         // get the color
         String src = e.getActionCommand().charAt(0) + "";
-        Game.prevCard.setColor(src);
+        
+       
         Game.mainPanel.remove(this);
         Game.mainPanel.repaint();
-        Game.checkTheCase();     
+        Game.prevCard.setColor(src);
+        Game.checkTheCase();  
+        Game.updatePrevCard();   
     }
 }

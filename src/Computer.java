@@ -288,6 +288,7 @@ public class Computer extends User {
             Game.prevCard.setColor(validCard.getColor());
             Game.prevCard.setRank(validCard.getRank());
             chosenCard.hitCardAnimation();
+            
             if (this.endGame())
             {
                 Game.addToMainPanel(new EndGame());
@@ -300,12 +301,14 @@ public class Computer extends User {
             // Game.prevCard.setRank(chosenCard.getRank());
             // }
         }
+        
     }
 
     // Change color prevcard if computer play card is wild or drawfour
     // if dont have card then play this card when it can play
     public void computerTurn() {
         this.computerHitCard();
+        
         if (this.isUserHit == true) {
             if (checkChangeColor()) {
                 Game.prevCard.setColor(this.chooseColor());

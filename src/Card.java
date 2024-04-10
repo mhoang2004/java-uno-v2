@@ -230,7 +230,7 @@ public class Card extends JLabel implements MouseListener {
                     user.hitCard(tempCard, true);
                     if ((tempCard.color == null) && (user.getIsPlayer())) {
                         // choose color
-                        Game.addToMainPanel(new ChooseColor());
+                        
 
                     }
 
@@ -253,7 +253,8 @@ public class Card extends JLabel implements MouseListener {
             Game.setButtonUno();
             this.removeEffect();
             hitCard(); 
-            if(user.endGame() == true){
+            System.out.println(this.user.getCard().size());
+            if(this.user.getCard().size() - 1 == 0){
                 new EndGame();
             }
             Game.player.isUserHit = true;   
@@ -263,10 +264,11 @@ public class Card extends JLabel implements MouseListener {
 
             }else{
                 if (this.getColor() == null) {
-
+                    Game.addToMainPanel(new ChooseColor());
                 } else 
                 {                 
                     Game.player.hitCard(this, Game.check(this));
+                    
                     Game.prevCard.setColor(this.getColor());
                     Game.prevCard.setRank(this.getRank());   
                     Game.checkTheCase();
@@ -277,6 +279,7 @@ public class Card extends JLabel implements MouseListener {
                 {
                     card.removeEffect();
                 }
+                Game.updatePrevCard();
             }
         }    
     }
@@ -287,7 +290,7 @@ public class Card extends JLabel implements MouseListener {
 
         Game.prevCard.setColor(this.getColor());
         Game.prevCard.setRank(this.getRank());
-
+        
         this.hitCardAnimation();
     }
 

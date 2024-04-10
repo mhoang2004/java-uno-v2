@@ -14,6 +14,8 @@ public class Game {
     static boolean isEndGame;
     static ButtonUno buttonUno;
     static TextButtonUno textButtonUno;
+    static Reverse vectorLeft;
+    static Reverse vectorRight;
     // private boolean isTurnPlayer;
 
     Game() {
@@ -31,6 +33,11 @@ public class Game {
         while (player.checkValid(prevCard) == false) {
             prevCard = deck.getOneCard();
         }
+        isReverse = true;
+        vectorLeft = new Reverse("L");
+        vectorRight = new Reverse("R");
+        addToMainPanel(vectorLeft);
+        addToMainPanel(vectorRight);
         prevCard.setLocation(Deck.X + Card.WIDTH * 2, Deck.Y);
 
         buttonUno = new ButtonUno();
@@ -155,6 +162,7 @@ public class Game {
         if (com.get(index).getTurn() == false)
             return;
         com.get(index).computerTurn();
+        updatePrevCard();
         if (com.get(index).endGame()) {
             Game.addToMainPanel(new EndGame());
         } else {
@@ -162,6 +170,7 @@ public class Game {
             if ((Game.prevCard.getRank() == "REVERSE") && (com.get(index).isUserHit != false)) {
                 reverse();
             }
+            updatePrevCard();
             if (com.get(index).getNextUser().isPlayer() == true && !com.get(index).checkSkip()) {
                 player.suggestedEffect();
             }
@@ -179,19 +188,22 @@ public class Game {
             delayReverse(index);
         }
     }
-
+    
     // Turn`s computer 0
     public static void computer0Hit() {
+        // updatePrevCard();
         computerHit(0);
     }
 
     // Turn`s computer 1
     public static void computer1Hit() {
+        // updatePrevCard();
         computerHit(1);
     }
 
     // Turn`s computer 2
     public static void computer2Hit() {
+        // updatePrevCard();
         computerHit(2);
     }
 
@@ -203,7 +215,17 @@ public class Game {
         player.suggestedEffect();
         player.setTurn(true);
     }
-
+    //Update PrevCard
+    public static void updatePrevCard()
+    {
+        mainPanel.remove(vectorLeft);
+        mainPanel.remove(vectorRight);
+        mainPanel.repaint();
+        vectorLeft = new Reverse("R");
+        vectorRight = new Reverse("L");
+        Game.addToMainPanel(vectorLeft);
+        Game.addToMainPanel(vectorRight);
+    }
     public static boolean endGame() {
         return (player.sizeCards() == 0 || com.get(0).sizeCards() == 0 ||
                 com.get(1).sizeCards() == 0 || com.get(2).sizeCards() == 0);

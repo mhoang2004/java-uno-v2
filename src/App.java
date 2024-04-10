@@ -20,7 +20,7 @@ public class App {
         });
 
         frame.add(Game.mainPanel);
-
+        
         // button uno
         frame.pack();
         frame.setVisible(true);
