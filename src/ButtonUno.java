@@ -37,15 +37,17 @@ public class ButtonUno extends JLabel implements MouseListener {
     @Override
     public void mouseClicked(MouseEvent e) {
         // TODO Auto-generated method stub
-        System.out.println("button uno clicked");
+        System.out.println("Button uno clicked");
         unoClicked = true;
         if (Game.player.sizeCards() > 1) {
-            System.out.println("Please no click button uno. You must draw card");
-            Game.player.drawCard();
+            Game.displayText();
+            Game.textButtonUno.setText("Hit the UNO button BEFORE playing your second-to-last-card!");
+            Game.textButtonUno.removeText();
         } else if (Game.player.sizeCards() == 1) {
-            System.out.println("Good job!");
+            Game.displayText();
+            Game.textButtonUno.setText("Good job!");
+            Game.textButtonUno.removeText();
         }
-        this.setUnoClicked();
     }
 
     @Override
@@ -64,6 +66,8 @@ public class ButtonUno extends JLabel implements MouseListener {
     public void mouseEntered(MouseEvent e) {
         // TODO Auto-generated method stub
         this.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        this.setBackground(new Color(0, 0, 0, 150)); // Màu đen với độ trong suốt 150
+        this.setOpaque(false); // Đặt trong suốt
     }
 
     @Override

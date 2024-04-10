@@ -13,6 +13,7 @@ public class Game {
     static ArrayList<Computer> com;
     static boolean isEndGame;
     static ButtonUno buttonUno;
+    static TextButtonUno textButtonUno;
     // private boolean isTurnPlayer;
 
     Game() {
@@ -34,6 +35,7 @@ public class Game {
 
         buttonUno = new ButtonUno();
         buttonUno.addMouseListener(buttonUno);
+        textButtonUno = new TextButtonUno();
 
         addToMainPanel(deck);
         addToMainPanel(prevCard);
@@ -213,6 +215,10 @@ public class Game {
         }
     }
 
+    public static void displayText() {
+        addToMainPanel(textButtonUno);
+    }
+
     public static void setButtonUno() {
         buttonUno.setUnoClicked();
     }
@@ -220,17 +226,28 @@ public class Game {
     // check player click button uno
     public static void checkUno() {
         if (player.sizeCards() == 1) {
+            System.out.println(buttonUno.getUnoClicked());
             // wait player 3s to click button uno
             Timer timer = new Timer(3000, new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
                     if (buttonUno.getUnoClicked() == false) {
-                        System.out.println("Please click button uno. You must draw card");
+                        displayText();
+                        textButtonUno.setText("Successfully caught a missed UNO call. You needs to draw 2 cards.");
                         player.drawCard();
+                        player.drawCard();
+                        textButtonUno.removeText();
                     }
                     ((Timer) e.getSource()).stop();
                 }
             });
             timer.start();
         }
+    }
+    // What computer number
+    public static int computerNumber(Computer computer) {
+        if (computer.equals(com.get(0))) return 0;
+        else if (computer.equals(com.get(1))) return 1;
+        else if (computer.equals(com.get(2))) return 2;
+        else return -1;
     }
 }

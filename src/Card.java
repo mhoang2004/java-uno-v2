@@ -154,11 +154,34 @@ public class Card extends JLabel implements MouseListener {
                         if (user.checkValid(card)) {
                             Computer computer = (Computer) user;
                             computer.computerHitCard();
-
+                            int index = Game.computerNumber(computer);
                             // skip or draw cards
 
                             if ((computer.isUserHit == true) && (computer.checkChangeColor())) {
                                 Game.prevCard.setColor(computer.chooseColor());
+                            }
+                                if (computer.endGame()) {
+                                    Game.addToMainPanel(new EndGame());
+                                } else {
+                                // REVERSE
+                                if ((Game.prevCard.getRank() == "REVERSE") && (computer.isUserHit != false)) {
+                                    Game.reverse();
+                                }
+                                // if (computer.getNextUser().isPlayer() == true && !computer.checkSkip()) {
+                                //     player.suggestedEffect();
+                                // }
+                                computer.getNextUser().setTurn(true);
+                                computer.setTurn(false);
+                                // SKIP
+                                if ((computer.checkSkip()) && (computer.isUserHit != false)) {
+                                    computer.skip();
+                                    // if (index == 1) {
+                                    //     player.suggestedEffect();
+                                    // }
+                                    Game.delaySkip(index);
+                                    return;
+                                }
+                                Game.delayReverse(index);
                             }
                         }
                     }
@@ -226,8 +249,6 @@ public class Card extends JLabel implements MouseListener {
     @Override
     public void mouseClicked(MouseEvent e) {
         if (Game.check(this)) {
-
-            Game.setButtonUno();
             this.removeEffect();
             hitCard();
             System.out.println(user.sizeCards());
@@ -243,6 +264,7 @@ public class Card extends JLabel implements MouseListener {
                     Game.prevCard.setRank(this.getRank());
                     Game.player.isUserHit = true;
                     Game.displayButtonUno();
+                    Game.setButtonUno();
                     Game.checkUno();
                     // REVERSE
                     if ((Game.prevCard.getRank() == "REVERSE") && (Game.player.isUserHit != false)) {

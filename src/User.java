@@ -117,6 +117,7 @@ public abstract class User {
     // when user play skip, drawtwo, drawfour, draw and pass turn, not play
     public void skip() {
         if (Game.prevCard.getRank() == "SKIP") {
+            this.getNextUser().banAnimation();
             this.passTurn();
         } else if (Game.prevCard.getRank() == "DRAWTWO") {
             this.getNextUser().drawCard();
@@ -273,7 +274,7 @@ public abstract class User {
         final int BAN_WIDTH = 80;
         JLabel banLabel = new JLabel();
 
-        ImageIcon icon = new ImageIcon("../resources/images/ban.png");
+        ImageIcon icon = new ImageIcon("../resources/images/ban1.png");
         int x, y;
 
         if (position.equals("SOUTH") || position.equals("NORTH")) {
