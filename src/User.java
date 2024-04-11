@@ -52,6 +52,18 @@ public abstract class User {
             yPos = (MyPanel.HEIGHT - (Card.HEIGHT + (sizeCards() - 1) * GAP_CARD_VERTICAL)) / 2;
         }
     }
+    public int getPos()
+    {
+        if (position == "NORTH") 
+        {
+            return 1;
+        } else if (position == "WEST") 
+        {
+           return 0;
+            
+        }
+         return 2;
+    }
 
     public abstract void setCardsPosition();
 

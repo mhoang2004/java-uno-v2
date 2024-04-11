@@ -14,7 +14,7 @@ public class Card extends JLabel implements MouseListener {
     static boolean isDrawOneCard = false;
     static final int WIDTH = 80;
     static final int HEIGHT = 120;
-
+    private boolean isClicked = false;
     private String color;
     private String rank;
     private User user;
@@ -57,7 +57,8 @@ public class Card extends JLabel implements MouseListener {
     public void suggestedEffect() {
         Border border = new LineBorder(Color.YELLOW, 5);
         setBorder(border);
-
+        this.setLocation(this.getX(), MyPanel.HEIGHT - 120);
+        this.setCursor(new Cursor(Cursor.HAND_CURSOR));
     }
 
     public void removeEffect() {
@@ -98,6 +99,22 @@ public class Card extends JLabel implements MouseListener {
 
     public void setRank(String rank) {
         this.rank = rank;
+    }
+    public boolean isSkip()
+    {
+        if(this.getRank() == "SKIP")
+        {
+            return true;
+        }
+        if(this.getRank() == "DRAWTWO")
+        {
+            return true;
+        }
+        if(this.getRank() == "DRAWFOUR")
+        {
+            return true;
+        }
+        return false;
     }
 
     public void drawCardAnimation() {
@@ -153,7 +170,8 @@ public class Card extends JLabel implements MouseListener {
 
                         if (user.checkValid(card)) {
                             Computer computer = (Computer) user;
-                            computer.computerHitCard();
+                            Game.hisComputerHit.put(computer.getPos(),computer.computerHitCard());
+                            Game.updatePrevCard();
                             int index = Game.computerNumber(computer);
                             // skip or draw cards
 
@@ -195,6 +213,7 @@ public class Card extends JLabel implements MouseListener {
     }
 
     public void hitCardAnimation() {
+        
         Game.mainPanel.setLayer(this, MyPanel.LAYER++);
 
         Card tempCard = this;
@@ -248,6 +267,31 @@ public class Card extends JLabel implements MouseListener {
 
     @Override
     public void mouseClicked(MouseEvent e) {
+        if(e.getClickCount() == 1 && Game.check(this))
+        {
+            process();
+        }
+        if(e.getClickCount() == 2)
+        {
+            process();
+        }
+        if(e.getClickCount() ==1)
+        {
+            if(this.isClicked == false)
+            {
+                isClicked = true;
+                this.setLocation(this.getX(), MyPanel.HEIGHT - 120);
+                this.setCursor(new Cursor(Cursor.HAND_CURSOR));
+            }else{
+                isClicked = false;
+                this.setLocation(this.getX(), MyPanel.HEIGHT - 100);
+                this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+            }
+        }
+        
+    }
+    void process()
+    {
         if (Game.check(this)) 
         {
             Game.setButtonUno();
@@ -265,6 +309,7 @@ public class Card extends JLabel implements MouseListener {
             }else{
                 if (this.getColor() == null) {
                     Game.addToMainPanel(new ChooseColor());
+                    // Game.updatePrevCard();   
                 } else 
                 {                 
                     Game.player.hitCard(this, Game.check(this));
@@ -275,15 +320,15 @@ public class Card extends JLabel implements MouseListener {
                 } 
                 Game.displayButtonUno();
                 Game.checkUno(); 
-                for(Card card : user.cards)
+                
+                
+            }
+            for(Card card : user.cards)
                 {
                     card.removeEffect();
                 }
-                Game.updatePrevCard();
-            }
-        }    
+        }   
     }
-
     void hitCard() {
         this.removeMouseListener(this);
         this.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
@@ -304,14 +349,12 @@ public class Card extends JLabel implements MouseListener {
 
     @Override
     public void mouseEntered(MouseEvent e) {
-        this.setLocation(this.getX(), MyPanel.HEIGHT - 120);
-        this.setCursor(new Cursor(Cursor.HAND_CURSOR));
+
     }
 
     @Override
     public void mouseExited(MouseEvent e) {
-        this.setLocation(this.getX(), MyPanel.HEIGHT - 100);
-        this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+        
     }
 
 }

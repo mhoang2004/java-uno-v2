@@ -53,12 +53,13 @@ public class DrawCard extends JLabel implements ActionListener{
         {
                 Game.player.setTurn(true);
                 cardDrawn.hitCard();
+                Game.updatePrevCard();
                 if(cardDrawn.getColor() == null)
                 {
                     ChooseColor chooseColor = new ChooseColor();
                     Game.addToMainPanel(chooseColor);
                 }else{
-                    Game.updatePrevCard();
+                    
                     Game.checkTheCase();
                 }
         }

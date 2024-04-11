@@ -275,7 +275,7 @@ public class Computer extends User {
     }
 
     // Computer play this card selected
-    public void computerHitCard() {
+    public Card computerHitCard() {
         Card validCard = validCard(); // todo: function LogicComputerHit
         Card chosenCard = null;
 
@@ -289,25 +289,25 @@ public class Computer extends User {
             Game.prevCard.setRank(validCard.getRank());
             chosenCard.hitCardAnimation();
             
-            if (this.endGame())
+            if (this.getCards().size() -1 == 0)
             {
                 Game.addToMainPanel(new EndGame());
             }
             backCards.remove(index);
             cards.remove(index);
-            
+            Game.updatePrevCard();
             // if (chosenCard.getColor() == null) {
             // Game.prevCard.setColor(cards.get(0).getColor());
             // Game.prevCard.setRank(chosenCard.getRank());
             // }
         }
-        
+        return validCard;
     }
 
     // Change color prevcard if computer play card is wild or drawfour
     // if dont have card then play this card when it can play
-    public void computerTurn() {
-        this.computerHitCard();
+    public Card computerTurn() {
+        Card cardHit = this.computerHitCard();
         
         if (this.isUserHit == true) {
             if (checkChangeColor()) {
@@ -317,6 +317,7 @@ public class Computer extends User {
             this.drawCard();
             Card.isDrawOneCard = true;
         }
+        return cardHit;
     }
 
     @Override

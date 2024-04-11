@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.swing.*;
 import java.awt.event.*;
@@ -16,16 +17,18 @@ public class Game {
     static TextButtonUno textButtonUno;
     static Reverse vectorLeft;
     static Reverse vectorRight;
+    static HashMap<Integer, Card> hisComputerHit;
     // private boolean isTurnPlayer;
+     static Arrow vector;
 
     Game() {
 
         mainPanel = new MyPanel();
 
         deck = new Deck();
+        hisComputerHit = new HashMap<Integer, Card>();
 
         player = new Player(deck, "SOUTH");
-
         prevCard = deck.getOneCard();
         while (prevCard.isSpecial()) {
             prevCard = deck.getOneCard();
@@ -137,8 +140,14 @@ public class Game {
 
     // Set computer`s time, delay 2s
     public static void delayReverse(int index) {
+        updatePrevCard();
         Timer timer = new Timer(2000, new ActionListener() {
+           
             public void actionPerformed(ActionEvent e) {
+                
+                if(Game.mainPanel.isAncestorOf(vector)){
+                    mainPanel.remove(vector);
+                }
                 nextUser(index);
                 ((Timer) e.getSource()).stop();
             }
@@ -148,20 +157,74 @@ public class Game {
 
     // Set computer`s time, delay 2s, this case pass a user when use skip card
     public static void delaySkip(int index) {
+        updatePrevCard();
         Timer timer = new Timer(2000, new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+               
+                if(Game.mainPanel.isAncestorOf(vector)){
+                    mainPanel.remove(vector);
+                }
                 oppositeUser(index);
                 ((Timer) e.getSource()).stop();
             }
         });
         timer.start();
     }
-
+// check user is player or computer
+public static boolean nextIsPlayer(int index)
+{
+    if(index == 1)
+    {
+        if(prevCard.isSkip() == true)
+        {
+            return true;
+        }
+    }
+    if(Game.isReverse == true)
+    {
+        if(index == 2)
+        {
+            if(hisComputerHit.get(index) == null)
+            {
+                return true;
+            }
+            if(hisComputerHit.get(index).isSkip() == false)
+            {
+                return true;
+            }
+        }
+        
+    }else{
+        if(index ==0)
+        {
+            if(hisComputerHit.get(index) == null)
+            {
+                return true;
+            }
+            if(hisComputerHit.get(index).isSkip()== false)
+            {
+                return true;
+            }
+        }
+    }
+    return false;
+}
     // Computer play card, pass next user, check reverse, skip this here
     public static void computerHit(int index) {
+       
         if (com.get(index).getTurn() == false)
             return;
-        com.get(index).computerTurn();
+        hisComputerHit.put(index, com.get(index).computerTurn());
+        if(nextIsPlayer(index) == true)
+        {
+            player.suggestedEffect();
+            if(player.checkCard() == false)
+            {
+                vector = new Arrow();
+                Game.addToMainPanel(vector);
+            }
+        }  
+        
         updatePrevCard();
         if (com.get(index).endGame()) {
             Game.addToMainPanel(new EndGame());
@@ -179,9 +242,6 @@ public class Game {
             // SKIP
             if ((com.get(index).checkSkip()) && (com.get(index).isUserHit != false)) {
                 com.get(index).skip();
-                if (index == 1) {
-                    player.suggestedEffect();
-                }
                 delaySkip(index);
                 return;
             }

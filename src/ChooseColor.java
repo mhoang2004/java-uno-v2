@@ -53,6 +53,6 @@ public class ChooseColor extends JLabel implements ActionListener {
         Game.mainPanel.repaint();
         Game.prevCard.setColor(src);
         Game.checkTheCase();  
-        Game.updatePrevCard();   
+        
     }
 }
