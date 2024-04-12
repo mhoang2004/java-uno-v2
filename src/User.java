@@ -1,5 +1,7 @@
 import java.util.ArrayList;
 import javax.swing.*;
+
+import java.awt.Cursor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -31,12 +33,19 @@ public abstract class User {
             // }
             card.setUser(this);
             cards.add(card);
+            card.setAddress(i);
         }
         isTurn = false;
         isUserHit = false;
         sortCard();
     }
-
+    void offFocus()
+    {
+        for(int i=0; i< cards.size(); i++)
+        {          
+            cards.get(i).backDefaultCard();    
+        }
+    }
     public void setUserPosition() {
         if (position == "SOUTH") {
             xPos = (MyPanel.WIDTH - (Card.WIDTH + (sizeCards() - 1) * GAP_CARD_HORIZONTAL)) / 2;
@@ -314,5 +323,26 @@ public abstract class User {
     public ArrayList<Card> getCard()
     {
         return cards;
+    }
+    public void effectArroundClickCard()
+    {
+        for (int i=0; i< cards.size(); i++) {
+            if(i==0 || i == cards.size()-1)
+            {
+                if(cards.get(i).isClicked)
+                {
+                    cards.get(i+1).effectArround();
+                    return;
+                }
+            }else{
+                if(cards.get(i).isClicked)
+                {
+                    cards.get(i+1).effectArround();
+                    cards.get(i-1).effectArround();
+                    return;
+                }
+            }
+            
+        }
     }
 }

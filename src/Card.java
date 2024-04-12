@@ -14,11 +14,12 @@ public class Card extends JLabel implements MouseListener {
     static boolean isDrawOneCard = false;
     static final int WIDTH = 80;
     static final int HEIGHT = 120;
-    private boolean isClicked = false;
+    public boolean isClicked = false;
     private String color;
     private String rank;
     private User user;
-
+    private int address;
+    public boolean isSuggest = false;
     // BACK CARD
 
     Card() {
@@ -41,7 +42,11 @@ public class Card extends JLabel implements MouseListener {
         this.rank = rank;
         setCard();
     }
-
+    public void setAddress(int address)
+    {
+        this.address = address;
+        
+    }
     public void setCard() {
         String path = "../resources/cards/";
         if (color != null) {
@@ -55,6 +60,7 @@ public class Card extends JLabel implements MouseListener {
     }
 
     public void suggestedEffect() {
+        isSuggest = true;
         Border border = new LineBorder(Color.YELLOW, 5);
         setBorder(border);
         this.setLocation(this.getX(), MyPanel.HEIGHT - 120);
@@ -62,6 +68,7 @@ public class Card extends JLabel implements MouseListener {
     }
 
     public void removeEffect() {
+        isSuggest = false;
         setBorder(new EmptyBorder(0, 0, 0, 0));
     }
 
@@ -267,11 +274,7 @@ public class Card extends JLabel implements MouseListener {
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        if(e.getClickCount() == 1 && Game.check(this))
-        {
-            process();
-        }
-        if(e.getClickCount() == 2)
+        if(e.getClickCount() == 2 ||(e.getClickCount() ==1 && isClicked&& user.checkValid(this)))
         {
             process();
         }
@@ -279,16 +282,27 @@ public class Card extends JLabel implements MouseListener {
         {
             if(this.isClicked == false)
             {
+                user.offFocus();
                 isClicked = true;
-                this.setLocation(this.getX(), MyPanel.HEIGHT - 120);
+                user.effectArroundClickCard();
+                
+                this.setLocation(this.getX(), MyPanel.HEIGHT - 140);
                 this.setCursor(new Cursor(Cursor.HAND_CURSOR));
-            }else{
-                isClicked = false;
-                this.setLocation(this.getX(), MyPanel.HEIGHT - 100);
-                this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+                
             }
         }
         
+    }
+    public void backDefaultCard()
+    {
+        this.isClicked = false;
+        this.setLocation(this.getX(), MyPanel.HEIGHT - 100);
+        this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+    }
+    public void effectArround()
+    {
+        this.setLocation(this.getX(), MyPanel.HEIGHT - 120);
+        this.setCursor(new Cursor(Cursor.HAND_CURSOR));
     }
     void process()
     {
