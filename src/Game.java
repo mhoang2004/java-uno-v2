@@ -14,7 +14,7 @@ public class Game {
     static ArrayList<Computer> com;
     static boolean isEndGame;
     static ButtonUno buttonUno;
-    static TextButtonUno textButtonUno;
+    static Notification notiToUser;
     static Reverse vectorLeft;
     static Reverse vectorRight;
     static HashMap<Integer, Card> hisComputerHit;
@@ -45,7 +45,7 @@ public class Game {
 
         buttonUno = new ButtonUno();
         buttonUno.addMouseListener(buttonUno);
-        textButtonUno = new TextButtonUno();
+        notiToUser = new Notification();
 
         addToMainPanel(deck);
         addToMainPanel(prevCard);
@@ -217,9 +217,12 @@ public static boolean nextIsPlayer(int index)
         hisComputerHit.put(index, com.get(index).computerTurn());
         if(nextIsPlayer(index) == true)
         {
+            player.offFocus();
             player.suggestedEffect();
             if(player.checkCard() == false)
             {
+                displayNotification();
+                notiToUser.setText("Dram card to continue game !!!");
                 vector = new Arrow();
                 Game.addToMainPanel(vector);
             }
@@ -274,6 +277,11 @@ public static boolean nextIsPlayer(int index)
     public void start() {
         player.suggestedEffect();
         player.setTurn(true);
+        if(player.checkCard() == false)
+            {
+                vector = new Arrow();
+                Game.addToMainPanel(vector);
+            }
     }
     //Update PrevCard
     public static void updatePrevCard()
@@ -291,14 +299,14 @@ public static boolean nextIsPlayer(int index)
                 com.get(1).sizeCards() == 0 || com.get(2).sizeCards() == 0);
     }
 
-    public static void displayButtonUno() {
+    public static void displayNotification() {
         if (player.sizeCards() <= 2) {
             addToMainPanel(buttonUno);
         }
     }
 
     public static void displayText() {
-        addToMainPanel(textButtonUno);
+        addToMainPanel(notiToUser);
     }
 
     public static void setButtonUno() {
@@ -314,10 +322,10 @@ public static boolean nextIsPlayer(int index)
                 public void actionPerformed(ActionEvent e) {
                     if (buttonUno.getUnoClicked() == false) {
                         displayText();
-                        textButtonUno.setText("Successfully caught a missed UNO call. You needs to draw 2 cards.");
+                        notiToUser.setText("Successfully caught a missed UNO call. You needs to draw 2 cards.");
                         player.drawCard();
                         player.drawCard();
-                        textButtonUno.removeText();
+                        notiToUser.removeText();
                     }
                     ((Timer) e.getSource()).stop();
                 }

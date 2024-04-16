@@ -284,11 +284,9 @@ public class Card extends JLabel implements MouseListener {
             {
                 user.offFocus();
                 isClicked = true;
-                user.effectArroundClickCard();
-                
-                this.setLocation(this.getX(), MyPanel.HEIGHT - 140);
-                this.setCursor(new Cursor(Cursor.HAND_CURSOR));
-                
+                user.effectArroundClickCard();               
+                this.setLocation(this.getX(), MyPanel.HEIGHT - 150);
+                this.setCursor(new Cursor(Cursor.HAND_CURSOR));               
             }
         }
         
@@ -296,12 +294,12 @@ public class Card extends JLabel implements MouseListener {
     public void backDefaultCard()
     {
         this.isClicked = false;
-        this.setLocation(this.getX(), MyPanel.HEIGHT - 100);
+        this.setLocation(this.getX(), MyPanel.HEIGHT - 110);
         this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
     }
     public void effectArround()
     {
-        this.setLocation(this.getX(), MyPanel.HEIGHT - 120);
+        this.setLocation(this.getX(), MyPanel.HEIGHT - 130);
         this.setCursor(new Cursor(Cursor.HAND_CURSOR));
     }
     void process()
@@ -322,6 +320,9 @@ public class Card extends JLabel implements MouseListener {
 
             }else{
                 if (this.getColor() == null) {
+                    Game.player.setTurn(false);
+                    Game.displayNotification();
+                    Game.notiToUser.setText("Change the current color to play more game");
                     Game.addToMainPanel(new ChooseColor());
                     // Game.updatePrevCard();   
                 } else 
@@ -332,7 +333,7 @@ public class Card extends JLabel implements MouseListener {
                     Game.prevCard.setRank(this.getRank());   
                     Game.checkTheCase();
                 } 
-                Game.displayButtonUno();
+                Game.displayNotification();
                 Game.checkUno(); 
                 
                 

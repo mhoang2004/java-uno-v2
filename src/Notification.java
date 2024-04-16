@@ -7,10 +7,10 @@ import java.awt.*;
 import javax.swing.*;
 import java.awt.event.*;
 
-public class TextButtonUno extends JLabel {
+public class Notification extends JLabel {
     static final int WIDTH = 1000; 
     static final int HEIGHT = 50; 
-    TextButtonUno() {
+    Notification() {
         super();
         // this.setText("Hi everyone");
         this.setBounds((MyPanel.WIDTH - WIDTH) / 2, (MyPanel.HEIGHT - HEIGHT) / 2 - 180, WIDTH, HEIGHT);

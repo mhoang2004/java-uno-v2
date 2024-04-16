@@ -41,12 +41,12 @@ public class ButtonUno extends JLabel implements MouseListener {
         unoClicked = true;
         if (Game.player.sizeCards() > 1) {
             Game.displayText();
-            Game.textButtonUno.setText("Hit the UNO button BEFORE playing your second-to-last-card!");
-            Game.textButtonUno.removeText();
+            Game.notiToUser.setText("Hit the UNO button BEFORE playing your second-to-last-card!");
+            Game.notiToUser.removeText();
         } else if (Game.player.sizeCards() == 1) {
             Game.displayText();
-            Game.textButtonUno.setText("Good job!");
-            Game.textButtonUno.removeText();
+            Game.notiToUser.setText("Good job!");
+            Game.notiToUser.removeText();
         }
     }
 

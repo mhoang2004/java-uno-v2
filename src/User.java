@@ -27,17 +27,23 @@ public abstract class User {
 
         for (int i = 0; i < INIT_CARD; i++) {
             Card card = deck.getOneCard();
-            // while(i==0 && card.getColor() != null)
-            // {
-            // card = deck.getOneCard();
-            // }
             card.setUser(this);
-            cards.add(card);
+            if(this.isPlayer())
+            {
+                cards.add(sortCard(card), card);
+                System.out.println("Buoc " + i);
+                for (Card card2 : cards) {
+                    System.out.println(card2);
+                }
+            }else{
+                cards.add(card);
+            }
+           
             card.setAddress(i);
         }
         isTurn = false;
         isUserHit = false;
-        sortCard();
+        
     }
     void offFocus()
     {
@@ -154,39 +160,126 @@ public abstract class User {
     }
 
     // Sort Card
-    public void sortCard() {
-        // Comparator cp = Comparator.comparing(Card::getRank);
-        // cards.sort(cp);
-        Card firstCard = new Card(cards.get(0));
-        for (int i = 1; i < cards.size(); i++) {
-            if (firstCard.getColor() != cards.get(i).getColor()) {
-                for (int j = i + 1; j < cards.size(); j++) {
-                    if (firstCard.getColor() == cards.get(j).getColor()) {
-                        Card cardTMP = cards.get(i);
-                        cards.set(i, cards.get(j));
-                        cards.set(j, cardTMP);
-                        break;
-                    }
-                }
+    public int sortCard(Card newCard) 
+    {
+        int index =0;
+       System.out.println("THIS CARD IS " + newCard+"/////"+isNewColor(newCard));
+        if(newCard.getColor() == null)
+        {
+            for(int j=0; j<countCard(newCard.getColor()); j++)
+            {
+                if(cards.get(j).getRank().equals(newCard.getRank()))
+                    return j+1;   
             }
-            firstCard = cards.get(i);
+                return 0;
         }
-        for (int i = 0; i < cards.size() - 1; i++) {
-            for (int j = i + 1; j < cards.size(); j++) {
-                if (cards.get(i).getColor() == null || cards.get(j).getColor() == null) {
+        if(isNewColor(newCard) == -1)
+            return sizeCards();
+        index = isNewColor(newCard);
+        // new card is special      
+        if(newCard.isSpecial())
+        {
+            for(int j=index; j<countCard(cards.get(index).getColor())+index-1; j++)
+                    {
+                         if(cards.get(j).getRank().equals(newCard.getRank()))
+                            return j+1;   
+                    }
+                    return index;
+        }
+        // new card is nomal card
+        for(int j=index; j<countCard(cards.get(index).getColor())+index; j++)
+        {
+            // cadrs[j] is special
+            if(cards.get(j).isSpecial())
+            {
+                if(j == countCard(cards.get(index).getColor())+index -1 )
+                {
+                    return j+1;
+                }else{
                     continue;
                 }
-                if (cards.get(i).getRank().compareTo(cards.get(j).getRank()) >= 0
-                        && cards.get(i).getColor().equals(cards.get(j).getColor())) {
-                    Card cardTMP = cards.get(i);
-                    cards.set(i, cards.get(j));
-                    cards.set(j, cardTMP);
-                    break;
+            }
+            
+            // cards[j] >= cards[index]
+                if(cards.get(j).getRank().compareTo(newCard.getRank()) >= 0)
+                {
+                    if(j == countCard(cards.get(index).getColor())+index -1 )
+                    {
+                        return j+1;
+                    }else{
+                        continue;
+                    }
                 }
+                // cards[j]< cards[index]
+                if(cards.get(j).getRank().compareTo(newCard.getRank()) < 0 )
+                {
+                    if(j >= index )
+                    {
+                        return j+1;
+                    }else{
+                        if(cards.get(j+1).getRank().compareTo(newCard.getRank()) < 0)
+                        {
+                            continue;
+                        }else{
+                            return j+1;
+                        }
+                    }
+                 }
+                       
+        }
+                
+         return index;
+    }
+        
+       
+
+    // count card in cards to color
+    public int countCard(String color)
+    {
+        int count =0;
+        if(color == null)
+        {
+            for (Card card : cards) {
+                if(card.getColor()== null)
+                    count ++;
+            }
+        }else{
+            for (Card card : cards) {
+                if(card.getColor() == null)
+                {
+                    continue;
+                }
+                if(card.getColor().equals(color))
+                    count ++;
             }
         }
+        
+        return count;
     }
 
+    // is new color card 
+    public int  isNewColor(Card newCard)
+    {
+        if(newCard.getColor() ==null)
+        {
+            for (int i=0; i< sizeCards(); i++) {
+                if(cards.get(i).getColor() == null)
+                    return i;
+            }
+            return 0;
+        }
+        for (int i=0; i< sizeCards(); i++) 
+        {
+            if(cards.get(i).getColor() == null)
+            {
+                continue;
+            }
+            if(cards.get(i).getColor().charAt(0)== newCard.getColor().charAt(0))
+                return i;
+        }
+            
+        return -1;
+    }
     // Check Valid Card
     public boolean checkValid(Card card) {
         Card prevCard = Game.prevCard;
@@ -219,14 +312,6 @@ public abstract class User {
 
     // Check card
     public boolean checkCard() {
-        // sortCard();
-        // for (Card card : cards) {
-        // if (checkValid(card)) {
-        // // card.suggestedEffect();
-        // } else {
-        // card.setCard();
-        // }
-        // }
         for (Card card : cards) {
             if (checkValid(card) == true) {
 
@@ -326,23 +411,33 @@ public abstract class User {
     }
     public void effectArroundClickCard()
     {
-        for (int i=0; i< cards.size(); i++) {
-            if(i==0 || i == cards.size()-1)
-            {
-                if(cards.get(i).isClicked)
+        if(cards.size() > 1)
+        {
+            for (int i=0; i< cards.size(); i++) {
+                if(i==0 )
                 {
-                    cards.get(i+1).effectArround();
-                    return;
+                    if(cards.get(i).isClicked)
+                    {
+                        cards.get(i+1).effectArround();
+                        return;
+                    }
+                }else if(i == cards.size()-1){
+                    if(cards.get(i).isClicked)
+                    {
+                        cards.get(i-1).effectArround();
+                        return;
+                    }
+                }else{
+                    if(cards.get(i).isClicked)
+                    {
+                        cards.get(i+1).effectArround();
+                        cards.get(i-1).effectArround();
+                        return;
+                    }
                 }
-            }else{
-                if(cards.get(i).isClicked)
-                {
-                    cards.get(i+1).effectArround();
-                    cards.get(i-1).effectArround();
-                    return;
-                }
+                
             }
-            
         }
+       
     }
 }

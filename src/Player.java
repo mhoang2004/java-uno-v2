@@ -1,4 +1,5 @@
 import java.awt.Cursor;
+import java.util.ArrayList;
 
 public class Player extends User {
     Player(Deck deck, String position) {
@@ -14,6 +15,9 @@ public class Player extends User {
     }
 
     public void suggestedEffect() {
+        for (Card card : cards) {
+            card.backDefaultCard();
+        }
         for (Card card : cards) {
             if (this.checkValid(card) == true) {
                 card.suggestedEffect();
@@ -45,14 +49,14 @@ public class Player extends User {
         {
             card = Game.deck.getOneCard();
         }
-        card.setLocation(Deck.X, Deck.Y);
+         card.setLocation(Deck.X, Deck.Y);   
         card.addMouseListener(card); // only player not computer
         card.setUser(this);
 
         Game.addToMainPanel(card);
 
         cards.add(card);
-
+        Game.mainPanel.repaint();
         card.drawCardAnimation();
         // this.sortCard();
         return card;
