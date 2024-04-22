@@ -15,7 +15,7 @@ public class ChooseColor extends JLabel implements ActionListener {
         this.setBounds((MyPanel.WIDTH - WIDTH) / 2, (MyPanel.HEIGHT - HEIGHT) / 2, WIDTH, HEIGHT);
         this.setLayout(new GridLayout());
         this.setCursor(new Cursor(Cursor.HAND_CURSOR));
-
+        
         createButton("BLUE");
         createButton("YELLOW");
         createButton("GREEN");
@@ -47,12 +47,12 @@ public class ChooseColor extends JLabel implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         // get the color
         String src = e.getActionCommand().charAt(0) + "";
-        
-        Game.notiToUser.removeText();
+        Game.prevCard.setColor(src);
+
+        // remove this
         Game.mainPanel.remove(this);
         Game.mainPanel.repaint();
-        Game.prevCard.setColor(src);
-        Game.checkTheCase();  
-        
+        Game.delayReverse(3);
+        Game.checkTheCase();
     }
 }

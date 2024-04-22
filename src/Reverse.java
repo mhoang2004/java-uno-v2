@@ -1,8 +1,10 @@
 
 import java.awt.Cursor;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JLabel;
-
+import javax.swing.Timer;
 import javax.swing.ImageIcon;
 
 
@@ -11,6 +13,9 @@ public class Reverse extends JLabel {
     static final int HEIGHT = 160;
     String path; 
     ImageIcon icon;
+    Reverse img = this;
+    int x=0;
+    int y=0;
     Reverse(String pos)
     {
         if(Game.isReverse == true)
@@ -44,8 +49,14 @@ public class Reverse extends JLabel {
         this.setHorizontalAlignment(JLabel.CENTER); // Center the image horizontally
         this.setVerticalAlignment(JLabel.CENTER); // Center the image vertically
         this.setOpaque(false);
-        this.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        // this.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         this.setLayout(null);
         setVisible(true);  
+    }
+    public void updateReverse(String pos)
+    {
+        path = "../resources/images/"+pos+"-" + Game.prevCard.getColor()+"-"+ Game.isReverse +".png";
+        ImageIcon icon  = new ImageIcon(path);
+        this.setIcon(icon); 
     }
 }

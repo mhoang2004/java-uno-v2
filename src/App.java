@@ -25,4 +25,8 @@ public class App {
         frame.pack();
         frame.setVisible(true);
     }
+    void equal(Object o)
+    {
+        
+    }
 }

@@ -10,7 +10,7 @@ import java.awt.event.ActionListener;
 import java.awt.Color;
 import java.awt.Cursor;
 
-public class Card extends JLabel implements MouseListener {
+public class Card extends JLabel implements MouseListener, Comparable {
     static boolean isDrawOneCard = false;
     static final int WIDTH = 80;
     static final int HEIGHT = 120;
@@ -18,7 +18,6 @@ public class Card extends JLabel implements MouseListener {
     private String color;
     private String rank;
     private User user;
-    private int address;
     public boolean isSuggest = false;
     // BACK CARD
 
@@ -41,11 +40,6 @@ public class Card extends JLabel implements MouseListener {
         this.color = color;
         this.rank = rank;
         setCard();
-    }
-    public void setAddress(int address)
-    {
-        this.address = address;
-        
     }
     public void setCard() {
         String path = "../resources/cards/";
@@ -133,10 +127,15 @@ public class Card extends JLabel implements MouseListener {
         String position = user.getPosition();
 
         if (position.equals("SOUTH") || position.equals("NORTH")) {
-            x2 = user.getXPos() + (user.sizeCards() * User.GAP_CARD_HORIZONTAL);
+            if(position.equals("SOUTH") )
+            {
+                x2 = user.getXPos() + ((user.sortCard(this)) * User.GAP_CARD_HORIZONTAL);
+            }else{
+                x2 = user.getXPos() + (user.sizeCards() * User.GAP_CARD_HORIZONTAL);
+            }
             y2 = user.getYPos();
         } else {
-            x2 = user.getXPos();
+            x2 = user.getXPos() ;
             y2 = user.getYPos() + (user.sizeCards() * User.GAP_CARD_VERTICAL);
         }
 
@@ -179,9 +178,23 @@ public class Card extends JLabel implements MouseListener {
                             Computer computer = (Computer) user;
                             Game.hisComputerHit.put(computer.getPos(),computer.computerHitCard());
                             Game.updatePrevCard();
+                            
                             int index = Game.computerNumber(computer);
                             // skip or draw cards
-
+                            if(Game.nextIsPlayer(index))
+                            {
+                                for(int i=0; i< Game.player.sizeCards(); i++)
+                                {
+                                    Game.player.cards.get(i).backDefaultCard();;
+                                }
+                                if(Game.player.checkCard())
+                                {
+                                    Game.player.suggestedEffect();
+                                }else{
+                                    Game.addToMainPanel(Game.vector);
+                                }
+                                
+                            }
                             if ((computer.isUserHit == true) && (computer.checkChangeColor())) {
                                 Game.prevCard.setColor(computer.chooseColor());
                             }
@@ -276,7 +289,7 @@ public class Card extends JLabel implements MouseListener {
     public void mouseClicked(MouseEvent e) {
         if(e.getClickCount() == 2 ||(e.getClickCount() ==1 && isClicked&& user.checkValid(this)))
         {
-            process();
+            processing ();
         }
         if(e.getClickCount() ==1)
         {
@@ -302,7 +315,7 @@ public class Card extends JLabel implements MouseListener {
         this.setLocation(this.getX(), MyPanel.HEIGHT - 130);
         this.setCursor(new Cursor(Cursor.HAND_CURSOR));
     }
-    void process()
+    void processing()
     {
         if (Game.check(this)) 
         {
@@ -372,4 +385,14 @@ public class Card extends JLabel implements MouseListener {
         
     }
 
+    @Override
+    public int compareTo(Object o) {
+        Card card2 = (Card) o;
+        return this.rank.compareTo(card2.rank);
+    }
+    boolean equal(Object o)
+    {
+        Card card2 = (Card) o;
+        return this.rank.equals(card2.rank);
+    }
 }

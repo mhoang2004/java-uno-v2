@@ -127,6 +127,7 @@ public class Game {
     // Pass turn opposite user, this case pass a user when use skip card
 
     public static void oppositeUser(int index) {
+        Game.notiToUser.removeText();
         if (index == 0) {
             computer2Hit();
         } else if (index == 1) {
@@ -141,6 +142,7 @@ public class Game {
     // Set computer`s time, delay 2s
     public static void delayReverse(int index) {
         updatePrevCard();
+        Game.notiToUser.removeText();
         Timer timer = new Timer(2000, new ActionListener() {
            
             public void actionPerformed(ActionEvent e) {
@@ -158,6 +160,16 @@ public class Game {
     // Set computer`s time, delay 2s, this case pass a user when use skip card
     public static void delaySkip(int index) {
         updatePrevCard();
+        if(Game.notiToUser != null)
+        {
+            Game.notiToUser.removeText();
+        }
+        if(Game.vector != null )
+        {
+            Game.mainPanel.remove(vector);;
+
+        }
+        
         Timer timer = new Timer(2000, new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                
@@ -184,6 +196,7 @@ public static boolean nextIsPlayer(int index)
     {
         if(index == 2)
         {
+            
             if(hisComputerHit.get(index) == null)
             {
                 return true;
@@ -192,11 +205,16 @@ public static boolean nextIsPlayer(int index)
             {
                 return true;
             }
+            if(hisComputerHit.get(index).getRank() == "Reverse")
+            {
+                return false;
+            }
         }
         
     }else{
         if(index ==0)
         {
+            
             if(hisComputerHit.get(index) == null)
             {
                 return true;
@@ -205,6 +223,10 @@ public static boolean nextIsPlayer(int index)
             {
                 return true;
             }
+            if(hisComputerHit.get(index).getRank() == "Reverse")
+            {
+                return false;
+            } 
         }
     }
     return false;
@@ -221,7 +243,7 @@ public static boolean nextIsPlayer(int index)
             player.suggestedEffect();
             if(player.checkCard() == false)
             {
-                displayNotification();
+                displayText();
                 notiToUser.setText("Dram card to continue game !!!");
                 vector = new Arrow();
                 Game.addToMainPanel(vector);
@@ -286,13 +308,8 @@ public static boolean nextIsPlayer(int index)
     //Update PrevCard
     public static void updatePrevCard()
     {
-        mainPanel.remove(vectorLeft);
-        mainPanel.remove(vectorRight);
-        mainPanel.repaint();
-        vectorLeft = new Reverse("R");
-        vectorRight = new Reverse("L");
-        Game.addToMainPanel(vectorLeft);
-        Game.addToMainPanel(vectorRight);
+        vectorLeft.updateReverse("L");
+        vectorRight.updateReverse("R");
     }
     public static boolean endGame() {
         return (player.sizeCards() == 0 || com.get(0).sizeCards() == 0 ||
@@ -343,14 +360,15 @@ public static boolean nextIsPlayer(int index)
     // check the case is special
     public static void checkTheCase()
     {
-        
-        
         // REVERSE
         if ((Game.prevCard.getRank() == "REVERSE") && (Game.player.isUserHit != false)) {
             Game.reverse();
         }
         Game.player.getNextUser().setTurn(true);
         Game.player.setTurn(false);
+        for (Card card : player.getCard()) {
+            card.backDefaultCard();
+        }
         // SKIP
         if (((Game.player.checkSkip() )&& (Game.player.isUserHit != false)) ) {
             Game.player.skip();

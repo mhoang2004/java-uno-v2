@@ -325,4 +325,16 @@ public class Computer extends User {
         return false;
     }
 
+    @Override
+    protected void offFocus() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'offFocus'");
+    }
+
+    @Override
+    protected void effectArroundClickCard() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'effectArroundClickCard'");
+    }
+
 }

@@ -38,20 +38,12 @@ public abstract class User {
             }else{
                 cards.add(card);
             }
-           
-            card.setAddress(i);
         }
         isTurn = false;
         isUserHit = false;
         
     }
-    void offFocus()
-    {
-        for(int i=0; i< cards.size(); i++)
-        {          
-            cards.get(i).backDefaultCard();    
-        }
-    }
+    
     public void setUserPosition() {
         if (position == "SOUTH") {
             xPos = (MyPanel.WIDTH - (Card.WIDTH + (sizeCards() - 1) * GAP_CARD_HORIZONTAL)) / 2;
@@ -150,6 +142,11 @@ public abstract class User {
             this.getNextUser().drawCard();
             this.getNextUser().drawCard();
             this.passTurn();
+    
+            
+           
+            
+
         } else if (Game.prevCard.getRank() == "DRAWFOUR") {
             this.getNextUser().drawCard();
             this.getNextUser().drawCard();
@@ -162,124 +159,66 @@ public abstract class User {
     // Sort Card
     public int sortCard(Card newCard) 
     {
-        int index =0;
-       System.out.println("THIS CARD IS " + newCard+"/////"+isNewColor(newCard));
+        int index = LogicGame.isNewColor(newCard, this);
+      
+        // new card is null color
         if(newCard.getColor() == null)
         {
-            for(int j=0; j<countCard(newCard.getColor()); j++)
-            {
-                if(cards.get(j).getRank().equals(newCard.getRank()))
+            for(int j=0; j<LogicGame.countCard(newCard.getColor(), this); j++)
+                if(cards.get(j).equals(newCard))
                     return j+1;   
-            }
-                return 0;
+            return 0;
         }
-        if(isNewColor(newCard) == -1)
+        // new card is new card
+        if(index == -1)
             return sizeCards();
-        index = isNewColor(newCard);
+        int sizeCard = LogicGame.countCard(cards.get(index).getColor(), this) + index ;
+        System.out.println("THIS CARD IS " + newCard+"-- index insert :"+LogicGame.isNewColor(newCard, this) +"-- index last color: "+sizeCard);
         // new card is special      
         if(newCard.isSpecial())
         {
-            for(int j=index; j<countCard(cards.get(index).getColor())+index-1; j++)
-                    {
-                         if(cards.get(j).getRank().equals(newCard.getRank()))
-                            return j+1;   
-                    }
-                    return index;
+            for(int j=index; j<sizeCard; j++)
+                if(cards.get(j).equals(newCard))
+                    return j+1;   
+            return index;
         }
         // new card is nomal card
-        for(int j=index; j<countCard(cards.get(index).getColor())+index; j++)
+        int i = index ;
+        while (i< sizeCard)
         {
             // cadrs[j] is special
-            if(cards.get(j).isSpecial())
+            if(cards.get(i).isSpecial())
+                // visited to end cards
+                if(i+1 == sizeCard) 
+                    return i+1;
+                else
+                    i ++;
+            // cards[j] >= new card
+            if(cards.get(i).compareTo(newCard) > 0)
             {
-                if(j == countCard(cards.get(index).getColor())+index -1 )
-                {
-                    return j+1;
-                }else{
-                    continue;
-                }
-            }
-            
-            // cards[j] >= cards[index]
-                if(cards.get(j).getRank().compareTo(newCard.getRank()) >= 0)
-                {
-                    if(j == countCard(cards.get(index).getColor())+index -1 )
-                    {
-                        return j+1;
-                    }else{
-                        continue;
-                    }
-                }
-                // cards[j]< cards[index]
-                if(cards.get(j).getRank().compareTo(newCard.getRank()) < 0 )
-                {
-                    if(j >= index )
-                    {
-                        return j+1;
-                    }else{
-                        if(cards.get(j+1).getRank().compareTo(newCard.getRank()) < 0)
-                        {
-                            continue;
-                        }else{
-                            return j+1;
-                        }
-                    }
-                 }
-                       
-        }
-                
-         return index;
-    }
-        
-       
-
-    // count card in cards to color
-    public int countCard(String color)
-    {
-        int count =0;
-        if(color == null)
-        {
-            for (Card card : cards) {
-                if(card.getColor()== null)
-                    count ++;
-            }
-        }else{
-            for (Card card : cards) {
-                if(card.getColor() == null)
-                {
-                    continue;
-                }
-                if(card.getColor().equals(color))
-                    count ++;
-            }
-        }
-        
-        return count;
-    }
-
-    // is new color card 
-    public int  isNewColor(Card newCard)
-    {
-        if(newCard.getColor() ==null)
-        {
-            for (int i=0; i< sizeCards(); i++) {
-                if(cards.get(i).getColor() == null)
+                System.out.println("(cards[j] > new card)I is " + i);
                     return i;
-            }
-            return 0;
-        }
-        for (int i=0; i< sizeCards(); i++) 
-        {
-            if(cards.get(i).getColor() == null)
+            }else
             {
-                continue;
-            }
-            if(cards.get(i).getColor().charAt(0)== newCard.getColor().charAt(0))
-                return i;
-        }
-            
-        return -1;
+                System.out.println("(cards[j]< new card)I is " + i);
+                if(i+1 == sizeCard)
+                {
+                    return i+1;
+                }else{
+                    // next card visited < new card
+                    if(cards.get(i+1).compareTo(newCard) < 0)
+                        i++;
+                    else
+                    // next card visited >= new card
+                        return i+1;
+                }
+       
+             }
     }
+    return index;
+}
+    
+
     // Check Valid Card
     public boolean checkValid(Card card) {
         Card prevCard = Game.prevCard;
@@ -409,35 +348,9 @@ public abstract class User {
     {
         return cards;
     }
-    public void effectArroundClickCard()
-    {
-        if(cards.size() > 1)
-        {
-            for (int i=0; i< cards.size(); i++) {
-                if(i==0 )
-                {
-                    if(cards.get(i).isClicked)
-                    {
-                        cards.get(i+1).effectArround();
-                        return;
-                    }
-                }else if(i == cards.size()-1){
-                    if(cards.get(i).isClicked)
-                    {
-                        cards.get(i-1).effectArround();
-                        return;
-                    }
-                }else{
-                    if(cards.get(i).isClicked)
-                    {
-                        cards.get(i+1).effectArround();
-                        cards.get(i-1).effectArround();
-                        return;
-                    }
-                }
-                
-            }
-        }
-       
-    }
+    
+
+    protected abstract void offFocus();
+
+    protected abstract void effectArroundClickCard();
 }
