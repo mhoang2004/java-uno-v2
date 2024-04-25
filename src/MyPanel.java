@@ -1,6 +1,5 @@
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+
 
 import javax.swing.*;
 
@@ -10,13 +9,7 @@ public class MyPanel extends JLayeredPane {
     static final int HEIGHT = 720;
     static int LAYER = 0;
     private Image backgroundImage;
-    private Image nextImg;
     MyPanel myPanel = this;
-
-    int x = 0;
-    int y=0;
-    int deltaX =1;
-    int deltaY = 1;
     MyPanel() {
         backgroundImage = new ImageIcon("../resources/images/backgroundmain.jpg").getImage();
         this.setLayout(null);
