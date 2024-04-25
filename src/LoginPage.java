@@ -1,6 +1,11 @@
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
@@ -13,6 +18,7 @@ public class LoginPage extends JPanel{
     JPanel logoGame ;
     LoginPage x = this;
     JPanel locginGame;
+    AccountManager admin;
     // compunent input mail
     JPanel inputMail; // parent
     JLabel messageMail;
@@ -27,18 +33,28 @@ public class LoginPage extends JPanel{
     LoginPage()
     {
         this.setLayout(new FlowLayout());
+        admin = new AccountManager();
         createLogoGame();
         createLoginGame();
         this.setBackground(Color.WHITE);
         this.setPreferredSize(new Dimension(WIDTH, HEIGHT));
         this.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent e) {
-                scanMail.backDefault();
-                scanPass.backDefault();
+                
+                if(LoginPage.scanMail.getText().length() == 0)
+                {
+                    scanMail.backDefault();
+                }
+                if(LoginPage.scanPass.getText().length() == 0)
+                {
+                    scanPass.backDefault();
+                }
+               
             }
         });
         
     }
+
     // page login 
     void createLoginGame()
     {
@@ -47,7 +63,7 @@ public class LoginPage extends JPanel{
         locginGame.setLayout(new BorderLayout());
         locginGame.setBackground(Color.WHITE);
         JPanel mainLogin = new JPanel();
-        mainLogin.setLayout(new GridLayout(2, 1, 20, 20));
+        mainLogin.setLayout(new GridLayout(3, 1, 20, 20));
         mainLogin.setSize(WIDTH/2 , HEIGHT -200);
         mainLogin.setBackground(Color.WHITE);
         locginGame.setSize(new Dimension(WIDTH/2, HEIGHT));
@@ -79,20 +95,46 @@ public class LoginPage extends JPanel{
         myButton.setBounds(1000, 300, 40, 40);
         myButton.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent e) {
-                App.frame.remove(x);
-                Game game = new Game();
-                App.frame.add(Game.mainPanel);
-                game.start();
-                // game.addToMainPanel(new EndGame());
-                SwingUtilities.invokeLater(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (Game.isEndGame == true) {
-                            Game game = new Game();
-                            game.start();
+                if(admin.getListAccount().get(scanPass.scanText.getText()) == null)
+                {
+                    JFrame alert = new JFrame();
+                    alert.setLayout(new FlowLayout());
+                    JLabel failSignIn = new JLabel("          Wrong password!!!! Try again or click Forgot password to reset it.");
+                    failSignIn.setFont(new Font(null, Font.ITALIC, 12));
+                    failSignIn.setForeground(Color.RED);
+                    alert.add(failSignIn);
+                    JButton ok = new JButton("OK");
+                    ok.setPreferredSize(new Dimension(100, 40));
+                    alert.add(ok);
+                    ok.addActionListener(new ActionListener() {
+
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            alert.setVisible(false);
                         }
-                    }
-                });
+                        
+                    });
+                    alert.setSize(480, 150);
+                    alert.setLocationRelativeTo(null);
+                    alert.setResizable(false);
+                    alert.setVisible(true);
+                }else{
+                    App.frame.remove(x);
+                    Game game = new Game();
+                    App.frame.add(Game.mainPanel);
+                    game.start();
+                    // game.addToMainPanel(new EndGame());
+                    SwingUtilities.invokeLater(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (Game.isEndGame == true) {
+                                Game game = new Game();
+                                game.start();
+                            }
+                        }
+                    });
+                }
+                
             }
         });
         JPanel buttonLogin = new JPanel();

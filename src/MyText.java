@@ -9,12 +9,9 @@ public abstract class MyText extends JPanel {
     protected JTextField scanText ;
     private JLabel labelText;
     // properti for mytext;
-    boolean isClick ;
-    boolean isKeyed = false;
     MyText()
     {
         super(); 
-        
         this.setBackground(Color.WHITE);
         this.setPreferredSize(new Dimension(1080/2, 60));
         this.setLayout(new FlowLayout());
@@ -27,12 +24,5 @@ public abstract class MyText extends JPanel {
     {
         scanText.setText(text) ;
     }
-    int  sizeText()
-    {
-        if(!isKeyed)
-        {
-            return 0;
-        }
-        return getText().length();
-    }
+    abstract int  sizeText();
 }

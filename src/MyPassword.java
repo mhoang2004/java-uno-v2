@@ -2,6 +2,8 @@
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -26,11 +28,32 @@ public class MyPassword extends MyText {
             {
                 Border myBorder= BorderFactory.createMatteBorder(0, 0,  2, 0, Color.BLUE);
                 scanText.setBorder(myBorder);
-                LoginPage.scanMail.backDefault();     
-                if(sizeText() == 0)
-                    scanText.setText(""); 
+                
+                if(LoginPage.scanMail.sizeText() == 0)
+                {
+                    LoginPage.scanMail.backDefault();     
+                }
+                if(!isClick())  
+                    LoginPage.scanPass.setText("");
+
                 ((JPasswordField) scanText).setEchoChar('*');     
             }
+        });
+        scanText.addKeyListener(new KeyListener() {
+
+            @Override
+            public void keyTyped(KeyEvent e) {
+                }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+                }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+               
+            }
+            
         });
         this.add(scanText);
     }
@@ -40,9 +63,21 @@ public class MyPassword extends MyText {
     }   
     @Override
     void backDefault() {
-    scanText.setText("Password");
-    Border myBorder= BorderFactory.createMatteBorder(0, 0, 2, 0, Color.BLACK);
-    scanText.setBorder(myBorder);
-    ((JPasswordField) scanText).setEchoChar((char) 0);
+        scanText.setText("Password");
+        Border myBorder= BorderFactory.createMatteBorder(0, 0, 2, 0, Color.BLACK);
+        scanText.setBorder(myBorder);
+        ((JPasswordField) scanText).setEchoChar((char) 0);
+    }
+    int  sizeText()
+    {
+        if(!isClick())
+        {
+            return 0;
+        }
+        return getText().length();      
+    }
+    boolean isClick()
+    {
+        return LoginPage.scanPass.getText().equals("Password") ? false:true;
     }
 }

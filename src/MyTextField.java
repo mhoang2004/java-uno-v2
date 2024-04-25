@@ -2,8 +2,12 @@
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.regex.Pattern;
 
 import javax.swing.BorderFactory;
 import javax.swing.JTextField;
@@ -22,14 +26,42 @@ public class MyTextField extends MyText{
             @Override
             public void mouseClicked(MouseEvent e) 
             {
-                Border myBorder= BorderFactory.createMatteBorder(0, 0,  2, 0, Color.BLUE);
-                scanText.setBorder(myBorder);
-                    LoginPage.scanPass.backDefault();     
-                if(sizeText() == 0)
-                scanText.setText("");      
+
+                  
+                if(LoginPage.scanPass.sizeText() == 0)
+                    LoginPage.scanPass.backDefault(); 
+                if(!isClick())  
+                {
+                    LoginPage.scanMail.setText("");
+                    Border myBorder= BorderFactory.createMatteBorder(0, 0,  2, 0, Color.BLUE);
+                    scanText.setBorder(myBorder);   
+                }else{
+                    effectValidBorder();
+                }
+                   
+                              
             }
         });
+        scanText.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(KeyEvent e) {
+                effectValidBorder();
+            }
+        }
+        
+        );
         this.add(scanText);
+    }
+    void effectValidBorder()
+    {
+        if(!MyTextField.validateEmailStrict())
+        {
+            Border myBorder= BorderFactory.createMatteBorder(0, 0,  2, 0, Color.RED);
+            scanText.setBorder(myBorder);
+        }else{
+            Border myBorder= BorderFactory.createMatteBorder(0, 0,  2, 0, Color.GREEN);
+            scanText.setBorder(myBorder);
+        }
     }
     @Override
     boolean isPassword() {
@@ -40,5 +72,21 @@ public class MyTextField extends MyText{
         scanText.setText("Email");
         Border myBorder= BorderFactory.createMatteBorder(0, 0,  2, 0, Color.BLACK);
         scanText.setBorder(myBorder);
-    }   
+    }  
+    public static boolean validateEmailStrict() {
+        String regexPattern ="^(.+)@(\\S+)$";
+        return Pattern.compile(regexPattern).matcher(LoginPage.scanMail.getText()).matches();
+    } 
+    int  sizeText()
+    {
+        if(!isClick())
+        {
+            return 0;
+        }
+        return LoginPage.scanMail.getText().length();      
+    }
+    boolean isClick()
+    {
+        return LoginPage.scanMail.getText().equals("Email") ? false:true;
+    }
 }
