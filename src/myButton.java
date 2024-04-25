@@ -15,6 +15,7 @@ public class myButton extends JLabel implements MouseListener{
        
         setOpaque(true);
         this.text = text;
+        
         this.setSize(20, 60);
         this.setText(text);
         this.setHorizontalAlignment(JLabel.CENTER);

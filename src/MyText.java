@@ -1,67 +1,38 @@
-import java.awt.BorderLayout;
+
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-
+import java.awt.FlowLayout;
 
 import javax.swing.*;
-import javax.swing.border.LineBorder;
-
-
-public class MyText extends JPanel {
-    public JTextField input ;
-    String type;
+public abstract class MyText extends JPanel {
+    // compunent of this
+    protected JTextField scanText ;
+    private JLabel labelText;
+    // properti for mytext;
     boolean isClick ;
-    boolean isPassword = false;
-    MyText(String type)
+    boolean isKeyed = false;
+    MyText()
     {
         super(); 
-        this.type = type;
-        if(type.trim().length() > 5)
-        {
-            isPassword = true;
-        }
+        
+        this.setBackground(Color.WHITE);
         this.setPreferredSize(new Dimension(1080/2, 60));
-        this.setLayout(new BorderLayout());
-        // setting text
-        input = new JTextField();
-        input.setPreferredSize(new Dimension(1080/2, 60));
-        this.backDefault();
-        input.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) 
-            {
-                input.setBorder(new LineBorder(LoginPage.MAINCOLOR, 3));
-                if(isPassword)
-                {
-                    if(LoginPage.scanMail.getText().trim().length() < 1)
-                        LoginPage.scanMail.backDefault();
-                }  
-                else
-                {
-                    if(LoginPage.scanPass.getText().trim().length()  < 1)
-                        LoginPage.scanPass.backDefault();     
-                }
-                 input.setText("");
-                
-            }
-        });
-        this.add(input, BorderLayout.CENTER);
+        this.setLayout(new FlowLayout());
+    }
+    abstract boolean isPassword();
+    abstract void backDefault();
+    String  getText() { return scanText.getText();}
 
-    }
-    void backDefault()
-    {
-        input.setText(type);
-        input.setBorder(new LineBorder(Color.black, 1));
-    }
-    String  getText()
-    {
-        return input.getText();
-    }
     void setText(String text)
     {
-        type = text;
-        input.setText(type);;
+        scanText.setText(text) ;
+    }
+    int  sizeText()
+    {
+        if(!isKeyed)
+        {
+            return 0;
+        }
+        return getText().length();
     }
 }

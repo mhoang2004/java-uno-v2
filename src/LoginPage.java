@@ -29,6 +29,7 @@ public class LoginPage extends JPanel{
         this.setLayout(new FlowLayout());
         createLogoGame();
         createLoginGame();
+        this.setBackground(Color.WHITE);
         this.setPreferredSize(new Dimension(WIDTH, HEIGHT));
         this.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent e) {
@@ -44,28 +45,30 @@ public class LoginPage extends JPanel{
         // setting page 
         locginGame = new JPanel();
         locginGame.setLayout(new BorderLayout());
-        
+        locginGame.setBackground(Color.WHITE);
         JPanel mainLogin = new JPanel();
         mainLogin.setLayout(new GridLayout(2, 1, 20, 20));
         mainLogin.setSize(WIDTH/2 , HEIGHT -200);
-        
+        mainLogin.setBackground(Color.WHITE);
         locginGame.setSize(new Dimension(WIDTH/2, HEIGHT));
         // new input mail
         inputMail = new JPanel();
+        inputMail.setBackground(Color.WHITE);
         // inputMail.setPreferredSize(new Dimension(WIDTH/2,100));
         // inputMail.setLayout(new GridLayout(2, 1) );
         // new massage mail
         JPanel nullPanel = new JPanel();
         nullPanel.setSize(new Dimension(1080/2, HEIGHT/4));
         nullPanel.setPreferredSize(new Dimension(1080/2, HEIGHT/4));
-        scanMail = new MyText("   Email");    
+        scanMail = new MyTextField();    
         scanMail.setLocation(0, 30); 
         inputMail.add(scanMail);
         // new input password
         inputPassword = new JPanel();
+        inputPassword.setBackground(Color.WHITE);
         inputPassword.setSize(new Dimension(WIDTH/2, 100));
         // new massage password
-        scanPass  =new MyText("   Password"); 
+        scanPass  =new MyPassword(); 
         inputPassword.add(scanPass);
         //add compunent
         mainLogin.add(inputMail);
@@ -110,7 +113,7 @@ public class LoginPage extends JPanel{
         });
         buttonLogin.add(forgotAccount);
         buttonLogin.add(new JLabel());
-        
+        buttonLogin.setBackground(Color.WHITE);
         buttonLogin.add(myButton);
         locginGame.add(buttonLogin, BorderLayout.SOUTH);
         this.add(locginGame);    
@@ -119,6 +122,7 @@ public class LoginPage extends JPanel{
     void createLogoGame()
     {
         logoGame = new JPanel();
+        logoGame.setBackground(Color.WHITE);
         logoGame.setLayout(new GridLayout());
         logoGame.setPreferredSize(new Dimension(WIDTH/2, HEIGHT));
         // Maggese
