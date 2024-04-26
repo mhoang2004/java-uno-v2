@@ -41,7 +41,7 @@ public class Game {
         vectorRight = new Reverse("R");
         addToMainPanel(vectorLeft);
         addToMainPanel(vectorRight);
-        prevCard.setLocation(Deck.X + Card.WIDTH * 2, Deck.Y);
+        prevCard.setLocation((MyPanel.WIDTH - Card.WIDTH) / 2, (MyPanel.HEIGHT - Card.HEIGHT) / 2);
 
         buttonUno = new ButtonUno();
         buttonUno.addMouseListener(buttonUno);

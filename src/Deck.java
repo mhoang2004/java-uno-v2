@@ -6,9 +6,8 @@ import java.awt.*;
 public class Deck extends JLabel implements MouseListener {
     static final String[] ranks = { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "DRAWTWO", "REVERSE", "SKIP" };
     static final String[] colors = { "B", "G", "Y", "R" };
-    static final int X = ((MyPanel.WIDTH - Card.WIDTH) / 2) - Card.WIDTH;
-    static final int Y = (MyPanel.HEIGHT - Card.HEIGHT) / 2;
-
+    static final int X = ((MyPanel.WIDTH - Card.WIDTH) / 2) - 250;
+    static final int Y = (MyPanel.HEIGHT - Card.HEIGHT) / 2 + 100;
     private ArrayList<Card> deck;
 
     Deck() {

@@ -243,8 +243,8 @@ public class Card extends JLabel implements MouseListener, Comparable {
             int y1 = tempCard.getY();
 
             // Ending point
-            int x2 = Deck.X + 2 * Card.WIDTH;
-            int y2 = Deck.Y;
+            int x2 = (MyPanel.WIDTH - Card.WIDTH) / 2;
+            int y2 = (MyPanel.HEIGHT - Card.HEIGHT) / 2;
 
             int dx = x2 - x1;
             int dy = y2 - y1;
