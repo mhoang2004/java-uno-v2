@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Random;
 
 import javax.swing.*;
 import java.awt.event.*;
@@ -23,7 +24,7 @@ public class Game {
 
     Game() {
 
-        mainPanel = new MyPanel();
+        mainPanel = new MyPanel(customBackround());
 
         deck = new Deck();
         hisComputerHit = new HashMap<Integer, Card>();
@@ -68,7 +69,16 @@ public class Game {
     public static void addToMainPanel(JLabel card) {
         mainPanel.add(card, Integer.valueOf(MyPanel.LAYER++));
     }
-
+    // CUSTOOM BACKROUND
+    String customBackround()
+    {
+        String nameBackRound = new String("backgroundmain");
+        String path = new String("../resources/images/" );
+        Random numbeRandom = new Random();
+        int numberRan = numbeRandom.nextInt(3);
+        nameBackRound = nameBackRound +"-"+numberRan+".jpg";
+        return path + nameBackRound;
+    }
     public static boolean getIsReverse() {
         return isReverse;
     }

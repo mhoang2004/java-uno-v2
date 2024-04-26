@@ -3,13 +3,12 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.WindowEvent;
-
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 
-public class EndGame extends JLabel implements ActionListener {
+public class EndGame extends JLabel {
     static int WIDTH = 400;
     static int HEIGHT = 100;
     JButton buttonOK;
@@ -20,7 +19,19 @@ public class EndGame extends JLabel implements ActionListener {
         buttonOK = new JButton("OK");
         buttonOK.setFont(new Font("Arial", Font.BOLD, 30));
         buttonOK.setBackground(new Color(30, 194, 235));
-        buttonOK.addActionListener(this);
+        buttonOK.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                App.isFirtGame = false;
+                if(Game.mainPanel.isAncestorOf(Game.buttonUno)){
+                    Game.mainPanel.remove(Game.buttonUno);
+                }
+                App.frame.remove(Game.mainPanel);
+                App.newGame();
+            }
+            
+        });
+            
         labelEndGame = new JLabel("END GAME", SwingConstants.CENTER);
 
         labelEndGame.setFont(new Font("Arial", Font.BOLD, 50));
@@ -32,12 +43,5 @@ public class EndGame extends JLabel implements ActionListener {
         this.add(buttonOK);
     }
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        System.out.println("CLICKINGGGGGGGGGG");
-        App.frame.dispatchEvent(new WindowEvent(App.frame, WindowEvent.WINDOW_CLOSING));
-
-        App.frame.setVisible(false);
-    }
 
 }
