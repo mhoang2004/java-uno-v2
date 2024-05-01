@@ -1,7 +1,8 @@
-import java.util.ArrayList;
 import javax.swing.*;
+import java.io.*;
+import java.util.*;
+import javax.swing.Timer;
 
-import java.awt.Cursor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -9,6 +10,7 @@ public abstract class User {
     static final int INIT_CARD = 7;
     static final int GAP_CARD_HORIZONTAL = 50;
     static final int GAP_CARD_VERTICAL = 20;
+    static final String PATH_TO_DB = "../resources/csv/data.csv";
 
     protected ArrayList<Card> cards;
     protected String position;
@@ -28,22 +30,20 @@ public abstract class User {
         for (int i = 0; i < INIT_CARD; i++) {
             Card card = deck.getOneCard();
             card.setUser(this);
-            if(this.isPlayer())
-            {
+            if (this.isPlayer()) {
                 cards.add(sortCard(card), card);
                 System.out.println("Buoc " + i);
                 for (Card card2 : cards) {
                     System.out.println(card2);
                 }
-            }else{
+            } else {
                 cards.add(card);
             }
         }
         isTurn = false;
         isUserHit = false;
-        
     }
-    
+
     public void setUserPosition() {
         if (position == "SOUTH") {
             xPos = (MyPanel.WIDTH - (Card.WIDTH + (sizeCards() - 1) * GAP_CARD_HORIZONTAL)) / 2;
@@ -59,17 +59,15 @@ public abstract class User {
             yPos = (MyPanel.HEIGHT - (Card.HEIGHT + (sizeCards() - 1) * GAP_CARD_VERTICAL)) / 2;
         }
     }
-    public int getPos()
-    {
-        if (position == "NORTH") 
-        {
+
+    public int getPos() {
+        if (position == "NORTH") {
             return 1;
-        } else if (position == "WEST") 
-        {
-           return 0;
-            
+        } else if (position == "WEST") {
+            return 0;
+
         }
-         return 2;
+        return 2;
     }
 
     public abstract void setCardsPosition();
@@ -142,10 +140,6 @@ public abstract class User {
             this.getNextUser().drawCard();
             this.getNextUser().drawCard();
             this.passTurn();
-    
-            
-           
-            
 
         } else if (Game.prevCard.getRank() == "DRAWFOUR") {
             this.getNextUser().drawCard();
@@ -157,67 +151,60 @@ public abstract class User {
     }
 
     // Sort Card
-    public int sortCard(Card newCard) 
-    {
+    public int sortCard(Card newCard) {
         int index = LogicGame.isNewColor(newCard, this);
-      
+
         // new card is null color
-        if(newCard.getColor() == null)
-        {
-            for(int j=0; j<LogicGame.countCard(newCard.getColor(), this); j++)
-                if(cards.get(j).equals(newCard))
-                    return j+1;   
+        if (newCard.getColor() == null) {
+            for (int j = 0; j < LogicGame.countCard(newCard.getColor(), this); j++)
+                if (cards.get(j).equals(newCard))
+                    return j + 1;
             return 0;
         }
         // new card is new card
-        if(index == -1)
+        if (index == -1)
             return sizeCards();
-        int sizeCard = LogicGame.countCard(cards.get(index).getColor(), this) + index ;
-        System.out.println("THIS CARD IS " + newCard+"-- index insert :"+LogicGame.isNewColor(newCard, this) +"-- index last color: "+sizeCard);
-        // new card is special      
-        if(newCard.isSpecial())
-        {
-            for(int j=index; j<sizeCard; j++)
-                if(cards.get(j).equals(newCard))
-                    return j+1;   
+        int sizeCard = LogicGame.countCard(cards.get(index).getColor(), this) + index;
+        System.out.println("THIS CARD IS " + newCard + "-- index insert :" + LogicGame.isNewColor(newCard, this)
+                + "-- index last color: " + sizeCard);
+        // new card is special
+        if (newCard.isSpecial()) {
+            for (int j = index; j < sizeCard; j++)
+                if (cards.get(j).equals(newCard))
+                    return j + 1;
             return index;
         }
         // new card is nomal card
-        int i = index ;
-        while (i< sizeCard)
-        {
+        int i = index;
+        while (i < sizeCard) {
             // cadrs[j] is special
-            if(cards.get(i).isSpecial())
+            if (cards.get(i).isSpecial())
                 // visited to end cards
-                if(i+1 == sizeCard) 
-                    return i+1;
+                if (i + 1 == sizeCard)
+                    return i + 1;
                 else
-                    i ++;
+                    i++;
             // cards[j] >= new card
-            if(cards.get(i).compareTo(newCard) > 0)
-            {
+            if (cards.get(i).compareTo(newCard) > 0) {
                 System.out.println("(cards[j] > new card)I is " + i);
-                    return i;
-            }else
-            {
+                return i;
+            } else {
                 System.out.println("(cards[j]< new card)I is " + i);
-                if(i+1 == sizeCard)
-                {
-                    return i+1;
-                }else{
+                if (i + 1 == sizeCard) {
+                    return i + 1;
+                } else {
                     // next card visited < new card
-                    if(cards.get(i+1).compareTo(newCard) < 0)
+                    if (cards.get(i + 1).compareTo(newCard) < 0)
                         i++;
                     else
-                    // next card visited >= new card
-                        return i+1;
+                        // next card visited >= new card
+                        return i + 1;
                 }
-       
-             }
+
+            }
+        }
+        return index;
     }
-    return index;
-}
-    
 
     // Check Valid Card
     public boolean checkValid(Card card) {
@@ -312,7 +299,7 @@ public abstract class User {
     }
 
     public boolean endGame() {
-        return (sizeCards()  == 0);
+        return (sizeCards() == 0);
     }
 
     public void banAnimation() {
@@ -344,11 +331,10 @@ public abstract class User {
 
         timer.start();
     }
-    public ArrayList<Card> getCard()
-    {
+
+    public ArrayList<Card> getCard() {
         return cards;
     }
-    
 
     protected abstract void offFocus();
 

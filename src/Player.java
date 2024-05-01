@@ -1,6 +1,4 @@
 import java.awt.Cursor;
-import java.awt.event.ActionEvent;
-import java.util.ArrayList;
 
 public class Player extends User {
     Player(Deck deck, String position) {
@@ -45,7 +43,7 @@ public class Player extends User {
         }
 
         Card card = Game.deck.getOneCard();
-        // card.setLocation(Deck.X, Deck.Y);   
+        // card.setLocation(Deck.X, Deck.Y);
         card.addMouseListener(card); // only player not computer
         card.setUser(this);
 
@@ -70,44 +68,37 @@ public class Player extends User {
     public boolean isPlayer() {
         return true;
     }
-    protected void offFocus()
-    {
-        for(int i=0; i< cards.size(); i++)
-        {          
-            cards.get(i).backDefaultCard();    
+
+    protected void offFocus() {
+        for (int i = 0; i < cards.size(); i++) {
+            cards.get(i).backDefaultCard();
         }
     }
-    public void effectArroundClickCard()
-    {
-        if(cards.size() > 1)
-        {
-            for (int i=0; i< cards.size(); i++) {
-                if(i==0 )
-                {
-                    if(cards.get(i).isClicked)
-                    {
-                        cards.get(i+1).effectArround();
+
+    public void effectArroundClickCard() {
+        if (cards.size() > 1) {
+            for (int i = 0; i < cards.size(); i++) {
+                if (i == 0) {
+                    if (cards.get(i).isClicked) {
+                        cards.get(i + 1).effectArround();
                         return;
                     }
-                }else if(i == cards.size()-1){
-                    if(cards.get(i).isClicked)
-                    {
-                        cards.get(i-1).effectArround();
+                } else if (i == cards.size() - 1) {
+                    if (cards.get(i).isClicked) {
+                        cards.get(i - 1).effectArround();
                         return;
                     }
-                }else{
-                    if(cards.get(i).isClicked)
-                    {
-                        cards.get(i+1).effectArround();
-                        cards.get(i-1).effectArround();
+                } else {
+                    if (cards.get(i).isClicked) {
+                        cards.get(i + 1).effectArround();
+                        cards.get(i - 1).effectArround();
                         return;
                     }
                 }
-                
+
             }
         }
-       
+
     }
-    
-   
+
 }

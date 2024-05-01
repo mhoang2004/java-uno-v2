@@ -11,9 +11,10 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import javax.swing.ImageIcon;
 
-public class Arrow extends JLabel{
+public class Arrow extends JLabel {
     static final int WIDTH = 80;
     static final int HEIGHT = 75;
+
     Arrow() {
         super();
         // get button
@@ -32,26 +33,26 @@ public class Arrow extends JLabel{
         // int y = img.getY();
 
         // addKeyListener(new KeyAdapter() {
-        //     @Override
-        //     public void keyPressed(KeyEvent e) {
-        //        
-        //         switch (e.getKeyCode()) 
-        //         {
-        //             case KeyEvent.VK_UP:
-        //             {
-        //                 img.setLocation(x, y - 10); // Di chuyển lên
-        //                 break;
-        //             }
-                    
-        //             case KeyEvent.VK_DOWN:
-        //             {
-        //                 img.setLocation(x, y + 10); // Di chuyển xuống
-        //                 break;
-        //             }
-                    
-        //         }
-        //     }
+        // @Override
+        // public void keyPressed(KeyEvent e) {
+        //
+        // switch (e.getKeyCode())
+        // {
+        // case KeyEvent.VK_UP:
+        // {
+        // img.setLocation(x, y - 10); // Di chuyển lên
+        // break;
+        // }
+
+        // case KeyEvent.VK_DOWN:
+        // {
+        // img.setLocation(x, y + 10); // Di chuyển xuống
+        // break;
+        // }
+
+        // }
+        // }
         // });
     }
-   
+
 }

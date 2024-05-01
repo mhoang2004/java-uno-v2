@@ -66,8 +66,8 @@ public class ButtonUno extends JLabel implements MouseListener {
     public void mouseEntered(MouseEvent e) {
         // TODO Auto-generated method stub
         this.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        this.setBackground(new Color(0, 0, 0, 150)); // Màu đen với độ trong suốt 150
-        this.setOpaque(false); // Đặt trong suốt
+        this.setBackground(new Color(0, 0, 0, 150)); // black transparent 150
+        this.setOpaque(false); // transparent
     }
 
     @Override

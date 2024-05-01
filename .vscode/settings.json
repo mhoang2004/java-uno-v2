@@ -2,6 +2,9 @@
     "java.project.sourcePaths": ["src"],
     "java.project.outputPath": "bin",
     "java.project.referencedLibraries": [
-        "lib/**/*.jar"
-    ]
+        "lib/**/*.jar",
+        "f:\\Computer2\\Java\\Uno\\json-simple-1.1.1.jar",
+        "f:\\Computer2\\Java\\Uno\\gson-2.8.2.jar"
+    ],
+    "java.debug.settings.onBuildFailureProceed": true
 }
