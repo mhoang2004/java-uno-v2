@@ -42,7 +42,7 @@ public class myButton extends JLabel implements MouseListener{
     }
     @Override
     public void mouseExited(MouseEvent e) {
-        this.setBackground(LoginPage.MAINCOLOR);
+        // this.setBackground(LoginPage.MAINCOLOR);
         setOpaque(true);
     }
     

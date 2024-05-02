@@ -30,7 +30,7 @@ public class Game {
         hisComputerHit = new HashMap<Integer, Card>();
 
         player = new Player(deck, "SOUTH");
-        prevCard = deck.getOneCard();
+        prevCard = new Card("G", "WILD");
         while (prevCard.isSpecial()) {
             prevCard = deck.getOneCard();
         }

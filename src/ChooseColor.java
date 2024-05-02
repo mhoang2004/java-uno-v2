@@ -48,7 +48,15 @@ public class ChooseColor extends JLabel implements ActionListener {
         // get the color
         String src = e.getActionCommand().charAt(0) + "";
         Game.prevCard.setColor(src);
-
+        // for (int i=0; i< Game.player.getCard().size(); i++)
+        // {
+        //     if( Game.player.getCard().get(i).isClicked)
+        //     {
+        //        Card tmp = new Card(src,Game.player.getCard().get(i).getRank());
+        //         Game.prevCard.assignCard(tmp);
+        //     }
+        // }
+        
         // remove this
         Game.mainPanel.remove(this);
         Game.mainPanel.repaint();

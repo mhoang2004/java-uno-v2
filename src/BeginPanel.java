@@ -4,10 +4,11 @@ import java.awt.Font;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
+import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 
 public class BeginPanel extends MyPanel {
-    int widthLogin = 200;
+    int widthLogin = 230;
     int heigthLogin = 40;
     // Properti for BeginPanel
     JLabel buttonLogin;
@@ -15,18 +16,28 @@ public class BeginPanel extends MyPanel {
 
     BeginPanel(String path) {
         super(path);
+        createButtonLogin();
+        createButtonNoLogin();
+        
+    }
+    private void createButtonLogin()
+    {
         buttonLogin = new JLabel("SIGN - IN");
         // buttonLogin.setBackground(Color.RED); -- fail
         buttonLogin.setForeground(Color.RED);
-        buttonLogin.setFont(new Font(null, Font.BOLD, 40));
+        buttonLogin.setFont(new Font(null, Font.BOLD, 45));
+        buttonLogin.setBounds(270, 550, widthLogin-20, heigthLogin);
+        
+        addToMainPanel(buttonLogin);
+        addListener(buttonLogin);
+    }
+    private void createButtonNoLogin()
+    {
         buttonNoLogin = new JLabel("PLAY AS GUEST");
         buttonNoLogin.setForeground(Color.RED);
-        buttonNoLogin.setFont(new Font(null, Font.BOLD, 40));
-        buttonLogin.setBounds(270, 550, widthLogin, heigthLogin);
-        buttonNoLogin.setBounds(750, 550, widthLogin + 200, heigthLogin);
-        addToMainPanel(buttonLogin);
-        addToMainPanel(buttonNoLogin);
-        addListener(buttonLogin);
+        buttonNoLogin.setFont(new Font(null, Font.BOLD, 45));       
+        buttonNoLogin.setBounds(750, 550, widthLogin + 150, heigthLogin);   
+        addToMainPanel(buttonNoLogin);   
         addListener(buttonNoLogin);
     }
 
@@ -35,14 +46,16 @@ public class BeginPanel extends MyPanel {
 
             @Override
             public void mouseClicked(MouseEvent e) {
+            
                 if (button.getText().equals("SIGN - IN")) {
                     System.out.println("Clicking   ");
                     App.frame.setVisible(false);
                     App.frame.remove(App.beginPage);
+                    App.loginPanel=new LoginPanel();
+                    App.frame.add(App.loginPanel);
                     // App.frame = new MyFrame();
-                    App.frame.add(App.panelLogin);
                     App.frame.setVisible(true);
-                } else {
+                } else if(buttonLogin.getText().length()> 1){
                     App.newGame();
                 }
             }
@@ -59,12 +72,21 @@ public class BeginPanel extends MyPanel {
 
             @Override
             public void mouseEntered(MouseEvent e) {
-                button.setFont(new Font(null, Font.BOLD, 45));
+                if(buttonLogin.getText().length() > 1)
+                {
+                    button.setFont(new Font(null, Font.BOLD, 46));
+                    button.setBorder(BorderFactory.createMatteBorder(0, 0,  2, 0, Color.RED));
+                }
+                
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-                button.setFont(new Font(null, Font.BOLD, 40));
+                if(buttonLogin.getText().length() > 1)
+                {
+                button.setFont(new Font(null, Font.BOLD, 45));
+                button.setBorder(BorderFactory.createMatteBorder(0, 0,  0, 0, Color.RED));
+                }    
             }
 
         });
@@ -74,4 +96,5 @@ public class BeginPanel extends MyPanel {
     public void addToMainPanel(JLabel card) {
         this.add(card, Integer.valueOf(MyPanel.LAYER++));
     }
+
 }

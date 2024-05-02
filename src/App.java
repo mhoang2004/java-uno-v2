@@ -2,11 +2,10 @@ import javax.swing.SwingUtilities;
 
 public class App {
     static public MyFrame frame;
-    static LoginPage panelLogin;
     static BeginPanel beginPage;
     static boolean isFirtGame = true;
     static Game game;
-
+    static LoginPanel loginPanel;
     public static void newGame() {
         if (isFirtGame) {
             frame.remove(beginPage);
@@ -31,8 +30,7 @@ public class App {
     public static void main(String[] args) throws Exception {
         frame = new MyFrame();
         // newGame();
-        panelLogin = new LoginPage();
-        beginPage = new BeginPanel("../resources/images/BeginBackround.jpg");
+        beginPage = new BeginPanel("../resources/images/backgroundmain-2.jpg");
         frame.add(beginPage);
         // button uno
         frame.pack();

@@ -1,14 +1,6 @@
 
-import java.awt.Color;
 import java.awt.Cursor;
-import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import javax.swing.border.Border;
-import javax.swing.JButton;
 import javax.swing.JLabel;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 import javax.swing.ImageIcon;
 
 public class Arrow extends JLabel {
@@ -22,7 +14,7 @@ public class Arrow extends JLabel {
         this.setIcon(icon);
         this.setHorizontalAlignment(JLabel.CENTER); // Center the image horizontally
         this.setVerticalAlignment(JLabel.CENTER); // Center the image vertically
-        this.setBounds((MyPanel.WIDTH - Card.WIDTH) / 2 - 250, (MyPanel.HEIGHT - Card.HEIGHT) / 2, WIDTH, HEIGHT);
+        this.setBounds((MyPanel.WIDTH - Card.WIDTH) / 2 - 250, (MyPanel.HEIGHT - Card.HEIGHT) / 2 -20, WIDTH, HEIGHT);
         // this.setContentAreaFilled(false);
         this.setOpaque(false);
         this.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));

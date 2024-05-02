@@ -123,6 +123,7 @@ public class Computer extends User {
                 return e.getKey();
             }
         }
+        
         return null;
     }
 
@@ -312,6 +313,8 @@ public class Computer extends User {
         if (this.isUserHit == true) {
             if (checkChangeColor()) {
                 Game.prevCard.setColor(this.chooseColor());
+                // Game.prevCard = new Card(cardHit.getColor(),cardHit.getRank());
+
             }
         } else if (this.isUserHit == false) {
             this.drawCard();

@@ -29,6 +29,7 @@ public abstract class User {
 
         for (int i = 0; i < INIT_CARD; i++) {
             Card card = deck.getOneCard();
+            
             card.setUser(this);
             if (this.isPlayer()) {
                 cards.add(sortCard(card), card);

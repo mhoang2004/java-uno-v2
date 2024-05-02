@@ -60,7 +60,11 @@ public class Card extends JLabel implements MouseListener, Comparable {
         this.setLocation(this.getX(), MyPanel.HEIGHT - 120);
         this.setCursor(new Cursor(Cursor.HAND_CURSOR));
     }
-
+    public static Card  createCard(String color, String rank)
+    {
+        Card card = new Card(color, rank);
+        return card;
+    }
     public void removeEffect() {
         isSuggest = false;
         setBorder(new EmptyBorder(0, 0, 0, 0));
@@ -329,6 +333,7 @@ public class Card extends JLabel implements MouseListener, Comparable {
             Game.player.isUserHit = true;   
             if (user.endGame())
             {
+                System.out.println("END GAME");
                 Game.addToMainPanel(new EndGame());
 
             }else{
