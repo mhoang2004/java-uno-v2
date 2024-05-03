@@ -3,9 +3,12 @@ import java.io.*;
 import java.util.*;
 import javax.swing.Timer;
 
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 public abstract class User {
     static final int INIT_CARD = 7;
     static final int GAP_CARD_HORIZONTAL = 50;
@@ -29,7 +32,7 @@ public abstract class User {
 
         for (int i = 0; i < INIT_CARD; i++) {
             Card card = deck.getOneCard();
-            
+            card.addEvent();
             card.setUser(this);
             if (this.isPlayer()) {
                 cards.add(sortCard(card), card);
@@ -44,7 +47,13 @@ public abstract class User {
         isTurn = false;
         isUserHit = false;
     }
-
+     void backDefaultCard()
+     {
+        for (Card card : cards) {
+            card.backDefaultCard();
+            card.addEvent();
+        }
+     }
     public void setUserPosition() {
         if (position == "SOUTH") {
             xPos = (MyPanel.WIDTH - (Card.WIDTH + (sizeCards() - 1) * GAP_CARD_HORIZONTAL)) / 2;

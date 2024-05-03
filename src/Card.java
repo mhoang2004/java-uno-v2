@@ -5,8 +5,10 @@ import javax.swing.border.LineBorder;
 
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
 import java.awt.Color;
 import java.awt.Cursor;
 
@@ -19,6 +21,9 @@ public class Card extends JLabel implements MouseListener, Comparable {
     private String rank;
     private User user;
     public boolean isSuggest = false;
+    static boolean isDragg = false;
+    static int newX;
+    static int newY;
     // BACK CARD
 
     Card() {
@@ -122,7 +127,7 @@ public class Card extends JLabel implements MouseListener, Comparable {
         return false;
     }
 
-    public void drawCardAnimation() {
+    public void drawCardAnimation(int x, int y) {
         Card tempCard = this;
 
         // Ending point
@@ -145,8 +150,8 @@ public class Card extends JLabel implements MouseListener, Comparable {
 
         Timer timer = new Timer(10, new ActionListener() {
             // Starting point
-            int x1 = Deck.X;
-            int y1 = Deck.Y;
+            int x1 =x;
+            int y1 =y;
 
             int dx = x2 - x1;
             int dy = y2 - y1;
@@ -241,7 +246,7 @@ public class Card extends JLabel implements MouseListener, Comparable {
         Game.mainPanel.setLayer(this, MyPanel.LAYER++);
 
         Card tempCard = this;
-        Timer timer = new Timer(1, new ActionListener() {
+        Timer timer = new Timer(10, new ActionListener() {
             // Starting point
             int x1 = tempCard.getX();
             int y1 = tempCard.getY();
@@ -291,20 +296,35 @@ public class Card extends JLabel implements MouseListener, Comparable {
 
     @Override
     public void mouseClicked(MouseEvent e) {
+        addMouseMotionListener(new MouseAdapter() {
+            int x, y;
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+               
+            }
+            @Override
+             public void mouseReleased(MouseEvent e) {
+               
+               
+             }
+            @Override
+            public void mouseDragged(MouseEvent e) {
+             isDragg = true;
+            }
+        });
         if(e.getClickCount() == 2 ||(e.getClickCount() ==1 && isClicked&& user.checkValid(this)))
         {
+
             processing ();
         }
         if(e.getClickCount() ==1)
         {
-            if(this.isClicked == false)
-            {
                 user.offFocus();
                 isClicked = true;
                 user.effectArroundClickCard();               
                 this.setLocation(this.getX(), MyPanel.HEIGHT - 150);
                 this.setCursor(new Cursor(Cursor.HAND_CURSOR));               
-            }
         }
         
     }
@@ -374,10 +394,56 @@ public class Card extends JLabel implements MouseListener, Comparable {
 
     @Override
     public void mousePressed(MouseEvent e) {
-    }
+        // System.out.println("HELLLLLLO");
 
+    }
+    void addEvent()
+    {
+        this.addMouseMotionListener(new MouseAdapter() {
+            int x, y;
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+                x = e.getX();
+                y = e.getY();
+            }
+            @Override
+             public void mouseReleased(MouseEvent e) {
+                System.out.println("HI");
+               
+             }
+            @Override
+            public void mouseDragged(MouseEvent e) {
+                Card.isDragg = true;
+                Card.newX = getX() + e.getX() - x;
+                Card.newY =getY() + e.getY() - y;
+                setBounds(Card.newX, Card.newY, Card.WIDTH,  Card.HEIGHT);
+            }
+        });
+    }
     @Override
     public void mouseReleased(MouseEvent e) {
+        if(isDragg)
+        {
+            isDragg = false;
+            if( user.checkValid(this) && user.getTurn() == true)
+            {
+             processing();
+            }else{
+             for (Card card : user.getCard()) {
+                 card.backDefaultCard();
+                 card.isClicked = false;
+                 if(user.checkValid(card) && user.getTurn() == true)
+                 {
+                     card.isSuggest = true;
+                     Border border = new LineBorder(Color.YELLOW, 5);
+                     card.setBorder(border);
+                 }
+             }
+             this.drawCardAnimation(newX, newY);
+     }
+        }
+        
     }
 
     @Override
@@ -389,7 +455,9 @@ public class Card extends JLabel implements MouseListener, Comparable {
     public void mouseExited(MouseEvent e) {
         
     }
-
+    public void mouseDragged(MouseEvent e) {
+        System.out.println("1111");
+    }
     @Override
     public int compareTo(Object o) {
         Card card2 = (Card) o;

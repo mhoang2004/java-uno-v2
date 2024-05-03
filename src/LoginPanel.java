@@ -5,6 +5,9 @@ import java.util.regex.Pattern;
 
 import javax.swing.*;
 import javax.swing.border.Border;
+import javax.swing.text.AttributeSet;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.PlainDocument;
 
 public class LoginPanel extends MyPanel implements ActionListener{
     // paint
@@ -15,7 +18,7 @@ public class LoginPanel extends MyPanel implements ActionListener{
     int deltaY =10;
     // compunent of this
     boolean check = false;
-    JTextArea scanMail ;
+    JTextField scanMail ;
     JPasswordField scanPass ;
     Border myBorder;
     Border myBorderEffect;
@@ -82,17 +85,21 @@ public class LoginPanel extends MyPanel implements ActionListener{
     {
 
         // create input text
-        scanMail = new JTextArea("EMAIL");
+        scanMail = new JTextField("EMAIL");
+        // setSingleLine(scanMail);
         scanMail.setFont(new  Font("Arial", Font.BOLD, 20));
         scanMail.setForeground(MAINCOLOR);
+        scanMail.setFocusable(false);
         scanMail.setBounds(20,10, 470, 40);
-        // scanMail.setBorder(myBorder);
+        scanMail.setBorder(myBorder);
+        setSingleLine(scanMail);
+        scanMail.setText("EMAIL");
         scanMail.setOpaque(false);
         scanMail.setBackground(new Color(0, 0, 0, 0)); // Màu đen và có độ trong suốt
         scanMail.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                
+                scanMail.setFocusable(true);
                 String getPass = new String(scanPass.getPassword());
                 if(getPass.equals("PASSWORD") ||getPass.length() == 0)
                 {
@@ -113,9 +120,24 @@ public class LoginPanel extends MyPanel implements ActionListener{
                 effectValidBorder();
             }
         });
+        
         parentMail.add(scanMail);
     }
-
+    public static void setSingleLine(JTextField textField) {
+        textField.setDocument(new PlainDocument() {
+            @Override
+            public void insertString(int offs, String str, AttributeSet a) throws BadLocationException {
+                if (str == null) {
+                    return;
+                }
+                
+                // Chỉ chấp nhận nhập nếu không chứa ký tự xuống dòng
+                if (str.indexOf("\n") == -1) {
+                    super.insertString(offs, str, a);
+                }
+            }
+        });
+    }
     void createScanPass()
     {
         scanPass = new JPasswordField("PASSWORD");

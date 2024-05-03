@@ -46,7 +46,7 @@ public class Player extends User {
         // card.setLocation(Deck.X, Deck.Y);
         card.addMouseListener(card); // only player not computer
         card.setUser(this);
-
+        card.addEvent();
         Game.addToMainPanel(card);
 
         // cards.add(card);
@@ -60,7 +60,7 @@ public class Player extends User {
             Game.addToMainPanel(card1);
         }
         Game.mainPanel.repaint();
-        card.drawCardAnimation();
+        card.drawCardAnimation(Deck.X, Deck.Y);
         return card;
     }
 

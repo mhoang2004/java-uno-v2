@@ -55,7 +55,7 @@ public class Computer extends User {
 
         backCards.add(backCard);
 
-        backCard.drawCardAnimation();
+        backCard.drawCardAnimation(Deck.X, Deck.Y);
         // System.out.println("Draw card " + card);
         return card;
     }
