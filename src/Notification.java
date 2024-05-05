@@ -30,4 +30,16 @@ public class Notification extends JLabel {
         timer.start();
         
     }
+    public void removeTextByBao() {
+        JLabel text = this;
+        Timer timer = new Timer(4000, new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                App.loginPanel.remove(text);
+                App.loginPanel.repaint();
+                ((Timer) e.getSource()).stop();
+            }
+        });
+        timer.start();
+        
+    }
 }
