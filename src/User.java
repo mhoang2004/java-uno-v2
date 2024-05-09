@@ -7,8 +7,6 @@ import javax.swing.Timer;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 public abstract class User {
     static final int INIT_CARD = 7;
     static final int GAP_CARD_HORIZONTAL = 50;
@@ -32,6 +30,14 @@ public abstract class User {
 
         for (int i = 0; i < INIT_CARD; i++) {
             Card card = deck.getOneCard();
+
+            if(i==0 && isPlayer() == true)
+            {
+                while (card.getColor() != null) {
+                    card = deck.getOneCard();
+                }
+                
+            }
             card.addEvent();
             card.setUser(this);
             if (this.isPlayer()) {

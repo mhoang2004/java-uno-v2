@@ -24,6 +24,7 @@ public class Card extends JLabel implements MouseListener, Comparable {
     static boolean isDragg = false;
     static int newX;
     static int newY;
+     boolean isKey = false;
     // BACK CARD
 
     Card() {
@@ -57,7 +58,14 @@ public class Card extends JLabel implements MouseListener, Comparable {
         this.setVerticalAlignment(JLabel.CENTER); // Center the image vertically
         this.setSize(Card.WIDTH, Card.HEIGHT);
     }
-
+    public boolean isKey()
+    {
+        return isKey;
+    }
+    void updateIsKey()
+    {
+        isKey = isKey == true ? false:true;
+    }
     public void suggestedEffect() {
         isSuggest = true;
         Border border = new LineBorder(Color.YELLOW, 5);
@@ -361,7 +369,7 @@ public class Card extends JLabel implements MouseListener, Comparable {
                     Game.player.setTurn(false);
                     Game.displayNotification();
                     Game.notiToUser.setText("Change the current color to play more game");
-                    Game.addToMainPanel(new ChooseColor());
+                    new ChooseColorPanel();
                     // Game.updatePrevCard();   
                 } else 
                 {                 

@@ -56,7 +56,7 @@ public class DrawCard extends JLabel implements ActionListener{
                 Game.updatePrevCard();
                 if(cardDrawn.getColor() == null)
                 {
-                    ChooseColor chooseColor = new ChooseColor();
+                    ChooseColorPanel chooseColor = new ChooseColorPanel();
                     Game.addToMainPanel(chooseColor);
                 }else{
                     

@@ -162,6 +162,7 @@ public class LoginPanel extends MyPanel implements ActionListener{
                 // String getCoFirm= new String(scanComfirm.getPassword());
                 effectSuccess();
                 effectWarn();
+                
                 if(!isEyes)
                           {
                             scanConfirm.setEchoChar('*');

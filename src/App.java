@@ -31,6 +31,7 @@ public class App {
     public static void main(String[] args) throws Exception {
         FileHandler.addNewUserData("Giabaoonthcs123@gmail.com", "Giabao123@");
         frame = new MyFrame();
+        frame.addKeyListener(game);
         // newGame();
         beginPage = new BeginPanel("../resources/images/backgroundmain-2.jpg");
         frame.add(beginPage);

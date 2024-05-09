@@ -59,4 +59,10 @@ public class Reverse extends JLabel {
         ImageIcon icon  = new ImageIcon(path);
         this.setIcon(icon); 
     }
+    public void updateReverse2(String pos, String coloString)
+    {
+        path = "../resources/images/"+pos+"-" + coloString+"-"+ Game.isReverse +".png";
+        ImageIcon icon  = new ImageIcon(path);
+        this.setIcon(icon); 
+    }
 }

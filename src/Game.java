@@ -3,9 +3,11 @@ import java.util.HashMap;
 import java.util.Random;
 
 import javax.swing.*;
+
+import java.awt.Cursor;
 import java.awt.event.*;
 
-public class Game {
+public class Game implements KeyListener {
     final int COMPUTER_NUM = 3;
     static MyPanel mainPanel; // display users
     static Card prevCard;
@@ -25,7 +27,7 @@ public class Game {
     Game() {
 
         mainPanel = new MyPanel(customBackround());
-
+        // mainPanel.addKeyListener(this);
         deck = new Deck();
         hisComputerHit = new HashMap<Integer, Card>();
 
@@ -385,5 +387,38 @@ public static boolean nextIsPlayer(int index)
             Game.delaySkip(3);
         }       
         Game.delayReverse(3);
+    }
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+        // : <
+        // System.out.println("HI");
+        // boolean isAction = false;
+        // for(int i=0; i< player.getCard().size(); i++)
+        // {
+        //     if(player.getCard().get(i).isKey())
+        //     {
+        //         isAction = true;
+        //     }
+        // }
+        // if(isAction == false)
+        // {
+        //     player.getCard().get(0).updateIsKey();
+        //         player.offFocus();
+        //         player.getCard().get(0).isClicked = true;
+        //         player.effectArroundClickCard();               
+        //         player.getCard().get(0).setLocation(player.getCard().get(0).getX(), MyPanel.HEIGHT - 150);
+        //         player.getCard().get(0).setCursor(new Cursor(Cursor.HAND_CURSOR));  
+        // }
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+        
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+        
     }
 }
