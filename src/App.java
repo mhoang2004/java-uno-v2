@@ -6,7 +6,7 @@ public class App {
     static boolean isFirtGame = true;
     static Game game;
     static LoginPanel loginPanel;
-    
+
     public static void newGame() {
         if (isFirtGame) {
             frame.remove(beginPage);
@@ -29,7 +29,6 @@ public class App {
     }
 
     public static void main(String[] args) throws Exception {
-        FileHandler.addNewUserData("Giabaoonthcs123@gmail.com", "Giabao123@");
         frame = new MyFrame();
         frame.addKeyListener(game);
         // newGame();
@@ -39,5 +38,5 @@ public class App {
         frame.pack();
         frame.setVisible(true);
     }
-    
+
 }
