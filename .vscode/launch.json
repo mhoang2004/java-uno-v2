@@ -2,6 +2,13 @@
   "version": "0.2.0",
   "configurations": [
     {
+      "type": "java",
+      "name": "TextBorderExample",
+      "request": "launch",
+      "mainClass": "TextBorderExample",
+      "projectName": "java-uno-v2-5_c1683e4d"
+    },
+    {
       "name": "C/C++ Runner: Debug Session",
       "type": "cppdbg",
       "request": "launch",

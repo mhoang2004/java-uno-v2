@@ -355,11 +355,8 @@ public class Card extends JLabel implements MouseListener, Comparable {
             this.removeEffect();
             hitCard(); 
             System.out.println(this.user.getCard().size());
-            if(this.user.getCard().size() - 1 == 0){
-                new EndGame();
-            }
             Game.player.isUserHit = true;   
-            if (user.endGame())
+            if (user.getCard().size() -1 == 0)
             {
                 System.out.println("END GAME");
                 Game.addToMainPanel(new EndGame());

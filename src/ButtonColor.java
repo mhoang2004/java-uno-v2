@@ -38,7 +38,7 @@ public class ButtonColor extends JLabel implements MouseListener{
          setLocation(color, WIDTH, HEIGHT);
        this.addMouseListener(this);
        animationJLabel.setBounds(-MyPanel.WIDTH, 0, MyPanel.WIDTH, MyPanel.HEIGHT);
-       Game.addToMainPanel(animationJLabel);
+         Game.addToMainPanel(animationJLabel);
         Game.addToMainPanel(this);
     }
     void  setLocation(String color, int WIDTH, int HEIGHT)

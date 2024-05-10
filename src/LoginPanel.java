@@ -45,7 +45,7 @@ public class LoginPanel extends MyPanel implements ActionListener{
     JLabel confirmImgWarnings;
     LoginPanel()
     {
-        super("../resources/images/backgroundmain-2.jpg");
+        super("../resources/images/BackroundBegin-1.jpg");
         myBorder= BorderFactory.createMatteBorder(0, 0,  0, 0, Color.BLACK);
         myBorderEffect= BorderFactory.createMatteBorder(0, 0,  3, 0, Color.BLUE);
         signInImage = new ImageIcon("../resources/images/IMG-Sign-in.png").getImage();

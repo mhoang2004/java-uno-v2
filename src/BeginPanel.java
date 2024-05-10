@@ -38,12 +38,11 @@ public class BeginPanel extends MyPanel {
     void createLabel()
     {
         
-        JLabel welcomJLabel = new JLabel("WELCOM");
+        JLabel welcomJLabel = new JLabel();
         JLabel toJLabel = new JLabel("TO");
         JLabel subWelcomJLabel = new JLabel("");
-        welcomJLabel.setForeground(Color.RED);
-        welcomJLabel.setFont(new Font(null, Font.BOLD, 70));
-        welcomJLabel.setBounds(470, 70,500, 70);
+        welcomJLabel.setIcon(new ImageIcon("../resources/images/WELCOME.png"));
+        welcomJLabel.setBounds(350, 70,600, 70);
         addToMainPanel(welcomJLabel);
         Timer timer2 = new Timer(1000, new ActionListener() {
 
@@ -62,13 +61,13 @@ public class BeginPanel extends MyPanel {
        
         toJLabel.setForeground(Color.RED);
         toJLabel.setFont(new Font(null, Font.BOLD, 45));
-        toJLabel.setBounds(600, 150,500, 50);
+        toJLabel.setBounds(620, 150,500, 50);
         addToMainPanel(toJLabel);
         // animation
        
         subWelcomJLabel.setForeground(Color.RED);
-        subWelcomJLabel.setFont(new Font(null, Font.BOLD, 45));
-        subWelcomJLabel.setBounds(480, 200,500, 50);
+        subWelcomJLabel.setFont(new Font(null, Font.BOLD, 60));
+        subWelcomJLabel.setBounds(480, 200,700, 50);
         addToMainPanel(subWelcomJLabel);
         
         stringList = new ArrayList<String>(); 
@@ -164,12 +163,13 @@ public class BeginPanel extends MyPanel {
 
             @Override
             public void mousePressed(MouseEvent e) {
-
+                button.setFont(new Font(null, Font.BOLD, 42));
             }
 
             @Override
             public void mouseReleased(MouseEvent e) {
-
+                button.setFont(new Font(null, Font.BOLD, 47));
+                button.setBorder(BorderFactory.createMatteBorder(0, 0,  0, 0, Color.RED));
             }
 
             @Override
@@ -182,7 +182,7 @@ public class BeginPanel extends MyPanel {
                     }else{
                         next2.setIcon(new ImageIcon("../resources/images/here.png"));
                     }
-                    button.setFont(new Font(null, Font.BOLD, 47));
+                 
                 }
                 
             }
@@ -197,8 +197,7 @@ public class BeginPanel extends MyPanel {
                 }
                 if(buttonLogin.getText().length() > 1)
                 {
-                button.setFont(new Font(null, Font.BOLD, 45));
-                button.setBorder(BorderFactory.createMatteBorder(0, 0,  0, 0, Color.RED));
+                
                 }    
             }
 

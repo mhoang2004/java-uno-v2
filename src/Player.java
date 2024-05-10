@@ -38,8 +38,7 @@ public class Player extends User {
 
     public Card drawCard() {
         if (Game.deck.getDeck().size() == 0) {
-            System.out.println("Het bai roi cuu");
-            // Game.deck = new Deck();
+            Game.deck.createDeck();
         }
 
         Card card = Game.deck.getOneCard();

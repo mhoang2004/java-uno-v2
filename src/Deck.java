@@ -26,7 +26,7 @@ public class Deck extends JLabel implements MouseListener {
         addMouseListener(this);
     }
     
-    private void createDeck() {
+    public void createDeck() {
         deck = new ArrayList<Card>();
         Card tempCard;
 

@@ -33,7 +33,7 @@ public class App {
         frame = new MyFrame();
         frame.addKeyListener(game);
         // newGame();
-        beginPage = new BeginPanel("../resources/images/backgroundmain-2.jpg");
+        beginPage = new BeginPanel("../resources/images/BackroundBegin-1.jpg");
         frame.add(beginPage);
         // button uno
         frame.pack();

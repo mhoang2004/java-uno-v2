@@ -40,7 +40,7 @@ public class Computer extends User {
 
     public Card drawCard() {
         if (Game.deck.getDeck().size() == 0) {
-            System.out.println("Out of deck");
+            Game.deck.createDeck();
         }
 
         Card card = Game.deck.getOneCard();
