@@ -16,7 +16,18 @@ public class Notification extends JLabel {
         this.setOpaque(true); 
         this.setForeground(Color.WHITE); 
         this.setFont(new Font("Arial", Font.BOLD, 16));
-    }   
+    }  
+    Notification(int y) {
+        super();
+        // this.setText("Hi everyone");
+        this.setBounds((MyPanel.WIDTH - WIDTH) / 2, y, WIDTH, HEIGHT);
+        this.setBackground(new Color(0, 0, 0, 100)); 
+        this.setHorizontalAlignment(JLabel.CENTER); // Center the image horizontally
+        this.setVerticalAlignment(JLabel.CENTER); // Center the image vertically
+        this.setOpaque(true); 
+        this.setForeground(Color.WHITE); 
+        this.setFont(new Font("Arial", Font.BOLD, 16));
+    }  
 
     public void removeText() {
         JLabel text = this;

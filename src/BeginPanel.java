@@ -31,7 +31,7 @@ public class BeginPanel extends MyPanel {
         next1 = new JLabel();
         next1.setBounds(330, 480, 78, 88);
         next2 = new JLabel();
-        next2.setBounds(900,480 , 78, 88);
+        next2.setBounds(800,480 , 78, 88);
         add(next1);
         add(next2);
     }
@@ -39,7 +39,10 @@ public class BeginPanel extends MyPanel {
     {
         
         JLabel welcomJLabel = new JLabel();
+        
+        // welcomJLabel.setIcon(new ImageIcon("../resources/images/IMG-Sign-in.png"));
         JLabel toJLabel = new JLabel("TO");
+        toJLabel.setFont(new Font("Harlow Solid Italic", Font.ITALIC, 40));
         JLabel subWelcomJLabel = new JLabel("");
         welcomJLabel.setIcon(new ImageIcon("../resources/images/WELCOME.png"));
         welcomJLabel.setBounds(350, 70,600, 70);
@@ -59,15 +62,14 @@ public class BeginPanel extends MyPanel {
         });
         timer2.start();
        
-        toJLabel.setForeground(Color.RED);
-        toJLabel.setFont(new Font(null, Font.BOLD, 45));
+        toJLabel.setForeground(Color.WHITE);
         toJLabel.setBounds(620, 150,500, 50);
         addToMainPanel(toJLabel);
         // animation
        
         subWelcomJLabel.setForeground(Color.RED);
-        subWelcomJLabel.setFont(new Font(null, Font.BOLD, 60));
-        subWelcomJLabel.setBounds(480, 200,700, 50);
+        subWelcomJLabel.setFont(new Font("Harlow Solid Italic", Font.BOLD, 60));
+        subWelcomJLabel.setBounds(430, 200,700, 70);
         addToMainPanel(subWelcomJLabel);
         
         stringList = new ArrayList<String>(); 
@@ -85,8 +87,6 @@ public class BeginPanel extends MyPanel {
             boolean isBegin = true;
             @Override
             public void actionPerformed(ActionEvent e) {
-                
-                System.out.println(count);
                 if(count == -1)
                     {
                         subWelcomJLabel.setText("");
@@ -122,21 +122,18 @@ public class BeginPanel extends MyPanel {
 
     private void createButtonLogin()
     {
-        buttonLogin = new JLabel("SIGN - IN");
-        // buttonLogin.setBackground(Color.RED); -- fail
-        buttonLogin.setForeground(Color.RED);
-        buttonLogin.setFont(new Font(null, Font.BOLD, 45));
-        buttonLogin.setBounds(270, 550, widthLogin-20, heigthLogin);
+        buttonLogin = new JLabel();
+        buttonLogin.setIcon(new ImageIcon("../resources/images/IMG-Sign-in.png"));
+        buttonLogin.setBounds(270, 550, widthLogin, heigthLogin+30);
         
         addToMainPanel(buttonLogin);
         addListener(buttonLogin);
     }
     private void createButtonNoLogin()
     {
-        buttonNoLogin = new JLabel("PLAY AS GUEST");
-        buttonNoLogin.setForeground(Color.RED);
-        buttonNoLogin.setFont(new Font(null, Font.BOLD, 45));       
-        buttonNoLogin.setBounds(750, 550, widthLogin + 150, heigthLogin);   
+        buttonNoLogin = new JLabel();  
+        buttonNoLogin.setIcon(new ImageIcon("../resources/images/IMG-No-Sign-in.png"));    
+        buttonNoLogin.setBounds(750, 550,  widthLogin+30, heigthLogin+30);   
         addToMainPanel(buttonNoLogin);   
         addListener(buttonNoLogin);
     }
@@ -147,7 +144,8 @@ public class BeginPanel extends MyPanel {
             @Override
             public void mouseClicked(MouseEvent e) {
             
-                if (button.getText().equals("SIGN - IN")) {
+                if (button.getLocation().getX() ==270 ) {
+                    timer.stop();
                     System.out.println("Clicking   ");
                     App.frame.setVisible(false);
                     App.frame.remove(App.beginPage);
@@ -155,7 +153,7 @@ public class BeginPanel extends MyPanel {
                     App.frame.add(App.loginPanel);
                     // App.frame = new MyFrame();
                     App.frame.setVisible(true);
-                } else if(buttonLogin.getText().length()> 1){
+                } else{
                     timer.stop();
                     App.newGame();
                 }
@@ -163,33 +161,32 @@ public class BeginPanel extends MyPanel {
 
             @Override
             public void mousePressed(MouseEvent e) {
-                button.setFont(new Font(null, Font.BOLD, 42));
+               
             }
 
             @Override
             public void mouseReleased(MouseEvent e) {
-                button.setFont(new Font(null, Font.BOLD, 47));
-                button.setBorder(BorderFactory.createMatteBorder(0, 0,  0, 0, Color.RED));
             }
 
             @Override
             public void mouseEntered(MouseEvent e) {
-                if(buttonLogin.getText().length() > 1)
-                {
-                    if (button.getText().equals("SIGN - IN"))
+ 
+
+                    if (button.getLocation().getX() ==270)
                     {
                         next1.setIcon(new ImageIcon("../resources/images/here.png"));
+                        
                     }else{
                         next2.setIcon(new ImageIcon("../resources/images/here.png"));
                     }
                  
-                }
+                
                 
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-                if (button.getText().equals("SIGN - IN"))
+                if (button.getLocation().getX() ==270)
                 {
                     next1.setIcon(null);
                 }else{

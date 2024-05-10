@@ -24,7 +24,7 @@ public class LoginPanel extends MyPanel implements ActionListener{
     Border myBorder;
     Border myBorderEffect;
     JLabel createAccount;
-    static Color MAINCOLOR = new Color(255 ,48 ,48);
+    static Color MAINCOLOR = new Color(0 ,50 ,200);
     static JLabel buttonNextGame;
     ImageIcon roundedIcon;
     JLayeredPane parentMail;
@@ -95,8 +95,7 @@ public class LoginPanel extends MyPanel implements ActionListener{
             @Override
             public void mouseClicked(MouseEvent e) {
                 scanMail.setFocusable(true);
-                effectSuccess();
-                effectWarn();
+                
                 String getPass = new String(scanPass.getPassword());
                 if(getPass.equals("PASSWORD") ||getPass.length() == 0)
                 {
@@ -122,8 +121,12 @@ public class LoginPanel extends MyPanel implements ActionListener{
         scanMail.addKeyListener(new KeyAdapter() {
             @Override
             public void keyReleased(KeyEvent e) {
-                effectSuccess();
-                effectWarn();
+                if(!isLogIn)
+                {
+                    effectSuccess();
+                    effectWarn();
+                }
+               
             }
         });
         
@@ -160,8 +163,7 @@ public class LoginPanel extends MyPanel implements ActionListener{
             public void mouseClicked(MouseEvent e) {
                 // scanPass.setBorder(myBorderEffect);
                 // String getCoFirm= new String(scanComfirm.getPassword());
-                effectSuccess();
-                effectWarn();
+               
                 
                 if(!isEyes)
                           {
@@ -187,13 +189,7 @@ public class LoginPanel extends MyPanel implements ActionListener{
                 }
             }
         });
-        scanPass.addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyReleased(KeyEvent e) {
-                effectSuccess();
-                effectWarn();
-            }
-        });
+        
         parentPass.add(scanPass);
     }
     
@@ -229,6 +225,26 @@ public class LoginPanel extends MyPanel implements ActionListener{
                         }else{
                              
                             remove(subHeading);
+                            scanPass.addKeyListener(new KeyAdapter() {
+                                @Override
+                                public void keyReleased(KeyEvent e) {
+                                    if(!isLogIn)
+                                    {
+                                        effectSuccess();
+                                        effectWarn();
+                                    }
+                                }
+                            });
+                            scanMail.addKeyListener(new KeyAdapter() {
+                                @Override
+                                public void keyReleased(KeyEvent e) {
+                                    if(!isLogIn)
+                                    {
+                                        effectSuccess();
+                                        effectWarn();
+                                    }
+                                }
+                            });
                             // App.loginPanel.remove(buttonNextGame);
                             buttonNextGame.addMouseListener(new MouseListener() {
 
@@ -277,7 +293,7 @@ public class LoginPanel extends MyPanel implements ActionListener{
 
             @Override
             public void mouseEntered(MouseEvent e) {
-                createAccount.setForeground(Color.RED);
+                createAccount.setForeground(new Color(0,0,255));
                 }
 
             @Override
@@ -302,8 +318,9 @@ public class LoginPanel extends MyPanel implements ActionListener{
             {
                 check = true;
                 subHeading = new JLabel("WITH   JUNO   ACCOUNT");
-                subHeading.setFont(new Font("Arial", Font.BOLD, 22));
-                subHeading.setForeground(Color.RED);
+                
+                subHeading.setFont(new Font("Harlow Solid Italic", Font.BOLD, 22));
+                subHeading.setForeground(MAINCOLOR);
                 subHeading.setBounds(x-30, 200, 400, 30);
                 add(subHeading);
                 //scan mail
@@ -641,13 +658,19 @@ public class LoginPanel extends MyPanel implements ActionListener{
 
             @Override
             public void mouseClicked(MouseEvent e) {
+                Notification noti = new Notification(20);
+                             noti.setText("Email and password do not match");
+                             addToMainPanel(noti);
+     
+                             noti.removeTextByBao();
                 if(isLogIn)
                 {
+                    
+                    System.out.println(isLogIn);
                     if( checkSignOut().size() !=0)
                     {
-                        System.out.println(checkSignOut());
-                         effectSuccess();      
-                         effectWarn();
+                        //  effectSuccess();      
+                        //  effectWarn();
                     }else{
                         if(checkLogin())
                         {
@@ -656,15 +679,16 @@ public class LoginPanel extends MyPanel implements ActionListener{
                              // App.frame = new MyFrame();
                              App.frame.setVisible(true); 
                         }else{
-                             Notification noti = new Notification();
-                             noti.setText("Email and password do not match");
-                             addToMainPanel(noti);
+                             Notification noti1 = new Notification();
+                             noti1.setText("Email and password do not match");
+                             addToMainPanel(noti1);
      
-                             noti.removeText();
+                             noti1.removeText();
                         }
                     }
                   
                 }else{
+                    System.out.println(checkSignOut());
                     if( checkSignOut().size() !=0)
                     {
                         System.out.println(checkSignOut());
