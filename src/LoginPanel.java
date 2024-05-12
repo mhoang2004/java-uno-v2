@@ -612,24 +612,19 @@ public class LoginPanel extends MyPanel implements ActionListener {
 
             @Override
             public void mouseClicked(MouseEvent e) {
-                Notification noti = new Notification(20);
-                noti.setText("Email and password do not match");
-                addToMainPanel(noti);
-
-                noti.removeTextByBao();
+                
                 if (isLogIn) {
                     // if (checkSignOut().size() != 0) {
                     // // effectSuccess();
                     // // effectWarn();
                     // } else {
                     if (checkLogin()) {
-                        App.frame.setVisible(false);
-                        App.frame.remove(App.loginPanel);
-                        App.newGame();
-                        // App.frame = new MyFrame();
-                        App.frame.setVisible(true);
+                        Notification noti2 = new Notification(20);
+                        noti2.setText("SUCCESS");
+                        addToMainPanel(noti2);
+                        noti2.removeTextByBao2();
                     } else {
-                        Notification noti1 = new Notification();
+                        Notification noti1 = new Notification(20);
                         noti1.setText("Email and password do not match");
                         addToMainPanel(noti1);
                         noti1.removeText();

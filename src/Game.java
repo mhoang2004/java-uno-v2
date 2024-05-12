@@ -1,11 +1,15 @@
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
-
+import java.awt.Graphics2D;
 import javax.swing.*;
 
+import java.awt.Color;
 import java.awt.Cursor;
+import java.awt.Font;
+import java.awt.RenderingHints;
 import java.awt.event.*;
+import java.awt.image.BufferedImage;
 
 public class Game implements KeyListener {
     final int COMPUTER_NUM = 3;
@@ -21,13 +25,14 @@ public class Game implements KeyListener {
     static Reverse vectorLeft;
     static Reverse vectorRight;
     static HashMap<Integer, Card> hisComputerHit;
+    Timer timer;
     // private boolean isTurnPlayer;
-     static Arrow vector;
-
-    Game() {
-
-        mainPanel = new MyPanel(customBackround());
-        // mainPanel.addKeyListener(this);
+    static Arrow vector;
+    
+    Game(String path) {
+        
+        mainPanel = new MyPanel(path);
+        // Game.mainPanel.remove(goLabel);
         deck = new Deck();
         hisComputerHit = new HashMap<Integer, Card>();
 
@@ -66,21 +71,12 @@ public class Game implements KeyListener {
 
         isReverse = true; // clockwise
         isEndGame = false;
+       
     }
-
     public static void addToMainPanel(JLabel card) {
         mainPanel.add(card, Integer.valueOf(MyPanel.LAYER++));
     }
-    // CUSTOOM BACKROUND
-    String customBackround()
-    {
-        String nameBackRound = new String("backgroundmain");
-        String path = new String("../resources/images/" );
-        Random numbeRandom = new Random();
-        int numberRan = numbeRandom.nextInt(3);
-        nameBackRound = nameBackRound +"-"+numberRan+".jpg";
-        return path + nameBackRound;
-    }
+    
     public static boolean getIsReverse() {
         return isReverse;
     }

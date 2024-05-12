@@ -1,4 +1,3 @@
-import javax.swing.JLabel;
 import java.awt.*;
 import javax.swing.*;
 import java.awt.event.*;
@@ -20,7 +19,7 @@ public class Notification extends JLabel {
     Notification(int y) {
         super();
         // this.setText("Hi everyone");
-        this.setBounds((MyPanel.WIDTH - WIDTH) / 2, y, WIDTH, HEIGHT);
+        this.setBounds(0, y, WIDTH+300, HEIGHT);
         this.setBackground(new Color(0, 0, 0, 100)); 
         this.setHorizontalAlignment(JLabel.CENTER); // Center the image horizontally
         this.setVerticalAlignment(JLabel.CENTER); // Center the image vertically
@@ -47,6 +46,23 @@ public class Notification extends JLabel {
             public void actionPerformed(ActionEvent e) {
                 App.loginPanel.remove(text);
                 App.loginPanel.repaint();
+                ((Timer) e.getSource()).stop();
+            }
+        });
+        timer.start();
+        
+    }
+    public void removeTextByBao2() {
+        JLabel text = this;
+        Timer timer = new Timer(3000, new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                App.loginPanel.remove(text);
+                App.loginPanel.repaint();
+                App.frame.setVisible(false);
+                        App.frame.remove(App.loginPanel);
+                        App.frame.add(App.homePanel);
+                        // App.frame = new MyFrame();
+                        App.frame.setVisible(true);
                 ((Timer) e.getSource()).stop();
             }
         });

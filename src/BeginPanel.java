@@ -1,21 +1,29 @@
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Random;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
+import javax.swing.JLayeredPane;
 import javax.swing.Timer;
 
 public class BeginPanel extends MyPanel {
     int widthLogin = 230;
     int heigthLogin = 40;
+    Timer timer2;
+    JLabel welcomJLabel;
+    JLabel toJLabel;
+    JLabel subWelcomJLabel;
     // Properti for BeginPanel
     JLabel buttonLogin;
     JLabel buttonNoLogin;
@@ -23,8 +31,16 @@ public class BeginPanel extends MyPanel {
     JLabel next1;
     JLabel next2;
     Timer timer;
+    static String linkImg ;
+    String pathBackround;
+    JLayeredPane goLabel;
+    JLabel textJLabel;
+    JLabel animationLabel;
+    int count =2;
+    boolean isOut = false;
     BeginPanel(String path) {
         super(path);
+        linkImg = new String(path);
         createButtonLogin();
         createButtonNoLogin();
         createLabel();
@@ -34,16 +50,43 @@ public class BeginPanel extends MyPanel {
         next2.setBounds(800,480 , 78, 88);
         add(next1);
         add(next2);
+        pathBackround = new String("../resources/images/backgroundmain-0.jpg");
+        animationLabel = new JLabel(new ImageIcon(pathBackround));
+        animationLabel.setBounds(-MyPanel.WIDTH,0, MyPanel.WIDTH+50, MyPanel.HEIGHT);
+        add(animationLabel);
+        goLabel = new JLayeredPane();
+        goLabel.setBounds(-200,MyPanel.HEIGHT/2, 100, 100);
+
+        textJLabel= new JLabel(count+1+"");
+        textJLabel.setBounds(35,20,50, 50 );
+        textJLabel.setForeground(Color.YELLOW);
+        textJLabel.setFont(new Font("Arial Rounded MT Bold", Font.ITALIC, 30));
+        goLabel.add(textJLabel);
+        ImageIcon roundedIconx = new ImageIcon(drawButtonNext());
+        JLabel backround = new JLabel(roundedIconx);
+        backround.setBounds(0,0,100, 100 );
+        goLabel.add(backround);
+        add(goLabel);
     }
+    BufferedImage drawButtonNext() {
+        BufferedImage roundedImage = new BufferedImage(100, 100, BufferedImage.TYPE_INT_ARGB);
+        Graphics2D  g2d = roundedImage.createGraphics();
+        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        g2d.setColor(new Color(100, 70, 0, 200) );
+        g2d.fillRoundRect(0, 0,100, 100, 50,50);
+
+        g2d.dispose();  
+        return roundedImage;
+}  
     void createLabel()
     {
         
-        JLabel welcomJLabel = new JLabel();
+        welcomJLabel = new JLabel();
         
         // welcomJLabel.setIcon(new ImageIcon("../resources/images/IMG-Sign-in.png"));
-        JLabel toJLabel = new JLabel("TO");
+         toJLabel = new JLabel("TO");
         toJLabel.setFont(new Font("Harlow Solid Italic", Font.ITALIC, 40));
-        JLabel subWelcomJLabel = new JLabel("");
+         subWelcomJLabel = new JLabel("");
         welcomJLabel.setIcon(new ImageIcon("../resources/images/WELCOME.png"));
         welcomJLabel.setBounds(350, 70,600, 70);
         addToMainPanel(welcomJLabel);
@@ -155,7 +198,53 @@ public class BeginPanel extends MyPanel {
                     App.frame.setVisible(true);
                 } else{
                     timer.stop();
-                    App.newGame();
+                    timer= new Timer(10, new ActionListener() {
+                        int x= -MyPanel.WIDTH;
+                        int y=0;
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            if(x <-50)
+                            {
+                                App.beginPage.removeComponent();
+                                x+=50;
+                                animationLabel.setBounds(x, 0, MyPanel.WIDTH+50, MyPanel.HEIGHT);
+                                // App.homePanel.setBounds(x+MyPanel.WIDTH, 0, MyPanel.WIDTH, MyPanel.HEIGHT);
+                            }else {
+                               
+                                App.beginPage.removeComponent();
+                                animationLabel.setBounds(x, 0, MyPanel.WIDTH+50, MyPanel.HEIGHT);
+                              
+                                goLabel.setBounds(0,0, 200, 200);
+                               
+                                timer2 = new Timer(1000, new ActionListener() {
+                                    
+                                    @Override
+                                    public void actionPerformed(ActionEvent e) {
+                                       if(count >=0)
+                                       {
+                                        textJLabel.setText(count+"");
+                                      
+                                        count --;
+                                       }else{
+                                        if(!isOut)
+                                        {
+                                            isOut = true;
+                                            timer2.stop();
+                                            App.frame.remove(App.homePanel);
+                                            App.newGame(pathBackround);
+                                        }
+                                        
+                                       }
+    
+                                    }
+                                    
+                                });
+                                timer2.start();
+                            }
+                        }
+                        
+                    });
+                    timer.start();
                 }
             }
 
@@ -205,5 +294,14 @@ public class BeginPanel extends MyPanel {
     public void addToMainPanel(JLabel card) {
         this.add(card, Integer.valueOf(MyPanel.LAYER++));
     }
-
+    void removeComponent()
+    {
+        this.remove(buttonLogin);
+        this.remove(buttonNoLogin);
+        this.remove(welcomJLabel);
+        this.remove(toJLabel);
+        this.remove(subWelcomJLabel);
+        this.remove(next1);
+        this.remove(next2);
+    }
 }

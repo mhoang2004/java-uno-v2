@@ -30,19 +30,7 @@ public class EndGame extends JLabel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 App.frame.remove(Game.mainPanel);
-                Game game = new Game();
-                App.frame.add(Game.mainPanel);
-                game.start();
-                SwingUtilities.invokeLater(new Runnable() {
-                    @Override
-                    public void run() {
-                        Game.mainPanel.remove(Game.buttonUno);
-                        if (Game.isEndGame == true) {
-                            Game game = new Game();
-                            game.start();
-                        }
-                    }
-                });
+                App.frame.add(App.homePanel);
             }
         });
 

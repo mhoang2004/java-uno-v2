@@ -6,13 +6,13 @@ public class App {
     static boolean isFirtGame = true;
     static Game game;
     static LoginPanel loginPanel;
-
-    public static void newGame() {
+    static HomePanel homePanel;
+    public static void newGame(String path) {
         if (isFirtGame) {
             frame.remove(beginPage);
         }
 
-        game = new Game();
+        game = new Game(path);
         App.frame.add(Game.mainPanel);
         game.start();
 
@@ -21,7 +21,7 @@ public class App {
             public void run() {
                 Game.mainPanel.remove(Game.buttonUno);
                 if (Game.isEndGame == true) {
-                    Game game = new Game();
+                    Game game = new Game(path);
                     game.start();
                 }
             }
@@ -31,12 +31,14 @@ public class App {
     public static void main(String[] args) throws Exception {
         frame = new MyFrame();
         frame.addKeyListener(game);
+        homePanel = new HomePanel("../resources/images/BackroundBegin-1.jpg");
         // newGame();
         beginPage = new BeginPanel("../resources/images/BackroundBegin-1.jpg");
+        
         frame.add(beginPage);
         // button uno
         frame.pack();
         frame.setVisible(true);
     }
-
+    
 }
