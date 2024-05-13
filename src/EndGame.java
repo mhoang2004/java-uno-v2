@@ -4,12 +4,12 @@ import java.awt.GridLayout;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+import javax.sound.sampled.LineUnavailableException;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
-import javax.swing.SwingUtilities;
-
 public class EndGame extends JLabel {
     static int WIDTH = 600;
     static int HEIGHT = 300;
@@ -22,7 +22,13 @@ public class EndGame extends JLabel {
 
     EndGame() {
         this.setBounds((MyPanel.WIDTH - WIDTH) / 2, (MyPanel.HEIGHT - HEIGHT) / 2, WIDTH, HEIGHT);
-
+        Game.clip.stop();
+        try {
+            SoundControler.soundVicroty();
+        } catch (LineUnavailableException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
         playAgainBtn = new JButton("Play Again");
         playAgainBtn.setBackground(new Color(30, 194, 235));
         playAgainBtn.setFont(new Font("Arial", Font.BOLD, 30));

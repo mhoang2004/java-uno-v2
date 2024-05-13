@@ -3,6 +3,10 @@ import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.regex.Pattern;
 import java.awt.image.*;
+import java.io.IOException;
+
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.text.AttributeSet;
@@ -333,7 +337,12 @@ public class LoginPanel extends MyPanel implements ActionListener {
 
                     @Override
                     public void mouseClicked(MouseEvent e) {
-                        System.err.println("HI");
+                        try {
+                    SoundControler.soundClick();
+                } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e1) {
+                    // TODO Auto-generated catch block
+                    e1.printStackTrace();
+                }
                         if (!isEyes) {
                             isEyes = true;
                             iconEyes.setIcon(new ImageIcon("../resources/images/Sleep.png"));
@@ -385,6 +394,12 @@ public class LoginPanel extends MyPanel implements ActionListener {
                 scanConfirm.addMouseListener(new MouseAdapter() {
                     @Override
                     public void mouseClicked(MouseEvent e) {
+                        try {
+                            SoundControler.soundClick();
+                        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e1) {
+                            // TODO Auto-generated catch block
+                            e1.printStackTrace();
+                        }
                         effectSuccess();
                         effectWarn();
                         String getCoFirm = new String(scanConfirm.getPassword());
@@ -424,7 +439,12 @@ public class LoginPanel extends MyPanel implements ActionListener {
 
                     @Override
                     public void mouseClicked(MouseEvent e) {
-                        System.err.println("HI");
+                        try {
+                            SoundControler.soundClick();
+                        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e1) {
+                            // TODO Auto-generated catch block
+                            e1.printStackTrace();
+                        }
                         if (!isEyes) {
                             isEyes = true;
                             iconEyesComfirm.setIcon(new ImageIcon("../resources/images/Sleep.png"));
@@ -470,6 +490,12 @@ public class LoginPanel extends MyPanel implements ActionListener {
 
      @Override
      public void mouseClicked(MouseEvent e) {
+        try {
+            SoundControler.soundClick();
+        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e1) {
+            // TODO Auto-generated catch block
+            e1.printStackTrace();
+        }
          if(isLogIn)
          {
             App.frame.setVisible(false);
@@ -694,7 +720,12 @@ public class LoginPanel extends MyPanel implements ActionListener {
 
             @Override
             public void mouseClicked(MouseEvent e) {
-                
+                try {
+                    SoundControler.soundClick();
+                } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e1) {
+                    // TODO Auto-generated catch block
+                    e1.printStackTrace();
+                }
                 if (isLogIn) {
                     // if (checkSignOut().size() != 0) {
                     // // effectSuccess();

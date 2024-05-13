@@ -34,5 +34,20 @@ public class SoundControler {
         }
        
     }
+    static void soundVicroty() throws LineUnavailableException
+    {
+        File file = new File("victory.wav");
+        AudioInputStream audioStream;
+        try {
+            audioStream = AudioSystem.getAudioInputStream(file);
+            Clip clip = AudioSystem.getClip();
+            clip.open(audioStream);
+            clip.start();
+        } catch (UnsupportedAudioFileException | IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+       
+    }
 }
 

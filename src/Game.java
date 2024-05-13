@@ -32,6 +32,7 @@ public class Game implements KeyListener {
     static Reverse vectorRight;
     static HashMap<Integer, Card> hisComputerHit;
     Timer timer;
+    static Clip clip;
     // private boolean isTurnPlayer;
     static Arrow vector;
     
@@ -39,7 +40,7 @@ public class Game implements KeyListener {
         //sound 
         File file = new File("mainSound.wav");
         AudioInputStream audioStream = AudioSystem.getAudioInputStream(file);
-        Clip clip = AudioSystem.getClip();
+        clip = AudioSystem.getClip();
         clip.open(audioStream);
         clip.start();
         mainPanel = new MyPanel(path);
