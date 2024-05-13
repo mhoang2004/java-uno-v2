@@ -1,4 +1,8 @@
+import java.io.IOException;
 import java.util.*;
+
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 
 public class Computer extends User {
     private ArrayList<Card> backCards;
@@ -276,7 +280,7 @@ public class Computer extends User {
     }
 
     // Computer play this card selected
-    public Card computerHitCard() {
+    public Card computerHitCard() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
         Card validCard = validCard(); // todo: function LogicComputerHit
         Card chosenCard = null;
 
@@ -307,7 +311,7 @@ public class Computer extends User {
 
     // Change color prevcard if computer play card is wild or drawfour
     // if dont have card then play this card when it can play
-    public Card computerTurn() {
+    public Card computerTurn() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
         Card cardHit = this.computerHitCard();
         
         if (this.isUserHit == true) {

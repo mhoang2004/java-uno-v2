@@ -255,7 +255,12 @@ public static boolean nextIsPlayer(int index)
        
         if (com.get(index).getTurn() == false)
             return;
-        hisComputerHit.put(index, com.get(index).computerTurn());
+        try {
+            hisComputerHit.put(index, com.get(index).computerTurn());
+        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
         if(nextIsPlayer(index) == true)
         {
             player.offFocus();

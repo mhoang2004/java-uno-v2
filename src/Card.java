@@ -1,3 +1,5 @@
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
@@ -6,6 +8,7 @@ import javax.swing.border.LineBorder;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.io.IOException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -137,7 +140,12 @@ public class Card extends JLabel implements MouseListener, Comparable {
 
     public void drawCardAnimation(int x, int y) {
         Card tempCard = this;
-
+        try {
+            SoundControler.soundDraw();
+        } catch (LineUnavailableException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
         // Ending point
         final int x2;
         final int y2;
@@ -193,7 +201,12 @@ public class Card extends JLabel implements MouseListener, Comparable {
 
                         if (user.checkValid(card)) {
                             Computer computer = (Computer) user;
-                            Game.hisComputerHit.put(computer.getPos(),computer.computerHitCard());
+                            try {
+                                Game.hisComputerHit.put(computer.getPos(),computer.computerHitCard());
+                            } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e1) {
+                                // TODO Auto-generated catch block
+                                e1.printStackTrace();
+                            }
                             Game.updatePrevCard();
                             
                             int index = Game.computerNumber(computer);
@@ -249,12 +262,12 @@ public class Card extends JLabel implements MouseListener, Comparable {
         timer.start();
     }
 
-    public void hitCardAnimation() {
-        
+    public void hitCardAnimation() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
+        SoundControler.soundHit();
         Game.mainPanel.setLayer(this, MyPanel.LAYER++);
 
         Card tempCard = this;
-        Timer timer = new Timer(1, new ActionListener() {
+        Timer timer = new Timer(10, new ActionListener() {
             // Starting point
             int x1 = tempCard.getX();
             int y1 = tempCard.getY();
@@ -324,7 +337,12 @@ public class Card extends JLabel implements MouseListener, Comparable {
         if(e.getClickCount() == 2 ||(e.getClickCount() ==1 && isClicked&& user.checkValid(this)))
         {
 
-            processing ();
+            try {
+                processing ();
+            } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+            }
         }
         if(e.getClickCount() ==1)
         {
@@ -347,7 +365,7 @@ public class Card extends JLabel implements MouseListener, Comparable {
         this.setLocation(this.getX(), MyPanel.HEIGHT - 130);
         this.setCursor(new Cursor(Cursor.HAND_CURSOR));
     }
-    void processing()
+    void processing() throws UnsupportedAudioFileException, IOException, LineUnavailableException
     {
         if (Game.check(this)) 
         {
@@ -387,7 +405,7 @@ public class Card extends JLabel implements MouseListener, Comparable {
                 }
         }   
     }
-    void hitCard() {
+    void hitCard() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
         this.removeMouseListener(this);
         this.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 
@@ -433,7 +451,12 @@ public class Card extends JLabel implements MouseListener, Comparable {
             isDragg = false;
             if( user.checkValid(this) && user.getTurn() == true)
             {
-             processing();
+             try {
+                processing();
+            } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+            }
             }else{
              for (Card card : user.getCard()) {
                  card.backDefaultCard();

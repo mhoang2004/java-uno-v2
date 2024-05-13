@@ -33,7 +33,7 @@ public class BeginPanel extends MyPanel {
     ArrayList<String> stringList;
     JLabel next1;
     JLabel next2;
-    Timer timer;
+    static Timer timer;
     static String linkImg ;
     String pathBackround;
     JLayeredPane goLabel;
@@ -188,73 +188,43 @@ public class BeginPanel extends MyPanel {
 
             @Override
             public void mouseClicked(MouseEvent e) {
-            
-                if (button.getLocation().getX() ==270 ) {
-                    timer.stop();
-                    System.out.println("Clicking   ");
-                    App.frame.setVisible(false);
-                    App.frame.remove(App.beginPage);
-                    App.loginPanel=new LoginPanel();
-                    App.frame.add(App.loginPanel);
-                    // App.frame = new MyFrame();
-                    App.frame.setVisible(true);
-                } else{
-                    App.frame.remove(App.beginPage);
-                    try {
-                        App.newGame(App.backroundGame);
-                    } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e1) {
-                        // TODO Auto-generated catch block
-                        e1.printStackTrace();
-                    }
-                    // timer.stop();
-                    // timer= new Timer(10, new ActionListener() {
-                    //     int x= -MyPanel.WIDTH;
-                    //     int y=0;
-                    //     @Override
-                    //     public void actionPerformed(ActionEvent e) {
-                    //         if(x <-50)
-                    //         {
-                    //             App.beginPage.removeComponent();
-                    //             x+=50;
-                    //             animationLabel.setBounds(x, 0, MyPanel.WIDTH+50, MyPanel.HEIGHT);
-                    //             // App.homePanel.setBounds(x+MyPanel.WIDTH, 0, MyPanel.WIDTH, MyPanel.HEIGHT);
-                    //         }else {
-                               
-                    //             App.beginPage.removeComponent();
-                    //             animationLabel.setBounds(x, 0, MyPanel.WIDTH+50, MyPanel.HEIGHT);
-                              
-                    //             goLabel.setBounds(0,0, 200, 200);
-                               
-                    //             timer2 = new Timer(1000, new ActionListener() {
-                                    
-                    //                 @Override
-                    //                 public void actionPerformed(ActionEvent e) {
-                    //                    if(count >=0)
-                    //                    {
-                    //                     textJLabel.setText(count+"");
-                                      
-                    //                     count --;
-                    //                    }else{
-                    //                     if(!isOut)
-                    //                     {
-                    //                         isOut = true;
-                    //                         timer2.stop();
-                    //                         App.frame.remove(App.beginPage);
-                    //                         App.newGame(pathBackround);
-                    //                     }
-                                        
-                    //                    }
-    
-                    //                 }
-                                    
-                    //             });
-                    //             timer2.start();
-                    //         }
-                    //     }
-                        
-                    // });
-                    // timer.start();
+                try {
+                    SoundControler.soundClick();
+                } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e1) {
+                    // TODO Auto-generated catch block
+                    e1.printStackTrace();
                 }
+                Timer timer3 = new Timer(10, new ActionListener() {
+
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        
+                        if (button.getLocation().getX() ==270 ) {
+                            BeginPanel.timer.stop();
+                            System.out.println("Clicking   ");
+                            App.frame.setVisible(false);
+                            App.frame.remove(App.beginPage);
+                            App.loginPanel=new LoginPanel();
+                            App.frame.add(App.loginPanel);
+                            // App.frame = new MyFrame();
+                            App.frame.setVisible(true);
+                        } else{
+                            App.frame.remove(App.beginPage);
+                            try {
+                                App.newGame(App.backroundGame);
+                            } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e1) {
+                                // TODO Auto-generated catch block
+                                e1.printStackTrace();
+                            }
+        
+
+                        }
+                        ((Timer) e.getSource()).stop();
+                    }
+                    
+                });
+                timer3.start();
+                
             }
 
             @Override

@@ -4,6 +4,10 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -52,7 +56,12 @@ public class DrawCard extends JLabel implements ActionListener{
         if(src.equals("PLAY"))
         {
                 Game.player.setTurn(true);
-                cardDrawn.hitCard();
+                try {
+                    cardDrawn.hitCard();
+                } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e1) {
+                    // TODO Auto-generated catch block
+                    e1.printStackTrace();
+                }
                 Game.updatePrevCard();
                 if(cardDrawn.getColor() == null)
                 {
