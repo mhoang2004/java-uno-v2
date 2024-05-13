@@ -183,7 +183,8 @@ public class SettingPanel extends MyPanel {
         App.frame.setVisible(false);
             App.frame.remove(App.setting);
             HomePanel.animationLabel = new JLabel(new ImageIcon(App.backroundGame));
-            HomePanel.name.setText("HI" + scanName.getText());
+            if(scanName.getText().length()>2)
+             HomePanel.name.setText("HI" + scanName.getText());
             App.frame.add( App.homePanel);
             App.frame.setVisible(true);
      }

@@ -8,9 +8,12 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
 
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
@@ -197,7 +200,12 @@ public class BeginPanel extends MyPanel {
                     App.frame.setVisible(true);
                 } else{
                     App.frame.remove(App.beginPage);
-                    App.newGame(App.backroundGame);
+                    try {
+                        App.newGame(App.backroundGame);
+                    } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e1) {
+                        // TODO Auto-generated catch block
+                        e1.printStackTrace();
+                    }
                     // timer.stop();
                     // timer= new Timer(10, new ActionListener() {
                     //     int x= -MyPanel.WIDTH;

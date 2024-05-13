@@ -1,3 +1,7 @@
+import java.io.IOException;
+
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.SwingUtilities;
 
 public class App {
@@ -9,7 +13,7 @@ public class App {
     static HomePanel homePanel;
     static SettingPanel setting;
     static String backroundGame;
-    public static void newGame(String path) {
+    public static void newGame(String path) throws UnsupportedAudioFileException, IOException, LineUnavailableException {
         if (isFirtGame) {
             frame.remove(beginPage);
         }
@@ -23,7 +27,13 @@ public class App {
             public void run() {
                 Game.mainPanel.remove(Game.buttonUno);
                 if (Game.isEndGame == true) {
-                    Game game = new Game(path);
+                   
+                    try {
+                        game = new Game(path);
+                    } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    }
                     game.start();
                 }
             }

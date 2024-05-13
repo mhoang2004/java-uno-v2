@@ -11,7 +11,10 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
 
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
@@ -173,7 +176,13 @@ public class HomePanel extends MyPanel{
                                         isOut = true;
                                         timer2.stop();
                                         App.frame.remove(App.homePanel);
-                                        App.newGame(App.backroundGame);
+                                        try {
+                                            App.newGame(App.backroundGame);
+                                        } catch (UnsupportedAudioFileException | IOException
+                                                | LineUnavailableException e1) {
+                                            // TODO Auto-generated catch block
+                                            e1.printStackTrace();
+                                        }
                                     }
                                     
                                    }
@@ -265,7 +274,13 @@ public class HomePanel extends MyPanel{
                                         isOut = true;
                                         timer2.stop();
                                         App.frame.remove(App.homePanel);
-                                        App.newGame(App.backroundGame);
+                                        try {
+                                            App.newGame(App.backroundGame);
+                                        } catch (UnsupportedAudioFileException | IOException
+                                                | LineUnavailableException e1) {
+                                            // TODO Auto-generated catch block
+                                            e1.printStackTrace();
+                                        }
                                     }
                                     
                                    }

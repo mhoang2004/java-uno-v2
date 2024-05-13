@@ -1,7 +1,9 @@
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
+import java.util.Scanner;
 import java.awt.Graphics2D;
+
 import javax.swing.*;
 
 import java.awt.Color;
@@ -10,7 +12,11 @@ import java.awt.Font;
 import java.awt.RenderingHints;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
-
+import java.io.File;
+import java.io.File;
+import java.io.IOException;
+import java.util.Scanner;
+import javax.sound.sampled.*;
 public class Game implements KeyListener {
     final int COMPUTER_NUM = 3;
     static MyPanel mainPanel; // display users
@@ -29,8 +35,13 @@ public class Game implements KeyListener {
     // private boolean isTurnPlayer;
     static Arrow vector;
     
-    Game(String path) {
-        
+    Game(String path) throws UnsupportedAudioFileException, IOException, LineUnavailableException {
+        //sound 
+        File file = new File("mainSound.wav");
+        AudioInputStream audioStream = AudioSystem.getAudioInputStream(file);
+        Clip clip = AudioSystem.getClip();
+        clip.open(audioStream);
+        clip.start();
         mainPanel = new MyPanel(path);
         // Game.mainPanel.remove(goLabel);
         deck = new Deck();
