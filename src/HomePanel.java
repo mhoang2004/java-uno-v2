@@ -19,7 +19,7 @@ import javax.swing.Timer;
 
 public class HomePanel extends MyPanel{
     JLabel avatar;
-    JLabel name;
+    static JLabel name;
     JLayeredPane ButtonSolo;
     JLayeredPane Button2vs2 ;
     ImageIcon roundedIcon ;
@@ -27,8 +27,7 @@ public class HomePanel extends MyPanel{
     JLabel setting;
     Timer timer ;
     Timer timer2;
-    JLabel animationLabel;
-    String pathBackround;
+    static JLabel animationLabel;
     JLayeredPane goLabel;
     JLabel textJLabel;
     int count =2;
@@ -42,8 +41,7 @@ public class HomePanel extends MyPanel{
         createSetting();
         createButtonSolo();
         createButton2vs2();
-        pathBackround = new String("../resources/images/backgroundmain-0.jpg");
-        animationLabel = new JLabel(new ImageIcon(pathBackround));
+        animationLabel = new JLabel(new ImageIcon(App.backroundGame));
         animationLabel.setBounds(-MyPanel.WIDTH,0, MyPanel.WIDTH+50, MyPanel.HEIGHT);
         goLabel = new JLayeredPane();
         goLabel.setBounds(-200,MyPanel.HEIGHT/2, 100, 100);
@@ -94,7 +92,10 @@ public class HomePanel extends MyPanel{
         setting.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent e)
             {
-                System.out.println("Hello");
+                App.frame.setVisible(false);
+                App.frame.remove(App.homePanel);
+                App.frame.add(App.setting);
+                App.frame.setVisible(true);
             }
         });
         add(setting);
@@ -145,7 +146,6 @@ public class HomePanel extends MyPanel{
                 add(animationLabel);
                 timer= new Timer(10, new ActionListener() {
                     int x= -MyPanel.WIDTH;
-                    int y=0;
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         if(x <-50)
@@ -173,7 +173,7 @@ public class HomePanel extends MyPanel{
                                         isOut = true;
                                         timer2.stop();
                                         App.frame.remove(App.homePanel);
-                                        App.newGame(pathBackround);
+                                        App.newGame(App.backroundGame);
                                     }
                                     
                                    }
@@ -265,7 +265,7 @@ public class HomePanel extends MyPanel{
                                         isOut = true;
                                         timer2.stop();
                                         App.frame.remove(App.homePanel);
-                                        App.newGame(pathBackround);
+                                        App.newGame(App.backroundGame);
                                     }
                                     
                                    }

@@ -7,6 +7,8 @@ public class App {
     static Game game;
     static LoginPanel loginPanel;
     static HomePanel homePanel;
+    static SettingPanel setting;
+    static String backroundGame;
     public static void newGame(String path) {
         if (isFirtGame) {
             frame.remove(beginPage);
@@ -29,16 +31,20 @@ public class App {
     }
 
     public static void main(String[] args) throws Exception {
+        backroundGame = new String("../resources/images/backgroundmain-0.jpg");
         frame = new MyFrame();
         frame.addKeyListener(game);
         homePanel = new HomePanel("../resources/images/BackroundBegin-1.jpg");
         // newGame();
         beginPage = new BeginPanel("../resources/images/BackroundBegin-1.jpg");
-        
+        setting = new SettingPanel("../resources/images/BackroundBegin-1.jpg");
         frame.add(beginPage);
         // button uno
         frame.pack();
         frame.setVisible(true);
     }
-    
+    static void setBackground(String path)
+    {
+        backroundGame = new String(path);
+    }
 }

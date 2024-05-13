@@ -3,6 +3,13 @@
   "configurations": [
     {
       "type": "java",
+      "name": "App",
+      "request": "launch",
+      "mainClass": "App",
+      "projectName": "java-uno-v2-6_c1683e4e"
+    },
+    {
+      "type": "java",
       "name": "TextBorderExample",
       "request": "launch",
       "mainClass": "TextBorderExample",

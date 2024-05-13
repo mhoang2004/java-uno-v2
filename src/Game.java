@@ -71,7 +71,7 @@ public class Game implements KeyListener {
 
         isReverse = true; // clockwise
         isEndGame = false;
-       
+        
     }
     public static void addToMainPanel(JLabel card) {
         mainPanel.add(card, Integer.valueOf(MyPanel.LAYER++));

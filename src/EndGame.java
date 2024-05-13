@@ -29,8 +29,11 @@ public class EndGame extends JLabel {
         playAgainBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                App.frame.remove(Game.mainPanel);
+                App.frame.setVisible(false);
                 App.frame.add(App.homePanel);
+                App.frame.remove(Game.mainPanel);
+                App.frame.setVisible(true);
+                
             }
         });
 

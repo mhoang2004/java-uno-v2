@@ -254,7 +254,7 @@ public class Card extends JLabel implements MouseListener, Comparable {
         Game.mainPanel.setLayer(this, MyPanel.LAYER++);
 
         Card tempCard = this;
-        Timer timer = new Timer(10, new ActionListener() {
+        Timer timer = new Timer(1, new ActionListener() {
             // Starting point
             int x1 = tempCard.getX();
             int y1 = tempCard.getY();

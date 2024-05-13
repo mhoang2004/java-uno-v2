@@ -26,6 +26,7 @@ public class LoginPanel extends MyPanel implements ActionListener {
     JLabel createAccount;
     static Color MAINCOLOR = new Color(0, 50, 200);
     static JLabel buttonNextGame;
+    static JLabel buttonBackGame;
     ImageIcon roundedIcon;
     JLayeredPane parentMail;
     JLayeredPane parentPass;
@@ -126,7 +127,7 @@ public class LoginPanel extends MyPanel implements ActionListener {
         parentMail.add(scanMail);
     }
 
-    public static void setSingleLine(JTextField textField) {
+     public static void setSingleLine(JTextField textField) {
         textField.setDocument(new PlainDocument() {
             @Override
             public void insertString(int offs, String str, AttributeSet a) throws BadLocationException {
@@ -453,11 +454,76 @@ public class LoginPanel extends MyPanel implements ActionListener {
                 parentConfirm.setOpaque(false);
 
                 add(parentConfirm);
-                createButtonNext(70, false, 530, "nextIMG.png");
-                System.out.println(x + "" + y);
+                createButtonNext(70, false, 530, "nextIMG");
+                createButtonBack(70, false, 530, "backIMG");
             }
         }
     }
+    void createButtonBack(int w,boolean isText,  int deltaY, String path)
+    {
+        // Tạo ImageIcon từ hình ảnh
+        roundedIcon = new ImageIcon(drawButtonNext(w, isText, path));
+
+        // Tạo JLabel và thiết lập hình ảnh
+        buttonBackGame = new JLabel(roundedIcon);
+        buttonBackGame.addMouseListener(new MouseListener() {
+
+     @Override
+     public void mouseClicked(MouseEvent e) {
+         if(isLogIn)
+         {
+            App.frame.setVisible(false);
+            App.frame.remove(App.loginPanel);
+            App.beginPage = new BeginPanel("../resources/images/BackroundBegin-1.jpg");
+            App.frame.add(App.beginPage);
+            App.frame.setVisible(true);
+         }else{
+            App.frame.setVisible(false);
+            App.frame.remove(App.loginPanel);
+            App.loginPanel = new LoginPanel();
+            App.frame.add(App.loginPanel);
+            App.frame.setVisible(true);
+         }
+         
+     }
+
+     @Override
+     public void mousePressed(MouseEvent e) {
+     }
+
+     @Override
+     public void mouseReleased(MouseEvent e) {
+     }
+
+     @Override
+     public void mouseEntered(MouseEvent e) {
+         if (!isHover) {
+             isHover = true;
+             remove(LoginPanel.buttonBackGame);
+             createButtonBack(150, true, y, path);
+         }
+
+     }
+
+     @Override
+     public void mouseExited(MouseEvent e) {
+
+         if (isHover) {
+             isHover = false;
+             // remove(LoginPanel.buttonNextGame);
+             buttonBackGame.setIcon(null);
+             createButtonBack(70, false, y, path);
+         }
+
+     }
+
+ });
+ buttonBackGame.setBounds(50,50, w, 50);
+
+ buttonBackGame.setOpaque(false);
+ add(buttonBackGame);
+
+}
 
     JLabel createImgWarnings(JLayeredPane x, boolean isWarn) {
         int y = x.getY();
@@ -502,19 +568,35 @@ public class LoginPanel extends MyPanel implements ActionListener {
         if (isText) {
 
             g2d.setFont(new Font("Arial", Font.BOLD, 20));
-            String text = "NEXT";
+            String text ;
+            if(path.equals("backIMG")){
+                text ="BACK";
+            }else{
+                text ="NEXT";
+            }
+            
             FontMetrics fm = g2d.getFontMetrics();
             int textWidth = fm.stringWidth(text);
             int textHeight = fm.getHeight();
             int x = (width - textWidth) / 2;
             int y = (50 - textHeight) / 2 + fm.getAscent();
-            g2d.drawString(text, x, y);
+            if(path.equals("backIMG")){
+                g2d.drawString(text, 70, y);
+            }else{
+                g2d.drawString(text, x, y);
+            }
+            
         }
 
         String pathIcon = new String("../resources/images/");
-        pathIcon += path;
-        Image img = new ImageIcon("../resources/images/nextIMG.png").getImage();
-        g2d.drawImage(img, width - 40, 5, null);
+        pathIcon += path+".png";
+        Image img = new ImageIcon(pathIcon).getImage();
+        if(path.equals("backIMG")){
+            g2d.drawImage(img, 10, 0, null);
+        }else{
+            g2d.drawImage(img, width - 40, 5, null);
+        }
+        
         g2d.dispose();
         return roundedImage;
     }

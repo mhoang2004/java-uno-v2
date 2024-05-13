@@ -47,13 +47,12 @@ public class BeginPanel extends MyPanel {
         next1 = new JLabel();
         next1.setBounds(330, 480, 78, 88);
         next2 = new JLabel();
-        next2.setBounds(800,480 , 78, 88);
+        next2.setBounds(830,480 , 78, 88);
         add(next1);
         add(next2);
-        pathBackround = new String("../resources/images/backgroundmain-0.jpg");
         animationLabel = new JLabel(new ImageIcon(pathBackround));
         animationLabel.setBounds(-MyPanel.WIDTH,0, MyPanel.WIDTH+50, MyPanel.HEIGHT);
-        add(animationLabel);
+        //add(animationLabel);
         goLabel = new JLayeredPane();
         goLabel.setBounds(-200,MyPanel.HEIGHT/2, 100, 100);
 
@@ -66,7 +65,7 @@ public class BeginPanel extends MyPanel {
         JLabel backround = new JLabel(roundedIconx);
         backround.setBounds(0,0,100, 100 );
         goLabel.add(backround);
-        add(goLabel);
+        //add(goLabel);
     }
     BufferedImage drawButtonNext() {
         BufferedImage roundedImage = new BufferedImage(100, 100, BufferedImage.TYPE_INT_ARGB);
@@ -197,54 +196,56 @@ public class BeginPanel extends MyPanel {
                     // App.frame = new MyFrame();
                     App.frame.setVisible(true);
                 } else{
-                    timer.stop();
-                    timer= new Timer(10, new ActionListener() {
-                        int x= -MyPanel.WIDTH;
-                        int y=0;
-                        @Override
-                        public void actionPerformed(ActionEvent e) {
-                            if(x <-50)
-                            {
-                                App.beginPage.removeComponent();
-                                x+=50;
-                                animationLabel.setBounds(x, 0, MyPanel.WIDTH+50, MyPanel.HEIGHT);
-                                // App.homePanel.setBounds(x+MyPanel.WIDTH, 0, MyPanel.WIDTH, MyPanel.HEIGHT);
-                            }else {
+                    App.frame.remove(App.beginPage);
+                    App.newGame(App.backroundGame);
+                    // timer.stop();
+                    // timer= new Timer(10, new ActionListener() {
+                    //     int x= -MyPanel.WIDTH;
+                    //     int y=0;
+                    //     @Override
+                    //     public void actionPerformed(ActionEvent e) {
+                    //         if(x <-50)
+                    //         {
+                    //             App.beginPage.removeComponent();
+                    //             x+=50;
+                    //             animationLabel.setBounds(x, 0, MyPanel.WIDTH+50, MyPanel.HEIGHT);
+                    //             // App.homePanel.setBounds(x+MyPanel.WIDTH, 0, MyPanel.WIDTH, MyPanel.HEIGHT);
+                    //         }else {
                                
-                                App.beginPage.removeComponent();
-                                animationLabel.setBounds(x, 0, MyPanel.WIDTH+50, MyPanel.HEIGHT);
+                    //             App.beginPage.removeComponent();
+                    //             animationLabel.setBounds(x, 0, MyPanel.WIDTH+50, MyPanel.HEIGHT);
                               
-                                goLabel.setBounds(0,0, 200, 200);
+                    //             goLabel.setBounds(0,0, 200, 200);
                                
-                                timer2 = new Timer(1000, new ActionListener() {
+                    //             timer2 = new Timer(1000, new ActionListener() {
                                     
-                                    @Override
-                                    public void actionPerformed(ActionEvent e) {
-                                       if(count >=0)
-                                       {
-                                        textJLabel.setText(count+"");
+                    //                 @Override
+                    //                 public void actionPerformed(ActionEvent e) {
+                    //                    if(count >=0)
+                    //                    {
+                    //                     textJLabel.setText(count+"");
                                       
-                                        count --;
-                                       }else{
-                                        if(!isOut)
-                                        {
-                                            isOut = true;
-                                            timer2.stop();
-                                            App.frame.remove(App.homePanel);
-                                            App.newGame(pathBackround);
-                                        }
+                    //                     count --;
+                    //                    }else{
+                    //                     if(!isOut)
+                    //                     {
+                    //                         isOut = true;
+                    //                         timer2.stop();
+                    //                         App.frame.remove(App.beginPage);
+                    //                         App.newGame(pathBackround);
+                    //                     }
                                         
-                                       }
+                    //                    }
     
-                                    }
+                    //                 }
                                     
-                                });
-                                timer2.start();
-                            }
-                        }
+                    //             });
+                    //             timer2.start();
+                    //         }
+                    //     }
                         
-                    });
-                    timer.start();
+                    // });
+                    // timer.start();
                 }
             }
 
