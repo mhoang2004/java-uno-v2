@@ -328,7 +328,7 @@ public class Computer extends User {
     }
 
     public void checkUno() {
-        if (sizeCards() == 2) {
+        if (sizeCards() == 1) {
             try {
                 SoundControler.soundUno();
             } catch (LineUnavailableException e) {

@@ -271,13 +271,13 @@ public static boolean nextIsPlayer(int index)
        
         if (com.get(index).getTurn() == false)
             return;
-        com.get(index).checkUno();
         try {
             hisComputerHit.put(index, com.get(index).computerTurn());
         } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
+        com.get(index).checkUno();
         if(nextIsPlayer(index) == true)
         {
             player.offFocus();
