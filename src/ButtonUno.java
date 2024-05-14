@@ -66,6 +66,7 @@ public class ButtonUno extends JLabel implements MouseListener {
                 // TODO Auto-generated catch block
                 e1.printStackTrace();
             }
+            Game.player.unoAnimation();
             Game.displayText();
             Game.notiToUser.setText("Good job!");
             Game.notiToUser.removeText();

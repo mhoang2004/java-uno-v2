@@ -1,3 +1,4 @@
+import javax.sound.sampled.LineUnavailableException;
 import javax.swing.*;
 import java.io.*;
 import java.util.*;
@@ -325,28 +326,79 @@ public abstract class User {
     }
 
     public void banAnimation() {
-        final int BAN_WIDTH = 80;
+        final int BAN_WIDTH = 120;
+        final int BAN_GAP = 120;
         JLabel banLabel = new JLabel();
 
-        ImageIcon icon = new ImageIcon("../resources/images/ban1.png");
+        ImageIcon icon = new ImageIcon("../resources/images/ban.png");
         int x, y;
 
-        if (position.equals("SOUTH") || position.equals("NORTH")) {
+        if (position.equals("SOUTH")) {
             x = (MyPanel.WIDTH - BAN_WIDTH) / 2;
-            y = yPos;
+            y = yPos - BAN_GAP;
+        } else if (position.equals("NORTH")) {
+            x = (MyPanel.WIDTH - BAN_WIDTH) / 2;
+            y = yPos + BAN_GAP;
+        } else if (position.equals("WEST")) {
+            x = xPos + BAN_GAP;
+            y = (MyPanel.HEIGHT - BAN_WIDTH) / 2;
         } else {
-            x = xPos;
+            x = xPos - BAN_GAP;
             y = (MyPanel.HEIGHT - BAN_WIDTH) / 2;
         }
         banLabel.setBounds(x, y, BAN_WIDTH, BAN_WIDTH);
         banLabel.setIcon(icon);
         Game.addToMainPanel(banLabel);
 
-        // clear ban after 1 second
-        Timer timer = new Timer(1000, new ActionListener() {
+        // clear ban after 2 second
+        Timer timer = new Timer(2000, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Game.mainPanel.remove(banLabel);
+                Game.mainPanel.repaint();
+            }
+        });
+
+        timer.start();
+    }
+
+    public void unoAnimation() {
+        final int UNO_WIDTH = 150;
+        final int UNO_HEIGHT = 86;
+        final int UNO_GAP = 150;
+        JLabel unoLabel = new JLabel();
+        ImageIcon icon;
+
+        if (position.equals("SOUTH") || position.equals("WEST")) {
+            icon = new ImageIcon("../resources/images/uno1.png");
+        } else {
+            icon = new ImageIcon("../resources/images/uno2.png");
+        }
+        
+        int x, y;
+
+        if (position.equals("SOUTH")) {
+            x = (MyPanel.WIDTH - UNO_WIDTH) / 2;
+            y = yPos - UNO_GAP;
+        } else if (position.equals("NORTH")) {
+            x = (MyPanel.WIDTH - UNO_WIDTH) / 2;
+            y = yPos + UNO_GAP;
+        } else if (position.equals("WEST")) {
+            x = xPos + UNO_GAP;
+            y = (MyPanel.HEIGHT - UNO_HEIGHT) / 2;
+        } else {
+            x = xPos - UNO_GAP;
+            y = (MyPanel.HEIGHT - UNO_HEIGHT) / 2;
+        }
+        unoLabel.setBounds(x, y, UNO_WIDTH, UNO_HEIGHT);
+        unoLabel.setIcon(icon);
+        Game.addToMainPanel(unoLabel);
+
+        // clear uno after 2 second
+        Timer timer = new Timer(2000, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Game.mainPanel.remove(unoLabel);
                 Game.mainPanel.repaint();
             }
         });
