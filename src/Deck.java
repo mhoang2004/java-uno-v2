@@ -77,7 +77,8 @@ public class Deck extends JLabel implements MouseListener {
             Game.vector.removeComponent();;
             this.setEnabled(false);
             Game.player.setTurn(false);
-            Card cardDrawn =  Game.player.drawCard();             
+            Card cardDrawn =  Game.player.drawCard2();
+            cardDrawn.removeEffect();             
             if(Game.player.checkValid(cardDrawn))
             {
                 Game.addToMainPanel(new DrawCard(cardDrawn));     

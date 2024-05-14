@@ -54,9 +54,6 @@ public class Game implements KeyListener {
         while (prevCard.isSpecial()) {
             prevCard = deck.getOneCard();
         }
-        while (player.checkValid(prevCard) == false) {
-            prevCard = deck.getOneCard();
-        }
         isReverse = true;
         vectorLeft = new Reverse("L");
         vectorRight = new Reverse("R");

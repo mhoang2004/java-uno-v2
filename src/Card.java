@@ -137,13 +137,84 @@ public class Card extends JLabel implements MouseListener, Comparable, ActionLis
         }
         return false;
     }
+    public void drawCardAnimationByBao(int xDeck, int yDeck,int x, int y) {
+        Card tempCard = this;
+        try {
+            SoundControler.soundDraw();
+        } catch (LineUnavailableException e) {
+            e.printStackTrace();
+        }
+        // Ending point
+        final int x2;
+        final int y2;
+        x2 = x;
+        y2 = y;
 
+        Timer timer = new Timer(10, new ActionListener() {
+            // Starting point
+            int x1 =xDeck;
+            int y1 =yDeck;
+
+            int dx = x2 - x1;
+            int dy = y2 - y1;
+
+            int distance = (int) Math.sqrt(dx * dx + dy * dy);
+            int velocity = 10;
+            int steps = (int) Math.ceil(distance / velocity);
+
+            int dxStep = (int) dx / steps;
+            int dyStep = (int) dy / steps;
+
+            int countStep = 0;
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (countStep < steps) {
+                    x1 += dxStep;
+                    y1 += dyStep;
+                    countStep++;
+                    tempCard.setLocation(x1, y1);
+                    tempCard.repaint();
+                } else {
+                    // handle others things
+                    Timer time = new Timer(200, new ActionListener() {
+
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            tempCard.drawCardAnimation(Deck.X+200, Deck.Y+100);
+                            ((Timer) e.getSource()).stop();
+                        }
+                        
+                    });
+                   
+                    ((Timer) e.getSource()).stop();
+                    time.start();
+                }
+            }
+        });
+
+        timer.start();
+    }
+    public void drawCardAnimationByBao2() {
+        Card tempCard = this;
+        try {
+            SoundControler.soundDraw();
+        } catch (LineUnavailableException e) {
+            e.printStackTrace();
+        }
+        tempCard.drawCardAnimationByBao(Deck.X, Deck.Y, Deck.X+200, Deck.Y+100);
+        user.setCardsPosition();
+        if(tempCard.user.checkValid(this)== false)
+        {
+            this.removeEffect();
+        }
+        timer.start();
+    }
     public void drawCardAnimation(int x, int y) {
         Card tempCard = this;
         try {
             SoundControler.soundDraw();
         } catch (LineUnavailableException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         // Ending point
