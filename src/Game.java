@@ -38,11 +38,12 @@ public class Game implements KeyListener {
     
     Game(String path) throws UnsupportedAudioFileException, IOException, LineUnavailableException {
         //sound 
-        File file = new File("mainSound.wav");
+        File file = new File("../resources/sound/mainSound.wav");
         AudioInputStream audioStream = AudioSystem.getAudioInputStream(file);
         clip = AudioSystem.getClip();
         clip.open(audioStream);
-        // clip.start();
+        clip.loop(Clip.LOOP_CONTINUOUSLY);
+        clip.start();
         mainPanel = new MyPanel(path);
         // Game.mainPanel.remove(goLabel);
         deck = new Deck();
@@ -270,6 +271,7 @@ public static boolean nextIsPlayer(int index)
        
         if (com.get(index).getTurn() == false)
             return;
+        com.get(index).checkUno();
         try {
             hisComputerHit.put(index, com.get(index).computerTurn());
         } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {

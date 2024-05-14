@@ -388,6 +388,17 @@ public class Card extends JLabel implements MouseListener, Comparable, ActionLis
 
     @Override
     public void mouseClicked(MouseEvent e) {
+        try {
+            SoundControler.soundClick();
+        } catch (LineUnavailableException e1) {
+            e1.printStackTrace();
+        } catch (UnsupportedAudioFileException e1) {
+            // TODO Auto-generated catch block
+            e1.printStackTrace();
+        } catch (IOException e1) {
+            // TODO Auto-generated catch block
+            e1.printStackTrace();
+        }
         addMouseMotionListener(new MouseAdapter() {
             int x, y;
 

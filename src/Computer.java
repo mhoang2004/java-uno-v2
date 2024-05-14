@@ -327,6 +327,17 @@ public class Computer extends User {
         return cardHit;
     }
 
+    public void checkUno() {
+        if (sizeCards() == 2) {
+            try {
+                SoundControler.soundUno();
+            } catch (LineUnavailableException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
+    }
+
     @Override
     public boolean isPlayer() {
         return false;

@@ -1,8 +1,11 @@
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.IOException;
 import java.awt.*;
 
 public class ButtonUno extends JLabel implements MouseListener {
@@ -37,7 +40,18 @@ public class ButtonUno extends JLabel implements MouseListener {
     @Override
     public void mouseClicked(MouseEvent e) {
         // sound 
-        
+        try {
+            SoundControler.soundClick();
+        } catch (UnsupportedAudioFileException e1) {
+            // TODO Auto-generated catch block
+            e1.printStackTrace();
+        } catch (IOException e1) {
+            // TODO Auto-generated catch block
+            e1.printStackTrace();
+        } catch (LineUnavailableException e1) {
+            // TODO Auto-generated catch block
+            e1.printStackTrace();
+        }
         // TODO Auto-generated method stub
         System.out.println("Button uno clicked");
         unoClicked = true;
@@ -46,6 +60,12 @@ public class ButtonUno extends JLabel implements MouseListener {
             Game.notiToUser.setText("Hit the UNO button BEFORE playing your second-to-last-card!");
             Game.notiToUser.removeText();
         } else if (Game.player.sizeCards() == 1) {
+            try {
+                SoundControler.soundUno();
+            } catch (LineUnavailableException e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+            }
             Game.displayText();
             Game.notiToUser.setText("Good job!");
             Game.notiToUser.removeText();

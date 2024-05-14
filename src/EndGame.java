@@ -25,12 +25,23 @@ public class EndGame extends JLabel {
     EndGame() {
         this.setBounds((MyPanel.WIDTH - WIDTH) / 2, (MyPanel.HEIGHT - HEIGHT) / 2, WIDTH, HEIGHT);
         Game.clip.stop();
-        try {
-            SoundControler.soundVicroty();
-        } catch (LineUnavailableException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+        if(Game.player.getCard().size()<2)
+        {
+            try {
+                SoundControler.soundVicroty();
+            } catch (LineUnavailableException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }else{
+            try {
+                SoundControler.soundLose();
+            } catch (LineUnavailableException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
         }
+        
         playAgainBtn = new JButton("Back To Home");
         if(App.modeGuest == true)
         {
