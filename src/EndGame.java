@@ -4,8 +4,10 @@ import java.awt.GridLayout;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -29,16 +31,33 @@ public class EndGame extends JLabel {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        playAgainBtn = new JButton("Play Again");
+        playAgainBtn = new JButton("Back To Home");
+        if(App.modeGuest == true)
+        {
+            playAgainBtn.setText("Play Again");
+        }
         playAgainBtn.setBackground(new Color(30, 194, 235));
         playAgainBtn.setFont(new Font("Arial", Font.BOLD, 30));
         playAgainBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                App.frame.setVisible(false);
-                App.frame.add(App.homePanel);
-                App.frame.remove(Game.mainPanel);
-                App.frame.setVisible(true);
+                if(App.modeGuest == true){
+                    App.frame.setVisible(false);
+                    App.frame.remove(Game.mainPanel);
+                     try {
+                        App.newGame(App.backroundGame);
+                    } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e1) {
+                        // TODO Auto-generated catch block
+                        e1.printStackTrace();
+                    }
+                    App.frame.setVisible(true); 
+                }else{
+                    App.frame.setVisible(false);
+                    App.frame.add(App.homePanel);
+                    App.frame.remove(Game.mainPanel);
+                    App.frame.setVisible(true);
+                }
+               
                 
             }
         });
@@ -59,6 +78,12 @@ public class EndGame extends JLabel {
         gameBtns.add(rankBtn);
 
         gameResult = new JLabel("END GAME", SwingConstants.CENTER);
+        if(Game.player.getCard().size()<2)
+        {
+            gameResult.setText("VICTORY");
+        }else{
+            gameResult.setText("LOSE");
+        }
         gameResult.setFont(new Font("Arial", Font.BOLD, 30));
         gameResult.setOpaque(true);
 

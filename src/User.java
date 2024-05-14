@@ -195,11 +195,17 @@ public abstract class User {
         while (i < sizeCard) {
             // cadrs[j] is special
             if (cards.get(i).isSpecial())
+            {
                 // visited to end cards
                 if (i + 1 == sizeCard)
-                    return i + 1;
+                return i + 1;
                 else
+                {
                     i++;
+                    continue;
+                }
+                
+            }  
             // cards[j] >= new card
             if (cards.get(i).compareTo(newCard) > 0) {
                 System.out.println("(cards[j] > new card)I is " + i);

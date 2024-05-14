@@ -215,6 +215,7 @@ public class LoginPanel extends MyPanel implements ActionListener {
                     if(isLogIn)
                     {
                         if (checkSignOut().size() ==0 && checkLogin() == true) {
+                            App.modeGuest = false;
                             Notification noti2 = new Notification(20);
                             noti2.setText("SUCCESS");
                             addToMainPanel(noti2);
@@ -830,6 +831,7 @@ public class LoginPanel extends MyPanel implements ActionListener {
                 System.out.println(checkSignOut());
                 if (isLogIn) {
                     if (checkSignOut().size() ==0 && checkLogin() == true) {
+                        App.modeGuest = false;
                         Notification noti2 = new Notification(20);
                         noti2.setText("SUCCESS");
                         addToMainPanel(noti2);

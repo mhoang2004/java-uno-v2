@@ -13,6 +13,7 @@ public class App {
     static HomePanel homePanel;
     static SettingPanel setting;
     static String backroundGame;
+    static boolean modeGuest = true;
     public static void newGame(String path) throws UnsupportedAudioFileException, IOException, LineUnavailableException {
         if (isFirtGame) {
             frame.remove(beginPage);
