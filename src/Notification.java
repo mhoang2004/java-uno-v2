@@ -19,7 +19,7 @@ public class Notification extends JLabel {
     Notification(int y) {
         super();
         // this.setText("Hi everyone");
-        this.setBounds(0, y, WIDTH+300, HEIGHT);
+        this.setBounds(0, y, WIDTH+300, HEIGHT+20);
         this.setBackground(new Color(0, 0, 0, 100)); 
         this.setHorizontalAlignment(JLabel.CENTER); // Center the image horizontally
         this.setVerticalAlignment(JLabel.CENTER); // Center the image vertically
@@ -42,7 +42,7 @@ public class Notification extends JLabel {
     }
     public void removeTextByBao() {
         JLabel text = this;
-        Timer timer = new Timer(4000, new ActionListener() {
+        Timer timer = new Timer(2000, new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 App.loginPanel.remove(text);
                 App.loginPanel.repaint();
@@ -63,6 +63,27 @@ public class Notification extends JLabel {
                         App.frame.add(App.homePanel);
                         // App.frame = new MyFrame();
                         App.frame.setVisible(true);
+                ((Timer) e.getSource()).stop();
+            }
+        });
+        timer.start();
+        
+    }
+    public void removeTextByBao3(String scanMail, String scanPass) {
+        JLabel text = this;
+        Timer timer = new Timer(3000, new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                App.loginPanel.remove(text);
+                App.loginPanel.repaint();
+                App.frame.setVisible(false);
+                String getPass = new String(scanPass);
+                FileHandler.addNewUserData(scanMail, getPass);
+                App.frame.setVisible(false);
+                App.frame.remove(App.loginPanel);
+                App.loginPanel = new LoginPanel();
+                App.frame.add(App.loginPanel);
+                // App.frame = new MyFrame();
+                App.frame.setVisible(true);
                 ((Timer) e.getSource()).stop();
             }
         });

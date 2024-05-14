@@ -36,6 +36,8 @@ public class ButtonUno extends JLabel implements MouseListener {
 
     @Override
     public void mouseClicked(MouseEvent e) {
+        // sound 
+        
         // TODO Auto-generated method stub
         System.out.println("Button uno clicked");
         unoClicked = true;

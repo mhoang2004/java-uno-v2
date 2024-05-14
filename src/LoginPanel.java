@@ -48,7 +48,7 @@ public class LoginPanel extends MyPanel implements ActionListener {
     JLabel mailImgWarnings;
     JLabel passImgWarnings;
     JLabel confirmImgWarnings;
-
+    JLayeredPane parentNew;
     LoginPanel() {
         super("../resources/images/BackroundBegin-1.jpg");
         myBorder = BorderFactory.createMatteBorder(0, 0, 0, 0, Color.BLACK);
@@ -87,7 +87,7 @@ public class LoginPanel extends MyPanel implements ActionListener {
         scanMail.setFont(new Font("Arial", Font.BOLD, 20));
         scanMail.setForeground(MAINCOLOR);
         scanMail.setFocusable(false);
-        scanMail.setBounds(20, 10, 470, 40);
+        scanMail.setBounds(20, 5, 470, 40);
         scanMail.setBorder(myBorder);
         setSingleLine(scanMail);
         scanMail.setText("EMAIL");
@@ -105,7 +105,6 @@ public class LoginPanel extends MyPanel implements ActionListener {
                     scanPass.setEchoChar((char) 0);
                 }
                 String getCoFirm = new String(scanConfirm.getPassword());
-
                 if (getCoFirm.equals("CONFIRM") || getCoFirm.length() == 0) {
                     scanConfirm.setBorder(myBorder);
                     scanConfirm.setText("CONFIRM");
@@ -124,6 +123,22 @@ public class LoginPanel extends MyPanel implements ActionListener {
                     effectSuccess();
                     effectWarn();
                 }
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                   if(scanMail.getText().equals("EMAIL")|| scanMail.getText().length() == 0)
+                   {
+                        scanMail.setText("EMAIL");
+                   }
+                   scanMail.setFocusable(false);
+                   scanPass.setFocusable(true);
+                   String getPass = new String(scanPass.getPassword());
+                if (getPass.equals("PASSWORD") || getPass.length() == 0) {
+                    scanPass.setBorder(myBorder);
+                    scanPass.setText("");
+                    scanPass.setEchoChar('*');
+                }
+                    e.consume(); // Ngăn không cho JTextArea thêm dòng mới
+                }
+                
 
             }
         });
@@ -159,7 +174,8 @@ public class LoginPanel extends MyPanel implements ActionListener {
             public void mouseClicked(MouseEvent e) {
                 // scanPass.setBorder(myBorderEffect);
                 // String getCoFirm= new String(scanComfirm.getPassword());
-
+                scanPass.setFocusable(true);
+                scanConfirm.setEchoChar('*');
                 if (!isEyes) {
                     scanConfirm.setEchoChar('*');
                 }
@@ -180,17 +196,71 @@ public class LoginPanel extends MyPanel implements ActionListener {
                 }
             }
         });
+        scanPass.addKeyListener(new KeyListener() {
 
+            @Override
+            public void keyTyped(KeyEvent e) {
+               
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+              
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+               
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    if(isLogIn)
+                    {
+                        if (checkSignOut().size() ==0 && checkLogin() == true) {
+                            Notification noti2 = new Notification(20);
+                            noti2.setText("SUCCESS");
+                            addToMainPanel(noti2);
+                            noti2.removeTextByBao2();
+                        } else {
+                            Notification noti1 = new Notification(20);
+                            noti1.setText("Email and password do not match");
+                            addToMainPanel(noti1);
+                            noti1.removeTextByBao();
+                        }
+                    }else{
+                        String getPass = new String(scanPass.getPassword());
+                         if (getPass.equals("PASSWORD") || getPass.length() == 0) {
+                         scanPass.setBorder(myBorder);
+                         scanPass.setText("PASSWORD");
+                         scanPass.setEchoChar((char) 0);
+                     }
+                        String getCoFirm = new String(scanConfirm.getPassword());
+                        scanPass.setFocusable(false);
+                        scanConfirm.setFocusable(true);
+                        if (getCoFirm.equals("CONFIRM") || getCoFirm.length() == 0) {
+                         scanConfirm.setBorder(myBorder);
+                         scanConfirm.setText("");
+                         scanConfirm.setEchoChar('*');
+                     }
+                    }
+                   
+                     e.consume(); // Ngăn không cho JTextArea thêm dòng mới
+                 }
+            }
+            
+        });
         parentPass.add(scanPass);
     }
 
     void createAccount() {
-
+        parentNew = new JLayeredPane();
+        parentNew.setBounds(400, 480, 150, 30);
+        ImageIcon img = new ImageIcon(CreatorCompument.drawButtonNew(130, false));
+        JLabel backroundNew = new JLabel();
+        backroundNew.setIcon(img);
+        backroundNew.setBounds(0, 0,150, 30);
         createAccount = new JLabel("Create Acount");
         createAccount.setFont(new Font("Arial", Font.BOLD, 15));
         createAccount.setForeground(MAINCOLOR);
-
-        createAccount.setBounds(400, 480, 110, 30);
+        createAccount.setBounds(10, 0, 110, 30);
         createAccount.setOpaque(false);
         createAccount.setBackground(new Color(0, 0, 0, 0)); // Màu đen và có độ trong suốt
         createAccount.addMouseListener(new MouseListener() {
@@ -198,7 +268,14 @@ public class LoginPanel extends MyPanel implements ActionListener {
 
             @Override
             public void mouseClicked(MouseEvent e) {
+                scanConfirm.setText("CONFIRM");
+                scanConfirm.setFocusable(false);
+                scanPass.setText("PASSWORD");
+                scanPass.setFocusable(false);
+                scanMail.setText("EMAIL");
+                scanMail.setFocusable(false);
                 isLogIn = false;
+                parentNew.remove(backroundNew);
                 MouseListener a = this;
                 Timer timer = new Timer(10, new ActionListener() {
                     int x = 400;
@@ -212,9 +289,9 @@ public class LoginPanel extends MyPanel implements ActionListener {
                             y -= 10;
                             fontsize += 1;
                             createAccount.setFont(new Font("Arial", Font.BOLD, fontsize));
-                            createAccount.setBounds(x, y, 510, 60);
+                            createAccount.setBounds(0, 0, 510, 60);
+                            parentNew.setBounds(x, y, 510, 60);
                         } else {
-
                             remove(subHeading);
                             scanPass.addKeyListener(new KeyAdapter() {
                                 @Override
@@ -281,17 +358,18 @@ public class LoginPanel extends MyPanel implements ActionListener {
 
             @Override
             public void mouseEntered(MouseEvent e) {
-                createAccount.setForeground(new Color(0, 0, 255));
+                backroundNew.setIcon(new ImageIcon(CreatorCompument.drawButtonNew(130, true)));
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-                // createAccount.setOpaque(true);
-                createAccount.setForeground(MAINCOLOR);
+               backroundNew.setIcon(new ImageIcon(CreatorCompument.drawButtonNew(130, false)));
             }
 
         });
-        add(createAccount);
+        parentNew.add(backroundNew);
+        parentNew.add(createAccount);
+        add(parentNew);
     }
 
     @Override
@@ -307,7 +385,7 @@ public class LoginPanel extends MyPanel implements ActionListener {
 
                 subHeading.setFont(new Font("Harlow Solid Italic", Font.BOLD, 22));
                 subHeading.setForeground(MAINCOLOR);
-                subHeading.setBounds(x - 30, 200, 400, 30);
+                subHeading.setBounds(x-50 , 200, 400, 30);
                 add(subHeading);
                 // scan mail
                 parentMail = new JLayeredPane();
@@ -400,6 +478,7 @@ public class LoginPanel extends MyPanel implements ActionListener {
                             // TODO Auto-generated catch block
                             e1.printStackTrace();
                         }
+                        scanConfirm.setFocusable(true);
                         effectSuccess();
                         effectWarn();
                         String getCoFirm = new String(scanConfirm.getPassword());
@@ -427,6 +506,24 @@ public class LoginPanel extends MyPanel implements ActionListener {
                     public void keyReleased(KeyEvent e) {
                         effectSuccess();
                         effectWarn();
+                    if (e.getKeyCode() == KeyEvent.VK_ENTER) { 
+                            if(checkSignOut().size() ==0)
+                            {
+                                Notification noti2 = new Notification(5);
+                                noti2.setText("SUCCESS");
+                                String getPass = new String ( scanPass.getPassword());
+                                addToMainPanel(noti2);
+                                noti2.removeTextByBao3(scanMail.getText(),getPass);
+                            }else{
+                                Notification noti2 = new Notification(5);
+                                noti2.setText("Email and password do not match");
+                                addToMainPanel(noti2);
+                                noti2.removeTextByBao();
+                            }
+                           
+                           
+                        e.consume(); // Ngăn không cho JTextArea thêm dòng mới
+                    }
                     }
                 });
                 imgEyes = new ImageIcon("../resources/images/Show.png");
@@ -472,17 +569,16 @@ public class LoginPanel extends MyPanel implements ActionListener {
                 backroundConFirm.setBounds(0, 8, 500, 50);
                 parentConfirm.setBounds(400, 800, 500, 40);
                 parentConfirm.setOpaque(false);
-
                 add(parentConfirm);
                 createButtonNext(70, false, 530, "nextIMG");
-                createButtonBack(70, false, 530, "backIMG");
+                createButtonBack(70, false, "backIMG");
             }
         }
     }
-    void createButtonBack(int w,boolean isText,  int deltaY, String path)
+    void createButtonBack(int w,boolean isText, String path)
     {
         // Tạo ImageIcon từ hình ảnh
-        roundedIcon = new ImageIcon(drawButtonNext(w, isText, path));
+        roundedIcon = new ImageIcon(CreatorCompument.drawButtonBack(w, isText));
 
         // Tạo JLabel và thiết lập hình ảnh
         buttonBackGame = new JLabel(roundedIcon);
@@ -526,7 +622,7 @@ public class LoginPanel extends MyPanel implements ActionListener {
          if (!isHover) {
              isHover = true;
              remove(LoginPanel.buttonBackGame);
-             createButtonBack(150, true, y, path);
+             createButtonBack(150, true, path);
          }
 
      }
@@ -538,13 +634,13 @@ public class LoginPanel extends MyPanel implements ActionListener {
              isHover = false;
              // remove(LoginPanel.buttonNextGame);
              buttonBackGame.setIcon(null);
-             createButtonBack(70, false, y, path);
+             createButtonBack(70, false, path);
          }
 
      }
 
  });
- buttonBackGame.setBounds(50,50, w, 50);
+ buttonBackGame.setBounds(10,10, w, 50);
 
  buttonBackGame.setOpaque(false);
  add(buttonBackGame);
@@ -582,13 +678,13 @@ public class LoginPanel extends MyPanel implements ActionListener {
         return imgLabel;
     }
 
-    BufferedImage drawButtonNext(int width, boolean isText, String path) {
+    BufferedImage drawButtonNext(int width, boolean isText, String path,  int flur) {
         // Tạo hình ảnh bo cong 4 góc
         BufferedImage roundedImage = new BufferedImage(width, 50, BufferedImage.TYPE_INT_ARGB);
         Graphics2D g2d = roundedImage.createGraphics();
 
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        g2d.setColor(Color.BLUE);
+        g2d.setColor(new Color(0, 0, 200, flur));
         g2d.fillRoundRect(0, 0, width, 50, 50, 50);
         g2d.setColor(Color.WHITE);
         if (isText) {
@@ -644,9 +740,14 @@ public class LoginPanel extends MyPanel implements ActionListener {
         if (!validatePassword(getPass)) {
             result.add(2);
         }
-        if (!getPass.equals(getCoFirm)) {
-            result.add(3);
+        if(!checkLogin())
+        {
+            if (!getPass.equals(getCoFirm)|| getPass.length() ==0) {
+                result.add(3);
+            }
         }
+
+       
         return result;
     }
 
@@ -712,7 +813,7 @@ public class LoginPanel extends MyPanel implements ActionListener {
 
     void createButtonNext(int width, boolean isText, int y, String path) {
         // Tạo ImageIcon từ hình ảnh
-        roundedIcon = new ImageIcon(drawButtonNext(width, isText, path));
+        roundedIcon = new ImageIcon(drawButtonNext(width, isText, path, 200));
 
         // Tạo JLabel và thiết lập hình ảnh
         buttonNextGame = new JLabel(roundedIcon);
@@ -726,12 +827,9 @@ public class LoginPanel extends MyPanel implements ActionListener {
                     // TODO Auto-generated catch block
                     e1.printStackTrace();
                 }
+                System.out.println(checkSignOut());
                 if (isLogIn) {
-                    // if (checkSignOut().size() != 0) {
-                    // // effectSuccess();
-                    // // effectWarn();
-                    // } else {
-                    if (checkLogin()) {
+                    if (checkSignOut().size() ==0 && checkLogin() == true) {
                         Notification noti2 = new Notification(20);
                         noti2.setText("SUCCESS");
                         addToMainPanel(noti2);
@@ -740,18 +838,26 @@ public class LoginPanel extends MyPanel implements ActionListener {
                         Notification noti1 = new Notification(20);
                         noti1.setText("Email and password do not match");
                         addToMainPanel(noti1);
-                        noti1.removeText();
+                        noti1.removeTextByBao();
                     }
-                    // }
                 } else {
-                    String getPass = new String(scanPass.getPassword());
-                    FileHandler.addNewUserData(scanMail.getText(), getPass);
-                    App.frame.setVisible(false);
-                    App.frame.remove(App.loginPanel);
-                    App.loginPanel = new LoginPanel();
-                    App.frame.add(App.loginPanel);
-                    // App.frame = new MyFrame();
-                    App.frame.setVisible(true);
+                    if(checkSignOut().size() ==0 )
+                    {
+                        String getPass = new String(scanPass.getPassword());
+                        FileHandler.addNewUserData(scanMail.getText(), getPass);
+                        App.frame.setVisible(false);
+                        App.frame.remove(App.loginPanel);
+                        App.loginPanel = new LoginPanel();
+                        App.frame.add(App.loginPanel);
+                        // App.frame = new MyFrame();
+                        App.frame.setVisible(true);
+                    }else{
+                        Notification noti1 = new Notification(20);
+                        noti1.setText("Email and password do not match");
+                        addToMainPanel(noti1);
+                        noti1.removeTextByBao();
+                    }
+                   
                 }
             }
 

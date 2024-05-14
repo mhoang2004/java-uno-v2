@@ -21,15 +21,17 @@ import javax.swing.JLayeredPane;
 import javax.swing.Timer;
 
 public class BeginPanel extends MyPanel {
-    int widthLogin = 230;
-    int heigthLogin = 40;
+    static int widthLogin = 230;
+    static int heigthLogin = 40;
     Timer timer2;
     JLabel welcomJLabel;
     JLabel toJLabel;
     JLabel subWelcomJLabel;
     // Properti for BeginPanel
-    JLabel buttonLogin;
-    JLabel buttonNoLogin;
+    JLayeredPane buttonLogin;
+    JLabel backroundButtonLogin;
+    JLayeredPane buttonNoLogin;
+    JLabel backroundButtonNoLogin;
     ArrayList<String> stringList;
     JLabel next1;
     JLabel next2;
@@ -167,25 +169,52 @@ public class BeginPanel extends MyPanel {
 
     private void createButtonLogin()
     {
-        buttonLogin = new JLabel();
-        buttonLogin.setIcon(new ImageIcon("../resources/images/IMG-Sign-in.png"));
-        buttonLogin.setBounds(270, 550, widthLogin, heigthLogin+30);
+        // Create Button
+        buttonLogin = new JLayeredPane();  
+        buttonLogin.setBounds(270, 550, widthLogin+50, heigthLogin+50);
+        //Create Backround
+        JLabel labelLogin = new JLabel();
+        labelLogin.setIcon(new ImageIcon("../resources/images/IMG-Sign-in.png"));
+        labelLogin.setBounds(10,10, widthLogin, heigthLogin+30);
+        addListener(labelLogin);
         
-        addToMainPanel(buttonLogin);
-        addListener(buttonLogin);
+        //Create  backroundButtonLogin 
+        ImageIcon img = new ImageIcon(CreatorCompument.createRoundButton(buttonLogin,0));
+        backroundButtonLogin = new JLabel();
+        backroundButtonLogin.setIcon(img);
+        backroundButtonLogin.setBounds(0, 0, widthLogin+50, heigthLogin+50);
+        buttonLogin.add(backroundButtonLogin);
+        buttonLogin.add(labelLogin);
+        add(buttonLogin);
     }
     private void createButtonNoLogin()
     {
-        buttonNoLogin = new JLabel();  
-        buttonNoLogin.setIcon(new ImageIcon("../resources/images/IMG-No-Sign-in.png"));    
-        buttonNoLogin.setBounds(750, 550,  widthLogin+30, heigthLogin+30);   
-        addToMainPanel(buttonNoLogin);   
-        addListener(buttonNoLogin);
+        // buttonNoLogin = new JLabel();  
+        // buttonNoLogin.setIcon(new ImageIcon("../resources/images/IMG-No-Sign-in.png"));    
+        // buttonNoLogin.setBounds(750, 550,  widthLogin+30, heigthLogin+30);   
+        // addToMainPanel(buttonNoLogin);   
+        // addListener(buttonNoLogin);
+        buttonNoLogin = new JLayeredPane();  
+        buttonNoLogin.setBounds(750, 550, widthLogin+70, heigthLogin+50);
+        //Create Backround
+        JLabel labelLogin = new JLabel();
+        labelLogin.setIcon(new ImageIcon("../resources/images/IMG-No-Sign-in.png"));
+        labelLogin.setBounds(9,10, widthLogin+20, heigthLogin+30);
+        addListener(labelLogin);
+        
+        //Create  backroundButtonLogin 
+        ImageIcon img = new ImageIcon(CreatorCompument.createRoundButton(buttonLogin,0));
+        backroundButtonNoLogin = new JLabel();
+        backroundButtonNoLogin.setIcon(img);
+        backroundButtonNoLogin.setBounds(0, 0, widthLogin+50, heigthLogin+50);
+        buttonNoLogin.add(backroundButtonNoLogin);
+        buttonNoLogin.add(labelLogin);
+        add(buttonNoLogin);
     }
 
     public void addListener(JLabel button) {
         button.addMouseListener(new MouseListener() {
-
+            
             @Override
             public void mouseClicked(MouseEvent e) {
                 try {
@@ -199,7 +228,7 @@ public class BeginPanel extends MyPanel {
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         
-                        if (button.getLocation().getX() ==270 ) {
+                        if (button.getX() ==10 ) {
                             BeginPanel.timer.stop();
                             System.out.println("Clicking   ");
                             App.frame.setVisible(false);
@@ -237,33 +266,26 @@ public class BeginPanel extends MyPanel {
             }
 
             @Override
-            public void mouseEntered(MouseEvent e) {
- 
-
-                    if (button.getLocation().getX() ==270)
-                    {
-                        next1.setIcon(new ImageIcon("../resources/images/here.png"));
-                        
-                    }else{
-                        next2.setIcon(new ImageIcon("../resources/images/here.png"));
-                    }
-                 
-                
-                
+            public void mouseEntered(MouseEvent e) { 
+                ImageIcon img = new ImageIcon(CreatorCompument.createRoundButton(buttonLogin,50));
+                if(button.getX()==10)
+                {
+                    backroundButtonLogin.setIcon(img);
+                }else{
+                    backroundButtonNoLogin.setIcon(img);
+                }
+                   
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-                if (button.getLocation().getX() ==270)
+                ImageIcon img = new ImageIcon(CreatorCompument.createRoundButton(buttonLogin,0));
+                if(button.getX()==10)
                 {
-                    next1.setIcon(null);
+                    backroundButtonLogin.setIcon(img);
                 }else{
-                    next2.setIcon(null);
+                    backroundButtonNoLogin.setIcon(img);
                 }
-                if(buttonLogin.getText().length() > 1)
-                {
-                
-                }    
             }
 
         });

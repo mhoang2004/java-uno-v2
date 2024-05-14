@@ -7,7 +7,6 @@ import javax.swing.border.LineBorder;
 
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
 import java.io.IOException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -15,7 +14,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.Color;
 import java.awt.Cursor;
 
-public class Card extends JLabel implements MouseListener, Comparable {
+public class Card extends JLabel implements MouseListener, Comparable, ActionListener {
     static boolean isDrawOneCard = false;
     static final int WIDTH = 80;
     static final int HEIGHT = 120;
@@ -28,6 +27,8 @@ public class Card extends JLabel implements MouseListener, Comparable {
     static int newX;
     static int newY;
      boolean isKey = false;
+     Timer timer = new Timer(200, this);
+     boolean bool = true;
     // BACK CARD
 
     Card() {
@@ -71,10 +72,8 @@ public class Card extends JLabel implements MouseListener, Comparable {
     }
     public void suggestedEffect() {
         isSuggest = true;
-        Border border = new LineBorder(Color.YELLOW, 5);
-        setBorder(border);
-        this.setLocation(this.getX(), MyPanel.HEIGHT - 120);
-        this.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        setLocation(getX(), MyPanel.HEIGHT - 120);
+        timer.start();
     }
     public static Card  createCard(String color, String rank)
     {
@@ -83,6 +82,7 @@ public class Card extends JLabel implements MouseListener, Comparable {
     }
     public void removeEffect() {
         isSuggest = false;
+        timer.stop();
         setBorder(new EmptyBorder(0, 0, 0, 0));
     }
 
@@ -496,4 +496,21 @@ public class Card extends JLabel implements MouseListener, Comparable {
         Card card2 = (Card) o;
         return this.rank.equals(card2.rank);
     }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if(bool == true)
+                {
+                    bool = false;
+                    Border border = new LineBorder(Color.YELLOW, 5);
+                    setBorder(border);
+                   
+                }
+                else{
+                    bool = true;
+                    Border border = new LineBorder(Color.YELLOW, 0);
+                    setBorder(border);
+            
+                }
+     }
 }

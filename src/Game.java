@@ -42,12 +42,13 @@ public class Game implements KeyListener {
         AudioInputStream audioStream = AudioSystem.getAudioInputStream(file);
         clip = AudioSystem.getClip();
         clip.open(audioStream);
-        clip.start();
+        // clip.start();
         mainPanel = new MyPanel(path);
         // Game.mainPanel.remove(goLabel);
         deck = new Deck();
         hisComputerHit = new HashMap<Integer, Card>();
-
+        vector = new Arrow();
+        addToMainPanel(vector);
         player = new Player(deck, "SOUTH");
         prevCard = new Card("G", "WILD");
         while (prevCard.isSpecial()) {
@@ -166,10 +167,6 @@ public class Game implements KeyListener {
         Timer timer = new Timer(2000, new ActionListener() {
            
             public void actionPerformed(ActionEvent e) {
-                
-                if(Game.mainPanel.isAncestorOf(vector)){
-                    mainPanel.remove(vector);
-                }
                 nextUser(index);
                 ((Timer) e.getSource()).stop();
             }
@@ -192,10 +189,6 @@ public class Game implements KeyListener {
         
         Timer timer = new Timer(2000, new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-               
-                if(Game.mainPanel.isAncestorOf(vector)){
-                    mainPanel.remove(vector);
-                }
                 oppositeUser(index);
                 ((Timer) e.getSource()).stop();
             }
@@ -225,12 +218,23 @@ public static boolean nextIsPlayer(int index)
             {
                 return true;
             }
-            if(hisComputerHit.get(index).getRank() == "Reverse")
+            if(hisComputerHit.get(index).getRank().equals("Reverse"))
             {
                 return false;
             }
         }
-        
+        if(index ==0)
+        {
+            
+            if(hisComputerHit.get(index) == null)
+            {
+                return false;
+            }
+            if(hisComputerHit.get(index).getRank().equals("Reverse"))
+            {
+                return true;
+            } 
+        }
     }else{
         if(index ==0)
         {
@@ -243,14 +247,27 @@ public static boolean nextIsPlayer(int index)
             {
                 return true;
             }
-            if(hisComputerHit.get(index).getRank() == "Reverse")
+            if(hisComputerHit.get(index).getRank().equals("Reverse"))
             {
                 return false;
             } 
         }
+        if(index == 2)
+        {
+            
+            if(hisComputerHit.get(index) == null)
+            {
+                return false;
+            }
+            if(hisComputerHit.get(index).getRank().equals("Reverse"))
+            {
+                return true;
+            }
+        }
     }
     return false;
 }
+   
     // Computer play card, pass next user, check reverse, skip this here
     public static void computerHit(int index) {
        
@@ -268,10 +285,7 @@ public static boolean nextIsPlayer(int index)
             player.suggestedEffect();
             if(player.checkCard() == false)
             {
-                displayText();
-                notiToUser.setText("Dram card to continue game !!!");
-                vector = new Arrow();
-                Game.addToMainPanel(vector);
+               vector.add();
             }
         }  
         

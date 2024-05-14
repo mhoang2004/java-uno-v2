@@ -246,7 +246,6 @@ public class HomePanel extends MyPanel{
                 add(animationLabel);
                 timer= new Timer(10, new ActionListener() {
                     int x= -MyPanel.WIDTH;
-                    int y=0;
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         if(x <-50)
