@@ -1,0 +1,38 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "java",
+      "name": "App",
+      "request": "launch",
+      "mainClass": "App",
+      "projectName": "java-uno-v2-6_c1683e4e"
+    },
+    {
+      "type": "java",
+      "name": "TextBorderExample",
+      "request": "launch",
+      "mainClass": "TextBorderExample",
+      "projectName": "java-uno-v2-5_c1683e4d"
+    },
+    {
+      "name": "C/C++ Runner: Debug Session",
+      "type": "cppdbg",
+      "request": "launch",
+      "args": [],
+      "stopAtEntry": false,
+      "externalConsole": true,
+      "cwd": "c:/C/Second/newJava/btl/java-uno-v2-5/resources/lib",
+      "program": "c:/C/Second/newJava/btl/java-uno-v2-5/resources/lib/build/Debug/outDebug",
+      "MIMode": "gdb",
+      "miDebuggerPath": "gdb",
+      "setupCommands": [
+        {
+          "description": "Enable pretty-printing for gdb",
+          "text": "-enable-pretty-printing",
+          "ignoreFailures": true
+        }
+      ]
+    }
+  ]
+}
