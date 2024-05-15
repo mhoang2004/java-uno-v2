@@ -95,12 +95,14 @@ public class Game implements KeyListener {
     // When prevCard is reverse, change next user
     public static void reverse() {
         if (isReverse == true) {
+            player.reverseAnimation();
             com.get(2).setNextUser(com.get(1));
             com.get(1).setNextUser(com.get(0));
             com.get(0).setNextUser(player);
             player.setNextUser(com.get(2));
             isReverse = false; // counter-clockwise
         } else {
+            player.reverseAnimation();
             com.get(0).setNextUser(com.get(1));
             com.get(1).setNextUser(com.get(2));
             com.get(2).setNextUser(player);

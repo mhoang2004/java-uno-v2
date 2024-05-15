@@ -154,6 +154,7 @@ public abstract class User {
             this.getNextUser().banAnimation();
             this.passTurn();
         } else if (Game.prevCard.getRank() == "DRAWTWO") {
+            this.drawTwoAnimation();
             this.getNextUser().banAnimation();
             this.getNextUser().drawCard();
             this.getNextUser().drawCard();
@@ -411,6 +412,77 @@ public abstract class User {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Game.mainPanel.remove(unoLabel);
+                Game.mainPanel.repaint();
+            }
+        });
+
+        timer.start();
+    }
+
+    public void drawTwoAnimation() {
+        final int DRAWTWO_WIDTH = 200;
+        JLabel banLabel = new JLabel();
+
+        ImageIcon icon;
+        if (Game.prevCard.getColor() == "R") {
+            icon = new ImageIcon("../resources/images/R-DrawTwo.png");
+        } else if (Game.prevCard.getColor() == "B") {
+            icon = new ImageIcon("../resources/images/B-DrawTwo.png");
+        } else if (Game.prevCard.getColor() == "Y") {
+            icon = new ImageIcon("../resources/images/Y-DrawTwo.png");
+        } else {
+            icon = new ImageIcon("../resources/images/G-DrawTwo.png");
+        }
+        
+        int x, y;
+        x = (MyPanel.WIDTH - DRAWTWO_WIDTH) / 2;
+        y = (MyPanel.HEIGHT - DRAWTWO_WIDTH) / 2;
+
+        banLabel.setBounds(x, y, DRAWTWO_WIDTH, DRAWTWO_WIDTH);
+        banLabel.setIcon(icon);
+        Game.addToMainPanel(banLabel);
+
+        // clear ban after 2 second
+        Timer timer = new Timer(2000, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Game.mainPanel.remove(banLabel);
+                Game.mainPanel.repaint();
+            }
+        });
+
+        timer.start();
+    }
+
+    public void reverseAnimation() {
+        final int REVERSE_WIDTH = 160;
+        final int REVERSE_HEIGHT = 220;
+        JLabel banLabel = new JLabel();
+
+        ImageIcon icon;
+        if (Game.prevCard.getColor() == "R") {
+            icon = new ImageIcon("../resources/images/R-reverse.png");
+        } else if (Game.prevCard.getColor() == "B") {
+            icon = new ImageIcon("../resources/images/B-reverse.png");
+        } else if (Game.prevCard.getColor() == "Y") {
+            icon = new ImageIcon("../resources/images/Y-reverse.png");
+        } else {
+            icon = new ImageIcon("../resources/images/G-reverse.png");
+        }
+        
+        int x, y;
+        x = (MyPanel.WIDTH - REVERSE_WIDTH) / 2;
+        y = (MyPanel.HEIGHT - REVERSE_HEIGHT) / 2;
+
+        banLabel.setBounds(x, y, REVERSE_WIDTH, REVERSE_HEIGHT);
+        banLabel.setIcon(icon);
+        Game.addToMainPanel(banLabel);
+
+        // clear ban after 2 second
+        Timer timer = new Timer(2000, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Game.mainPanel.remove(banLabel);
                 Game.mainPanel.repaint();
             }
         });
