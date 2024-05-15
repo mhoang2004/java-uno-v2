@@ -38,7 +38,7 @@ public class Game implements KeyListener {
     
     Game(String path) throws UnsupportedAudioFileException, IOException, LineUnavailableException {
         //sound 
-        File file = new File("../resources/sound/mainSound.wav");
+        File file = new File("../resources/sounds/mainSound.wav");
         AudioInputStream audioStream = AudioSystem.getAudioInputStream(file);
         clip = AudioSystem.getClip();
         clip.open(audioStream);

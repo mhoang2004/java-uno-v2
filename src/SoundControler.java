@@ -5,7 +5,7 @@ import javax.sound.sampled.*;
 public class SoundControler {
     static void soundClick() throws UnsupportedAudioFileException, IOException, LineUnavailableException
     {
-        File file = new File("../resources/sound/click.wav");
+        File file = new File("../resources/sounds/click.wav");
         AudioInputStream audioStream = AudioSystem.getAudioInputStream(file);
         try {
             audioStream = AudioSystem.getAudioInputStream(file);
@@ -20,7 +20,7 @@ public class SoundControler {
     }
     static void soundHit() throws UnsupportedAudioFileException, IOException, LineUnavailableException
     {
-        File file = new File("../resources/sound/hit.wav");
+        File file = new File("../resources/sounds/hit.wav");
         AudioInputStream audioStream;
         try {
             audioStream = AudioSystem.getAudioInputStream(file);
@@ -35,7 +35,7 @@ public class SoundControler {
     }
     static void soundDraw() throws LineUnavailableException
     {
-        File file = new File("../resources/sound/draw.wav");
+        File file = new File("../resources/sounds/draw.wav");
         AudioInputStream audioStream;
         try {
             audioStream = AudioSystem.getAudioInputStream(file);
@@ -50,7 +50,7 @@ public class SoundControler {
     }
     static void soundVicroty() throws LineUnavailableException
     {
-        File file = new File("../resources/sound/victory.wav");
+        File file = new File("../resources/sounds/victory.wav");
         AudioInputStream audioStream;
         try {
             audioStream = AudioSystem.getAudioInputStream(file);
@@ -65,7 +65,7 @@ public class SoundControler {
     }
     static void soundLose() throws LineUnavailableException
     {
-        File file = new File("../resources/sound/lose.wav");
+        File file = new File("../resources/sounds/lose.wav");
         AudioInputStream audioStream;
         try {
             audioStream = AudioSystem.getAudioInputStream(file);
@@ -81,7 +81,7 @@ public class SoundControler {
     }
     static void soundUno() throws LineUnavailableException
     {
-        File file = new File("../resources/sound/uno.wav");
+        File file = new File("../resources/sounds/uno.wav");
         AudioInputStream audioStream;
         try {
             audioStream = AudioSystem.getAudioInputStream(file);
