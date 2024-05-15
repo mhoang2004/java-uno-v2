@@ -154,11 +154,13 @@ public abstract class User {
             this.getNextUser().banAnimation();
             this.passTurn();
         } else if (Game.prevCard.getRank() == "DRAWTWO") {
+            this.getNextUser().banAnimation();
             this.getNextUser().drawCard();
             this.getNextUser().drawCard();
             this.passTurn();
 
         } else if (Game.prevCard.getRank() == "DRAWFOUR") {
+            this.getNextUser().banAnimation();
             this.getNextUser().drawCard();
             this.getNextUser().drawCard();
             this.getNextUser().drawCard();
@@ -330,7 +332,17 @@ public abstract class User {
         final int BAN_GAP = 120;
         JLabel banLabel = new JLabel();
 
-        ImageIcon icon = new ImageIcon("../resources/images/ban.png");
+        ImageIcon icon;
+        if (Game.prevCard.getColor() == "R") {
+            icon = new ImageIcon("../resources/images/R-ban.png");
+        } else if (Game.prevCard.getColor() == "B") {
+            icon = new ImageIcon("../resources/images/B-ban.png");
+        } else if (Game.prevCard.getColor() == "Y") {
+            icon = new ImageIcon("../resources/images/Y-ban.png");
+        } else {
+            icon = new ImageIcon("../resources/images/G-ban.png");
+        }
+        
         int x, y;
 
         if (position.equals("SOUTH")) {
