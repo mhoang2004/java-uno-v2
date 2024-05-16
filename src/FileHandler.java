@@ -34,10 +34,10 @@ public class FileHandler {
         data.put("id", String.valueOf(id + 1));
         data.put("email", email);
         data.put("password", password);
-        data.put("username", email.split("@")[0]);
+        data.put("username", "Bro");
         data.put("bestScore", "0");
         data.put("isSound", "true");
-        data.put("backGround", "../abcxyz");
+        data.put("backGround", App.backroundGame);
 
         LocalDate date = LocalDate.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
@@ -157,7 +157,71 @@ public class FileHandler {
         }
         return false;
     }
+    public static boolean checkValidSingOut(String emailString) {
+        List<Map<String, String>> data = getAllUsersData();
 
+        for (Map<String, String> row : data) {
+            String email = row.get("email");
+
+            if (email.equals(emailString)) {
+                return false;
+            }
+        }
+        return true;
+    }
+    public static String getUsername(String emailString) {
+        List<Map<String, String>> data = getAllUsersData();
+
+        for (Map<String, String> row : data) {
+            String email = row.get("email");
+           // String email = row.get("email");
+            if (email.equals(emailString)) {
+                    return row.get("username");
+
+            }
+        }
+        return null;
+    }
+    public static void setUsername(String emailString, String username) {
+        List<Map<String, String>> data = getAllUsersData();
+
+        for (Map<String, String> row : data) {
+            String email = row.get("email");
+           // String email = row.get("email");
+            if (email.equals(emailString)) {
+                row.put("username", username);
+                System.out.println(row.put("username", username));
+            }
+        }
+        writeDataToCSV(data);
+    }
+    public static String getPathABackroung(String emailString) {
+        List<Map<String, String>> data = getAllUsersData();
+
+        for (Map<String, String> row : data) {
+            String email = row.get("email");
+           // String email = row.get("email");
+            if (email.equals(emailString)) {
+                System.out.println(row.get("backGround"));
+                    return row.get("backGround");
+
+            }
+        }
+        return null;
+    }
+    public static void setPathABackroung(String emailString, String path) {
+        List<Map<String, String>> data = getAllUsersData();
+
+        for (Map<String, String> row : data) {
+            String email = row.get("email");
+           // String email = row.get("email");
+            if (email.equals(emailString)) {
+                row.put("backGround", path);
+                System.out.println(row.put("username", path));
+            }
+        }
+        writeDataToCSV(data);
+    }
     public static void updateBestScoreById(int idToUpdate, int newBestScore) {
         List<Map<String, String>> data = getAllUsersData();
 

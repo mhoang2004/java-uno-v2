@@ -35,6 +35,7 @@ public class ChooseBackroundPanel extends JLabel {
                 isClicked = true;
                 isChoose = true;
                 System.out.println(getBackround());
+                controler.setBackroundAccount(getBackround());
                 setBorder(new LineBorder(Color.RED, 3));
                 controler.setBackground();
 

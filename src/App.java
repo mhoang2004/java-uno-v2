@@ -14,7 +14,7 @@ public class App {
     static SettingPanel setting;
     static String backroundGame;
     static boolean modeGuest = true;
-
+   
     public static void newGame(String path)
             throws UnsupportedAudioFileException, IOException, LineUnavailableException {
         if (isFirtGame) {
@@ -46,10 +46,9 @@ public class App {
         backroundGame = new String("../resources/images/backgroundmain-0.jpg");
         frame = new MyFrame();
         frame.addKeyListener(game);
-        homePanel = new HomePanel("../resources/images/BackroundBegin-1.jpg");
         // newGame();
         beginPage = new BeginPanel("../resources/images/BackroundBegin-1.jpg");
-        setting = new SettingPanel("../resources/images/BackroundBegin-1.jpg");
+        
         frame.add(beginPage);
         // button uno
         frame.pack();
@@ -59,4 +58,5 @@ public class App {
     static void setBackground(String path) {
         backroundGame = new String(path);
     }
+    
 }

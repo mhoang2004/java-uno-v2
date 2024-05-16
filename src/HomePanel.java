@@ -34,15 +34,16 @@ public class HomePanel extends MyPanel {
     int count = 2;
     boolean isOut = false;
     // Tạo JLabel và thiết lập hình ảnh
-
-    HomePanel(String path) {
+    AccountUser accountUser;
+    HomePanel(String path, AccountUser account) {
         super(path);
         createAvatar("avatar.png");
-        createName("Bro, Ôn Gia Bảo");
+        accountUser = account;
+        createName(accountUser.getUserName());
         createSetting();
         createButtonSolo();
         createButton2vs2();
-        animationLabel = new JLabel(new ImageIcon(App.backroundGame));
+        animationLabel = new JLabel(new ImageIcon(accountUser.getPathBackround()));
         animationLabel.setBounds(-MyPanel.WIDTH, 0, MyPanel.WIDTH + 50, MyPanel.HEIGHT);
         goLabel = new JLayeredPane();
         goLabel.setBounds(-200, MyPanel.HEIGHT / 2, 100, 100);
@@ -81,6 +82,7 @@ public class HomePanel extends MyPanel {
 
     private void createName(String nameString) {
         name = new JLabel(nameString);
+        name.setText(nameString);
         name.setForeground(LoginPanel.MAINCOLOR);
         name.setFont(new Font("Harlow Solid Italic", Font.BOLD, 40));
         name.setBounds(150, 400, 500, 200);
@@ -94,8 +96,10 @@ public class HomePanel extends MyPanel {
                 iconSetting.getIconHeight());
         setting.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent e) {
+
                 App.frame.setVisible(false);
                 App.frame.remove(App.homePanel);
+                App.setting = new SettingPanel("../resources/images/BackroundBegin-1.jpg", accountUser);
                 App.frame.add(App.setting);
                 App.frame.setVisible(true);
             }
@@ -170,12 +174,11 @@ public class HomePanel extends MyPanel {
                                         if (!isOut) {
                                             isOut = true;
                                             timer2.stop();
+                                            timer.stop();
                                             App.frame.remove(App.homePanel);
-                                            try {
-                                                App.newGame(App.backroundGame);
-                                            } catch (UnsupportedAudioFileException | IOException
-                                                    | LineUnavailableException e1) {
-                                                // TODO Auto-generated catch block
+                                            try {           
+                                                App.newGame(accountUser.getPathBackround());
+                                            } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e1) {
                                                 e1.printStackTrace();
                                             }
                                         }

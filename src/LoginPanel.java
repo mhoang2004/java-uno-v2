@@ -51,7 +51,7 @@ public class LoginPanel extends MyPanel implements ActionListener {
     JLabel passImgWarnings;
     JLabel confirmImgWarnings;
     JLayeredPane parentNew;
-
+    static AccountUser accountUser;
     LoginPanel() {
         super("../resources/images/BackroundBegin-1.jpg");
         myBorder = BorderFactory.createMatteBorder(0, 0, 0, 0, Color.BLACK);
@@ -120,6 +120,7 @@ public class LoginPanel extends MyPanel implements ActionListener {
         scanMail.addKeyListener(new KeyAdapter() {
             @Override
             public void keyReleased(KeyEvent e) {
+            
                 if (!isLogIn) {
                     effectSuccess();
                     effectWarn();
@@ -216,7 +217,9 @@ public class LoginPanel extends MyPanel implements ActionListener {
                             Notification noti2 = new Notification(20);
                             noti2.setText("SUCCESS");
                             addToMainPanel(noti2);
-                            noti2.removeTextByBao2();
+                            accountUser = new AccountUser(scanMail.getText(), scanPass.getPassword());
+
+                            noti2.removeTextByBao2(accountUser);
                         } else {
                             Notification noti1 = new Notification(20);
                             noti1.setText("Email and password do not match");
@@ -829,11 +832,12 @@ public class LoginPanel extends MyPanel implements ActionListener {
 
                 if (isLogIn) {
                     if (checkLogin() == true) {
+                        accountUser = new AccountUser(scanMail.getText(), scanPass.getPassword());
                         App.modeGuest = false;
                         Notification noti2 = new Notification(20);
                         noti2.setText("SUCCESS");
                         addToMainPanel(noti2);
-                        noti2.removeTextByBao2();
+                        noti2.removeTextByBao2(accountUser);
                     } else {
                         Notification noti1 = new Notification(20);
                         noti1.setText("Email and password do not match");
@@ -841,14 +845,27 @@ public class LoginPanel extends MyPanel implements ActionListener {
                         noti1.removeTextByBao();
                     }
                 } else {
-                    if (checkSignOut().size() == 0) {
-                        String getPass = new String(scanPass.getPassword());
-                        FileHandler.addNewUserData(scanMail.getText(), getPass);
-                        App.frame.setVisible(false);
-                        App.frame.remove(App.loginPanel);
-                        App.loginPanel = new LoginPanel();
-                        App.frame.add(App.loginPanel);
-                        App.frame.setVisible(true);
+                    if (checkSignOut().size() == 0 ) {
+                        if(!FileHandler.checkValidSingOut(scanMail.getText()))
+                        {
+                            Notification noti1 = new Notification(20);
+                            noti1.setText("Email already exists");
+                            addToMainPanel(noti1);
+                            noti1.removeTextByBao();
+                        }else{
+                            String getPass = new String(scanPass.getPassword());
+                            FileHandler.addNewUserData(scanMail.getText(), getPass);
+                            Notification noti1 = new Notification(20);
+                            noti1.setText("Success");
+                            addToMainPanel(noti1);
+                            noti1.removeTextByBao();
+                            App.frame.setVisible(false);
+                            App.frame.remove(App.loginPanel);
+                            App.loginPanel = new LoginPanel();
+                            App.frame.add(App.loginPanel);
+                            App.frame.setVisible(true);
+                        }
+                        
                     } else {
                         Notification noti2 = new Notification(5);
                         noti2.setText("Invalid SignIn");

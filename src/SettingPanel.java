@@ -26,9 +26,10 @@ public class SettingPanel extends MyPanel {
     JLabel butBackGame;
     ImageIcon roundedIcon;
     boolean isHover = false;
-
-    SettingPanel(String path) {
+    AccountUser account ;
+    SettingPanel(String path , AccountUser accountUser) {
         super(path);
+        account = accountUser;
         backroundList = new ArrayList<>();
         iconSetting = new JLabel(new ImageIcon("../resources/images/IconSetting.png"));
         iconSetting.setBounds(500, 0, 300, 300);
@@ -96,7 +97,7 @@ public class SettingPanel extends MyPanel {
         scanName.setForeground(LoginPanel.MAINCOLOR);
         scanName.setBounds(0, 0, 470, 40);
         LoginPanel.setSingleLine(scanName);
-        ;
+
         scanNameLabel.add(scanName);
         scanNameLabel.add(backround);
         settingName.add(scanNameLabel);
@@ -179,11 +180,13 @@ public class SettingPanel extends MyPanel {
         butBackGame.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
+                
                 App.frame.setVisible(false);
                 App.frame.remove(App.setting);
                 HomePanel.animationLabel = new JLabel(new ImageIcon(App.backroundGame));
-                if (scanName.getText().length() > 2)
-                    HomePanel.name.setText("HI" + scanName.getText());
+                FileHandler.setUsername(account.getMail(), scanName.getText());
+                // account.setUsername(scanName.getText());
+                App.homePanel = new HomePanel("../resources/images/BackroundBegin-1.jpg", account);
                 App.frame.add(App.homePanel);
                 App.frame.setVisible(true);
             }
@@ -255,5 +258,9 @@ public class SettingPanel extends MyPanel {
 
     ArrayList<ChooseBackroundPanel> getListBackround() {
         return backroundList;
+    }
+    void setBackroundAccount(String path)
+    {
+        account.setBackground(path);
     }
 }

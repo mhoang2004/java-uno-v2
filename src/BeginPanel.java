@@ -70,7 +70,7 @@ public class BeginPanel extends MyPanel {
         JLabel backround = new JLabel(roundedIconx);
         backround.setBounds(0, 0, 100, 100);
         goLabel.add(backround);
-        // add(goLabel);
+        add(new ButtonOnOff(0, 0));
     }
 
     BufferedImage drawButtonNext() {
@@ -134,8 +134,6 @@ public class BeginPanel extends MyPanel {
         timer = new Timer(100, new ActionListener() {
             int count = 0;
             boolean isEnd = false;
-            boolean isBegin = true;
-
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (count == -1) {
@@ -230,22 +228,18 @@ public class BeginPanel extends MyPanel {
 
                         if (button.getX() == 10) {
                             BeginPanel.timer.stop();
-                            System.out.println("Clicking   ");
                             App.frame.setVisible(false);
                             App.frame.remove(App.beginPage);
                             App.loginPanel = new LoginPanel();
                             App.frame.add(App.loginPanel);
-                            // App.frame = new MyFrame();
                             App.frame.setVisible(true);
                         } else {
                             App.frame.remove(App.beginPage);
-                            try {
+                            try {           
                                 App.newGame(App.backroundGame);
                             } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e1) {
-                                // TODO Auto-generated catch block
                                 e1.printStackTrace();
                             }
-
                         }
                         ((Timer) e.getSource()).stop();
                     }

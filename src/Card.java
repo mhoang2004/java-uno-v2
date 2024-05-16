@@ -178,7 +178,7 @@ public class Card extends JLabel implements MouseListener, Comparable, ActionLis
                     tempCard.repaint();
                 } else {
                     // handle others things
-                    Timer time = new Timer(200, new ActionListener() {
+                    Timer time = new Timer(250, new ActionListener() {
 
                         @Override
                         public void actionPerformed(ActionEvent e) {

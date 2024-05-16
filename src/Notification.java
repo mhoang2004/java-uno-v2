@@ -52,7 +52,7 @@ public class Notification extends JLabel {
         timer.start();
         
     }
-    public void removeTextByBao2() {
+    public void removeTextByBao2( AccountUser account) {
         JLabel text = this;
         Timer timer = new Timer(3000, new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -60,6 +60,8 @@ public class Notification extends JLabel {
                 App.loginPanel.repaint();
                 App.frame.setVisible(false);
                         App.frame.remove(App.loginPanel);
+                       App.homePanel = new HomePanel("../resources/images/BackroundBegin-1.jpg", account);
+
                         App.frame.add(App.homePanel);
                         // App.frame = new MyFrame();
                         App.frame.setVisible(true);
