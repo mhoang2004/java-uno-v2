@@ -1,7 +1,7 @@
+Check invalid sign in
+Chữ login dính với chữ with juno account
 Back home thay bằng play again
-Show rank ch làm 
-Hiệu ứng chia bài ch có
+Hiệu ứng chia bài ch có 
 Lỗi logic:
 	đánh lá đổi chiều vẫn gợi ý player đánh
 	lỗi máy rút xong đánh làm rối luồng
-	

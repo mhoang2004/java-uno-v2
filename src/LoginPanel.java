@@ -59,7 +59,6 @@ public class LoginPanel extends MyPanel implements ActionListener {
         signInImage = new ImageIcon("../resources/images/IMG-Sign-in.png").getImage();
         Timer timer = new Timer(10, this);
         timer.start();
-
     }
 
     public void paint(Graphics g) {
@@ -197,7 +196,6 @@ public class LoginPanel extends MyPanel implements ActionListener {
             }
         });
         scanPass.addKeyListener(new KeyListener() {
-
             @Override
             public void keyTyped(KeyEvent e) {
 
@@ -221,7 +219,7 @@ public class LoginPanel extends MyPanel implements ActionListener {
                             noti2.removeTextByBao2();
                         } else {
                             Notification noti1 = new Notification(20);
-                            noti1.setText("222 Email and password do not match");
+                            noti1.setText("Email and password do not match");
                             addToMainPanel(noti1);
                             noti1.removeTextByBao();
                         }
@@ -302,6 +300,7 @@ public class LoginPanel extends MyPanel implements ActionListener {
                                     }
                                 }
                             });
+
                             scanMail.addKeyListener(new KeyAdapter() {
                                 @Override
                                 public void keyReleased(KeyEvent e) {
@@ -311,7 +310,7 @@ public class LoginPanel extends MyPanel implements ActionListener {
                                     }
                                 }
                             });
-                            // App.loginPanel.remove(buttonNextGame);
+
                             buttonNextGame.addMouseListener(new MouseListener() {
 
                                 @Override
@@ -335,6 +334,7 @@ public class LoginPanel extends MyPanel implements ActionListener {
                                 }
 
                             });
+
                             signInImage = null;
                             repaint();
                             parentConfirm.setBounds(400, 460, 510, 60);
@@ -342,8 +342,8 @@ public class LoginPanel extends MyPanel implements ActionListener {
                         }
 
                     }
-
                 });
+
                 timer.start();
             }
 
@@ -418,7 +418,6 @@ public class LoginPanel extends MyPanel implements ActionListener {
                         try {
                             SoundControler.soundClick();
                         } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e1) {
-                            // TODO Auto-generated catch block
                             e1.printStackTrace();
                         }
                         if (!isEyes) {
@@ -475,7 +474,7 @@ public class LoginPanel extends MyPanel implements ActionListener {
                         try {
                             SoundControler.soundClick();
                         } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e1) {
-                            // TODO Auto-generated catch block
+
                             e1.printStackTrace();
                         }
                         scanConfirm.setFocusable(true);
@@ -537,7 +536,7 @@ public class LoginPanel extends MyPanel implements ActionListener {
                         try {
                             SoundControler.soundClick();
                         } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e1) {
-                            // TODO Auto-generated catch block
+
                             e1.printStackTrace();
                         }
                         if (!isEyes) {
@@ -587,7 +586,7 @@ public class LoginPanel extends MyPanel implements ActionListener {
                 try {
                     SoundControler.soundClick();
                 } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e1) {
-                    // TODO Auto-generated catch block
+
                     e1.printStackTrace();
                 }
                 if (isLogIn) {
@@ -829,8 +828,6 @@ public class LoginPanel extends MyPanel implements ActionListener {
                 }
 
                 if (isLogIn) {
-                    System.out.println("827 checkLogin() " + checkLogin());
-                    System.out.println("827 checkSignOut().size() " + checkSignOut().size());
                     if (checkLogin() == true) {
                         App.modeGuest = false;
                         Notification noti2 = new Notification(20);
@@ -839,18 +836,25 @@ public class LoginPanel extends MyPanel implements ActionListener {
                         noti2.removeTextByBao2();
                     } else {
                         Notification noti1 = new Notification(20);
-                        noti1.setText("827 Email and password do not match");
+                        noti1.setText("Email and password do not match");
                         addToMainPanel(noti1);
                         noti1.removeTextByBao();
                     }
                 } else {
-                    String getPass = new String(scanPass.getPassword());
-                    FileHandler.addNewUserData(scanMail.getText(), getPass);
-                    App.frame.setVisible(false);
-                    App.frame.remove(App.loginPanel);
-                    App.loginPanel = new LoginPanel();
-                    App.frame.add(App.loginPanel);
-                    App.frame.setVisible(true);
+                    if (checkSignOut().size() == 0) {
+                        String getPass = new String(scanPass.getPassword());
+                        FileHandler.addNewUserData(scanMail.getText(), getPass);
+                        App.frame.setVisible(false);
+                        App.frame.remove(App.loginPanel);
+                        App.loginPanel = new LoginPanel();
+                        App.frame.add(App.loginPanel);
+                        App.frame.setVisible(true);
+                    } else {
+                        Notification noti2 = new Notification(5);
+                        noti2.setText("Invalid SignIn");
+                        addToMainPanel(noti2);
+                        noti2.removeTextByBao();
+                    }
                 }
             }
 

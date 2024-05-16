@@ -12,6 +12,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
+
 public class EndGame extends JLabel {
     static int WIDTH = 600;
     static int HEIGHT = 300;
@@ -24,52 +25,37 @@ public class EndGame extends JLabel {
 
     EndGame() {
         this.setBounds((MyPanel.WIDTH - WIDTH) / 2, (MyPanel.HEIGHT - HEIGHT) / 2, WIDTH, HEIGHT);
+        this.setLayout(new GridLayout(4, 1));
+
         Game.clip.stop();
-        if(Game.player.getCard().size()<2)
-        {
+        if (Game.player.getCard().size() < 2) {
             try {
                 SoundControler.soundVicroty();
             } catch (LineUnavailableException e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
             }
-        }else{
+        } else {
             try {
                 SoundControler.soundLose();
             } catch (LineUnavailableException e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
             }
         }
-        
-        playAgainBtn = new JButton("Back To Home");
-        if(App.modeGuest == true)
-        {
-            playAgainBtn.setText("Play Again");
-        }
+
+        playAgainBtn.setText("Play Again");
         playAgainBtn.setBackground(new Color(30, 194, 235));
         playAgainBtn.setFont(new Font("Arial", Font.BOLD, 30));
         playAgainBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(App.modeGuest == true){
-                    App.frame.setVisible(false);
-                    App.frame.remove(Game.mainPanel);
-                     try {
-                        App.newGame(App.backroundGame);
-                    } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e1) {
-                        // TODO Auto-generated catch block
-                        e1.printStackTrace();
-                    }
-                    App.frame.setVisible(true); 
-                }else{
-                    App.frame.setVisible(false);
-                    App.frame.add(App.homePanel);
-                    App.frame.remove(Game.mainPanel);
-                    App.frame.setVisible(true);
+                App.frame.setVisible(false);
+                App.frame.remove(Game.mainPanel);
+                try {
+                    App.newGame(App.backroundGame);
+                } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e1) {
+                    e1.printStackTrace();
                 }
-               
-                
+                App.frame.setVisible(true);
             }
         });
 
@@ -79,7 +65,7 @@ public class EndGame extends JLabel {
         rankBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // implement here
+                // TODO show rank here
             }
         });
 
@@ -89,31 +75,30 @@ public class EndGame extends JLabel {
         gameBtns.add(rankBtn);
 
         gameResult = new JLabel("END GAME", SwingConstants.CENTER);
-        if(Game.player.getCard().size()<2)
-        {
+        if (Game.player.getCard().size() < 2) {
             gameResult.setText("VICTORY");
-        }else{
+        } else {
             gameResult.setText("LOSE");
         }
         gameResult.setFont(new Font("Arial", Font.BOLD, 30));
         gameResult.setOpaque(true);
+        this.add(gameResult);
 
         String scoreString = "Score: " + Game.player.scores();
         gameScore = new JLabel(scoreString, SwingConstants.CENTER);
         gameScore.setFont(new Font("Arial", Font.BOLD, 30));
         gameScore.setOpaque(true);
-
-        String bestScoreString = "Best Score: 17";
-        gameBestScore = new JLabel(bestScoreString, SwingConstants.CENTER);
-        gameBestScore.setFont(new Font("Arial", Font.BOLD, 30));
-        gameBestScore.setOpaque(true);
-
         gameScore.setBackground(new Color(30, 194, 235));
-
-        this.setLayout(new GridLayout(4, 1));
-        this.add(gameResult);
         this.add(gameScore);
-        this.add(gameBestScore);
+
+        if (App.modeGuest != true) {
+            String bestScoreString = "Best Score: 17";
+            gameBestScore = new JLabel(bestScoreString, SwingConstants.CENTER);
+            gameBestScore.setFont(new Font("Arial", Font.BOLD, 30));
+            gameBestScore.setOpaque(true);
+            this.add(gameBestScore);
+        }
+
         this.add(gameBtns);
     }
 }

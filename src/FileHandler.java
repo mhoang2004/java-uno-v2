@@ -24,7 +24,7 @@ public class FileHandler {
 
     // System.out.println(checkValidLogIn("c@gmail.com", "123"));
 
-    //  updateBestScoreById(1, 19);
+    // updateBestScoreById(1, 19);
     // }
 
     public static void addNewUserData(String email, String password) {
@@ -155,7 +155,6 @@ public class FileHandler {
                 }
             }
         }
-
         return false;
     }
 

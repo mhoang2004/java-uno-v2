@@ -39,21 +39,16 @@ public class ButtonUno extends JLabel implements MouseListener {
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        // sound 
+        // sound
         try {
             SoundControler.soundClick();
         } catch (UnsupportedAudioFileException e1) {
-            // TODO Auto-generated catch block
             e1.printStackTrace();
         } catch (IOException e1) {
-            // TODO Auto-generated catch block
             e1.printStackTrace();
         } catch (LineUnavailableException e1) {
-            // TODO Auto-generated catch block
             e1.printStackTrace();
         }
-        // TODO Auto-generated method stub
-        System.out.println("Button uno clicked");
         unoClicked = true;
         if (Game.player.sizeCards() > 1) {
             Game.displayText();
@@ -63,31 +58,28 @@ public class ButtonUno extends JLabel implements MouseListener {
             try {
                 SoundControler.soundUno();
             } catch (LineUnavailableException e1) {
-                // TODO Auto-generated catch block
+
                 e1.printStackTrace();
             }
             Game.player.unoAnimation();
             Game.displayText();
-            Game.notiToUser.setText("Good job!");
+            Game.notiToUser.setText("Uno!");
             Game.notiToUser.removeText();
         }
     }
 
     @Override
     public void mousePressed(MouseEvent e) {
-        // TODO Auto-generated method stub
 
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        // TODO Auto-generated method stub
 
     }
 
     @Override
     public void mouseEntered(MouseEvent e) {
-        // TODO Auto-generated method stub
         this.setCursor(new Cursor(Cursor.HAND_CURSOR));
         this.setBackground(new Color(0, 0, 0, 150)); // black transparent 150
         this.setOpaque(false); // transparent
@@ -95,8 +87,6 @@ public class ButtonUno extends JLabel implements MouseListener {
 
     @Override
     public void mouseExited(MouseEvent e) {
-        // TODO Auto-generated method stub
         this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
     }
-
 }

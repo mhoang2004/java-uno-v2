@@ -22,12 +22,6 @@ public class Reverse extends JLabel {
                 this.setBounds(((MyPanel.WIDTH - Card.WIDTH) / 2) + 2 * Card.WIDTH - 50, 370, WIDTH, HEIGHT);
             }
         } else {
-            // if(pos.equals("L"))
-            // {
-            // pos = "R";
-            // }else{
-            // pos = "L";
-            // }
             path = "../resources/images/" + pos + "-" + Game.prevCard.getColor() + "-" + Game.isReverse + ".png";
             ImageIcon icon = new ImageIcon(path);
             this.setIcon(icon);

@@ -1,6 +1,5 @@
 import java.awt.*;
 
-
 import javax.swing.*;
 
 public class MyPanel extends JLayeredPane {
@@ -10,13 +9,13 @@ public class MyPanel extends JLayeredPane {
     static int LAYER = 0;
     private Image backgroundImage;
     MyPanel myPanel = this;
+
     MyPanel(String path) {
         backgroundImage = new ImageIcon(path).getImage();
         this.setLayout(null);
         this.setPreferredSize(new Dimension(WIDTH, HEIGHT));
         this.setBackground(BG_COLOR);
         this.setOpaque(true);
-
     }
 
     @Override

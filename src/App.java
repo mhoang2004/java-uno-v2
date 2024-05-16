@@ -14,8 +14,9 @@ public class App {
     static SettingPanel setting;
     static String backroundGame;
     static boolean modeGuest = true;
-    
-    public static void newGame(String path) throws UnsupportedAudioFileException, IOException, LineUnavailableException {
+
+    public static void newGame(String path)
+            throws UnsupportedAudioFileException, IOException, LineUnavailableException {
         if (isFirtGame) {
             frame.remove(beginPage);
         }
@@ -29,11 +30,10 @@ public class App {
             public void run() {
                 Game.mainPanel.remove(Game.buttonUno);
                 if (Game.isEndGame == true) {
-                   
+
                     try {
                         game = new Game(path);
                     } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
-                        // TODO Auto-generated catch block
                         e.printStackTrace();
                     }
                     game.start();
@@ -56,8 +56,7 @@ public class App {
         frame.setVisible(true);
     }
 
-    static void setBackground(String path)
-    {
+    static void setBackground(String path) {
         backroundGame = new String(path);
     }
 }
