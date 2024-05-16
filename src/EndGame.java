@@ -26,7 +26,6 @@ public class EndGame extends JLabel {
     EndGame() {
         this.setBounds((MyPanel.WIDTH - WIDTH) / 2, (MyPanel.HEIGHT - HEIGHT) / 2, WIDTH, HEIGHT);
         this.setLayout(new GridLayout(4, 1));
-
         Game.clip.stop();
         if (Game.player.getCard().size() < 2) {
             try {
@@ -42,7 +41,7 @@ public class EndGame extends JLabel {
             }
         }
 
-        playAgainBtn.setText("Play Again");
+        playAgainBtn = new JButton("Play Again");
         playAgainBtn.setBackground(new Color(30, 194, 235));
         playAgainBtn.setFont(new Font("Arial", Font.BOLD, 30));
         playAgainBtn.addActionListener(new ActionListener() {
