@@ -1,21 +1,10 @@
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Random;
-import java.util.Scanner;
-import java.awt.Graphics2D;
-
 import javax.swing.*;
-
-import java.awt.Color;
-import java.awt.Cursor;
-import java.awt.Font;
-import java.awt.RenderingHints;
 import java.awt.event.*;
-import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.File;
+
 import java.io.IOException;
-import java.util.Scanner;
 import javax.sound.sampled.*;
 public class Game implements KeyListener {
     final int COMPUTER_NUM = 3;

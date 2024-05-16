@@ -14,6 +14,7 @@ public class App {
     static SettingPanel setting;
     static String backroundGame;
     static boolean modeGuest = true;
+    
     public static void newGame(String path) throws UnsupportedAudioFileException, IOException, LineUnavailableException {
         if (isFirtGame) {
             frame.remove(beginPage);
@@ -54,6 +55,7 @@ public class App {
         frame.pack();
         frame.setVisible(true);
     }
+
     static void setBackground(String path)
     {
         backroundGame = new String(path);

@@ -1,6 +1,8 @@
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
+import java.util.Map;
+import java.util.List;
 import java.util.regex.Pattern;
 import java.awt.image.*;
 import java.io.IOException;
@@ -49,6 +51,7 @@ public class LoginPanel extends MyPanel implements ActionListener {
     JLabel passImgWarnings;
     JLabel confirmImgWarnings;
     JLayeredPane parentNew;
+
     LoginPanel() {
         super("../resources/images/BackroundBegin-1.jpg");
         myBorder = BorderFactory.createMatteBorder(0, 0, 0, 0, Color.BLACK);
@@ -80,7 +83,6 @@ public class LoginPanel extends MyPanel implements ActionListener {
     }
 
     void createScanMail() {
-
         // create input text
         scanMail = new JTextField("EMAIL");
         // setSingleLine(scanMail);
@@ -124,21 +126,19 @@ public class LoginPanel extends MyPanel implements ActionListener {
                     effectWarn();
                 }
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-                   if(scanMail.getText().equals("EMAIL")|| scanMail.getText().length() == 0)
-                   {
+                    if (scanMail.getText().equals("EMAIL") || scanMail.getText().length() == 0) {
                         scanMail.setText("EMAIL");
-                   }
-                   scanMail.setFocusable(false);
-                   scanPass.setFocusable(true);
-                   String getPass = new String(scanPass.getPassword());
-                if (getPass.equals("PASSWORD") || getPass.length() == 0) {
-                    scanPass.setBorder(myBorder);
-                    scanPass.setText("");
-                    scanPass.setEchoChar('*');
-                }
+                    }
+                    scanMail.setFocusable(false);
+                    scanPass.setFocusable(true);
+                    String getPass = new String(scanPass.getPassword());
+                    if (getPass.equals("PASSWORD") || getPass.length() == 0) {
+                        scanPass.setBorder(myBorder);
+                        scanPass.setText("");
+                        scanPass.setEchoChar('*');
+                    }
                     e.consume(); // Ngăn không cho JTextArea thêm dòng mới
                 }
-                
 
             }
         });
@@ -146,7 +146,7 @@ public class LoginPanel extends MyPanel implements ActionListener {
         parentMail.add(scanMail);
     }
 
-     public static void setSingleLine(JTextField textField) {
+    public static void setSingleLine(JTextField textField) {
         textField.setDocument(new PlainDocument() {
             @Override
             public void insertString(int offs, String str, AttributeSet a) throws BadLocationException {
@@ -200,21 +200,20 @@ public class LoginPanel extends MyPanel implements ActionListener {
 
             @Override
             public void keyTyped(KeyEvent e) {
-               
+
             }
 
             @Override
             public void keyPressed(KeyEvent e) {
-              
+
             }
 
             @Override
             public void keyReleased(KeyEvent e) {
-               
+
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-                    if(isLogIn)
-                    {
-                        if (checkSignOut().size() ==0 && checkLogin() == true) {
+                    if (isLogIn) {
+                        if (checkSignOut().size() == 0 && checkLogin() == true) {
                             App.modeGuest = false;
                             Notification noti2 = new Notification(20);
                             noti2.setText("SUCCESS");
@@ -222,31 +221,31 @@ public class LoginPanel extends MyPanel implements ActionListener {
                             noti2.removeTextByBao2();
                         } else {
                             Notification noti1 = new Notification(20);
-                            noti1.setText("Email and password do not match");
+                            noti1.setText("222 Email and password do not match");
                             addToMainPanel(noti1);
                             noti1.removeTextByBao();
                         }
-                    }else{
+                    } else {
                         String getPass = new String(scanPass.getPassword());
-                         if (getPass.equals("PASSWORD") || getPass.length() == 0) {
-                         scanPass.setBorder(myBorder);
-                         scanPass.setText("PASSWORD");
-                         scanPass.setEchoChar((char) 0);
-                     }
+                        if (getPass.equals("PASSWORD") || getPass.length() == 0) {
+                            scanPass.setBorder(myBorder);
+                            scanPass.setText("PASSWORD");
+                            scanPass.setEchoChar((char) 0);
+                        }
                         String getCoFirm = new String(scanConfirm.getPassword());
                         scanPass.setFocusable(false);
                         scanConfirm.setFocusable(true);
                         if (getCoFirm.equals("CONFIRM") || getCoFirm.length() == 0) {
-                         scanConfirm.setBorder(myBorder);
-                         scanConfirm.setText("");
-                         scanConfirm.setEchoChar('*');
-                     }
+                            scanConfirm.setBorder(myBorder);
+                            scanConfirm.setText("");
+                            scanConfirm.setEchoChar('*');
+                        }
                     }
-                   
-                     e.consume(); // Ngăn không cho JTextArea thêm dòng mới
-                 }
+
+                    e.consume(); // Ngăn không cho JTextArea thêm dòng mới
+                }
             }
-            
+
         });
         parentPass.add(scanPass);
     }
@@ -257,7 +256,7 @@ public class LoginPanel extends MyPanel implements ActionListener {
         ImageIcon img = new ImageIcon(CreatorCompument.drawButtonNew(130, false));
         JLabel backroundNew = new JLabel();
         backroundNew.setIcon(img);
-        backroundNew.setBounds(0, 0,150, 30);
+        backroundNew.setBounds(0, 0, 150, 30);
         createAccount = new JLabel("Create Acount");
         createAccount.setFont(new Font("Arial", Font.BOLD, 15));
         createAccount.setForeground(MAINCOLOR);
@@ -364,7 +363,7 @@ public class LoginPanel extends MyPanel implements ActionListener {
 
             @Override
             public void mouseExited(MouseEvent e) {
-               backroundNew.setIcon(new ImageIcon(CreatorCompument.drawButtonNew(130, false)));
+                backroundNew.setIcon(new ImageIcon(CreatorCompument.drawButtonNew(130, false)));
             }
 
         });
@@ -386,7 +385,7 @@ public class LoginPanel extends MyPanel implements ActionListener {
 
                 subHeading.setFont(new Font("Harlow Solid Italic", Font.BOLD, 22));
                 subHeading.setForeground(MAINCOLOR);
-                subHeading.setBounds(x-50 , 200, 400, 30);
+                subHeading.setBounds(x - 50, 200, 400, 30);
                 add(subHeading);
                 // scan mail
                 parentMail = new JLayeredPane();
@@ -417,11 +416,11 @@ public class LoginPanel extends MyPanel implements ActionListener {
                     @Override
                     public void mouseClicked(MouseEvent e) {
                         try {
-                    SoundControler.soundClick();
-                } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e1) {
-                    // TODO Auto-generated catch block
-                    e1.printStackTrace();
-                }
+                            SoundControler.soundClick();
+                        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e1) {
+                            // TODO Auto-generated catch block
+                            e1.printStackTrace();
+                        }
                         if (!isEyes) {
                             isEyes = true;
                             iconEyes.setIcon(new ImageIcon("../resources/images/Sleep.png"));
@@ -507,24 +506,22 @@ public class LoginPanel extends MyPanel implements ActionListener {
                     public void keyReleased(KeyEvent e) {
                         effectSuccess();
                         effectWarn();
-                    if (e.getKeyCode() == KeyEvent.VK_ENTER) { 
-                            if(checkSignOut().size() ==0)
-                            {
+                        if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                            if (checkSignOut().size() == 0) {
                                 Notification noti2 = new Notification(5);
                                 noti2.setText("SUCCESS");
-                                String getPass = new String ( scanPass.getPassword());
+                                String getPass = new String(scanPass.getPassword());
                                 addToMainPanel(noti2);
-                                noti2.removeTextByBao3(scanMail.getText(),getPass);
-                            }else{
+                                noti2.removeTextByBao3(scanMail.getText(), getPass);
+                            } else {
                                 Notification noti2 = new Notification(5);
                                 noti2.setText("Email and password do not match");
                                 addToMainPanel(noti2);
                                 noti2.removeTextByBao();
                             }
-                           
-                           
-                        e.consume(); // Ngăn không cho JTextArea thêm dòng mới
-                    }
+
+                            e.consume(); // Ngăn không cho JTextArea thêm dòng mới
+                        }
                     }
                 });
                 imgEyes = new ImageIcon("../resources/images/Show.png");
@@ -576,8 +573,8 @@ public class LoginPanel extends MyPanel implements ActionListener {
             }
         }
     }
-    void createButtonBack(int w,boolean isText, String path)
-    {
+
+    void createButtonBack(int w, boolean isText, String path) {
         // Tạo ImageIcon từ hình ảnh
         roundedIcon = new ImageIcon(CreatorCompument.drawButtonBack(w, isText));
 
@@ -585,68 +582,67 @@ public class LoginPanel extends MyPanel implements ActionListener {
         buttonBackGame = new JLabel(roundedIcon);
         buttonBackGame.addMouseListener(new MouseListener() {
 
-     @Override
-     public void mouseClicked(MouseEvent e) {
-        try {
-            SoundControler.soundClick();
-        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e1) {
-            // TODO Auto-generated catch block
-            e1.printStackTrace();
-        }
-         if(isLogIn)
-         {
-            App.frame.setVisible(false);
-            App.frame.remove(App.loginPanel);
-            App.beginPage = new BeginPanel("../resources/images/BackroundBegin-1.jpg");
-            App.frame.add(App.beginPage);
-            App.frame.setVisible(true);
-         }else{
-            App.frame.setVisible(false);
-            App.frame.remove(App.loginPanel);
-            App.loginPanel = new LoginPanel();
-            App.frame.add(App.loginPanel);
-            App.frame.setVisible(true);
-         }
-         
-     }
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                try {
+                    SoundControler.soundClick();
+                } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e1) {
+                    // TODO Auto-generated catch block
+                    e1.printStackTrace();
+                }
+                if (isLogIn) {
+                    App.frame.setVisible(false);
+                    App.frame.remove(App.loginPanel);
+                    App.beginPage = new BeginPanel("../resources/images/BackroundBegin-1.jpg");
+                    App.frame.add(App.beginPage);
+                    App.frame.setVisible(true);
+                } else {
+                    App.frame.setVisible(false);
+                    App.frame.remove(App.loginPanel);
+                    App.loginPanel = new LoginPanel();
+                    App.frame.add(App.loginPanel);
+                    App.frame.setVisible(true);
+                }
 
-     @Override
-     public void mousePressed(MouseEvent e) {
-     }
+            }
 
-     @Override
-     public void mouseReleased(MouseEvent e) {
-     }
+            @Override
+            public void mousePressed(MouseEvent e) {
+            }
 
-     @Override
-     public void mouseEntered(MouseEvent e) {
-         if (!isHover) {
-             isHover = true;
-             remove(LoginPanel.buttonBackGame);
-             createButtonBack(150, true, path);
-         }
+            @Override
+            public void mouseReleased(MouseEvent e) {
+            }
 
-     }
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                if (!isHover) {
+                    isHover = true;
+                    remove(LoginPanel.buttonBackGame);
+                    createButtonBack(150, true, path);
+                }
 
-     @Override
-     public void mouseExited(MouseEvent e) {
+            }
 
-         if (isHover) {
-             isHover = false;
-             // remove(LoginPanel.buttonNextGame);
-             buttonBackGame.setIcon(null);
-             createButtonBack(70, false, path);
-         }
+            @Override
+            public void mouseExited(MouseEvent e) {
 
-     }
+                if (isHover) {
+                    isHover = false;
+                    // remove(LoginPanel.buttonNextGame);
+                    buttonBackGame.setIcon(null);
+                    createButtonBack(70, false, path);
+                }
 
- });
- buttonBackGame.setBounds(10,10, w, 50);
+            }
 
- buttonBackGame.setOpaque(false);
- add(buttonBackGame);
+        });
+        buttonBackGame.setBounds(10, 10, w, 50);
 
-}
+        buttonBackGame.setOpaque(false);
+        add(buttonBackGame);
+
+    }
 
     JLabel createImgWarnings(JLayeredPane x, boolean isWarn) {
         int y = x.getY();
@@ -667,7 +663,6 @@ public class LoginPanel extends MyPanel implements ActionListener {
         JLabel imgLabel;
         if (isWarn) {
             imgLabel = new JLabel(new ImageIcon("../resources/images/Warnings.png"));
-
         } else {
             imgLabel = new JLabel(new ImageIcon("../resources/images/Success.png"));
         }
@@ -679,7 +674,7 @@ public class LoginPanel extends MyPanel implements ActionListener {
         return imgLabel;
     }
 
-    BufferedImage drawButtonNext(int width, boolean isText, String path,  int flur) {
+    BufferedImage drawButtonNext(int width, boolean isText, String path, int flur) {
         // Tạo hình ảnh bo cong 4 góc
         BufferedImage roundedImage = new BufferedImage(width, 50, BufferedImage.TYPE_INT_ARGB);
         Graphics2D g2d = roundedImage.createGraphics();
@@ -691,43 +686,53 @@ public class LoginPanel extends MyPanel implements ActionListener {
         if (isText) {
 
             g2d.setFont(new Font("Arial", Font.BOLD, 20));
-            String text ;
-            if(path.equals("backIMG")){
-                text ="BACK";
-            }else{
-                text ="NEXT";
+            String text;
+            if (path.equals("backIMG")) {
+                text = "BACK";
+            } else {
+                text = "NEXT";
             }
-            
+
             FontMetrics fm = g2d.getFontMetrics();
             int textWidth = fm.stringWidth(text);
             int textHeight = fm.getHeight();
             int x = (width - textWidth) / 2;
             int y = (50 - textHeight) / 2 + fm.getAscent();
-            if(path.equals("backIMG")){
+            if (path.equals("backIMG")) {
                 g2d.drawString(text, 70, y);
-            }else{
+            } else {
                 g2d.drawString(text, x, y);
             }
-            
+
         }
 
         String pathIcon = new String("../resources/images/");
-        pathIcon += path+".png";
+        pathIcon += path + ".png";
         Image img = new ImageIcon(pathIcon).getImage();
-        if(path.equals("backIMG")){
+        if (path.equals("backIMG")) {
             g2d.drawImage(img, 10, 0, null);
-        }else{
+        } else {
             g2d.drawImage(img, width - 40, 5, null);
         }
-        
+
         g2d.dispose();
         return roundedImage;
     }
 
     boolean checkLogin() {
         String getPass = new String(scanPass.getPassword());
-        System.out.println("Account: " + getPass + " + " + scanMail.getText());
         return FileHandler.checkValidLogIn(scanMail.getText(), getPass);
+    }
+
+    boolean checkDuplicateEmail(String email) {
+        List<Map<String, String>> data = FileHandler.getAllUsersData();
+
+        for (Map<String, String> row : data) {
+            if (row.get("email").equals(email)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     ArrayList<Integer> checkSignOut() {
@@ -741,14 +746,11 @@ public class LoginPanel extends MyPanel implements ActionListener {
         if (!validatePassword(getPass)) {
             result.add(2);
         }
-        if(!checkLogin())
-        {
-            if (!getPass.equals(getCoFirm)|| getPass.length() ==0) {
+        if (!checkLogin()) {
+            if (!getPass.equals(getCoFirm) || getPass.length() == 0) {
                 result.add(3);
             }
         }
-
-       
         return result;
     }
 
@@ -784,7 +786,6 @@ public class LoginPanel extends MyPanel implements ActionListener {
                         mailImgWarnings.setIcon(new ImageIcon("../resources/images/Warnings.png"));
                     } else {
                         mailImgWarnings = createImgWarnings(parentMail, true);
-
                     }
                     break;
                 }
@@ -819,18 +820,18 @@ public class LoginPanel extends MyPanel implements ActionListener {
         // Tạo JLabel và thiết lập hình ảnh
         buttonNextGame = new JLabel(roundedIcon);
         buttonNextGame.addMouseListener(new MouseListener() {
-
             @Override
             public void mouseClicked(MouseEvent e) {
                 try {
                     SoundControler.soundClick();
                 } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e1) {
-                    // TODO Auto-generated catch block
                     e1.printStackTrace();
                 }
-                System.out.println(checkSignOut());
+
                 if (isLogIn) {
-                    if (checkSignOut().size() ==0 && checkLogin() == true) {
+                    System.out.println("827 checkLogin() " + checkLogin());
+                    System.out.println("827 checkSignOut().size() " + checkSignOut().size());
+                    if (checkLogin() == true) {
                         App.modeGuest = false;
                         Notification noti2 = new Notification(20);
                         noti2.setText("SUCCESS");
@@ -838,28 +839,18 @@ public class LoginPanel extends MyPanel implements ActionListener {
                         noti2.removeTextByBao2();
                     } else {
                         Notification noti1 = new Notification(20);
-                        noti1.setText("Email and password do not match");
+                        noti1.setText("827 Email and password do not match");
                         addToMainPanel(noti1);
                         noti1.removeTextByBao();
                     }
                 } else {
-                    if(checkSignOut().size() ==0 )
-                    {
-                        String getPass = new String(scanPass.getPassword());
-                        FileHandler.addNewUserData(scanMail.getText(), getPass);
-                        App.frame.setVisible(false);
-                        App.frame.remove(App.loginPanel);
-                        App.loginPanel = new LoginPanel();
-                        App.frame.add(App.loginPanel);
-                        // App.frame = new MyFrame();
-                        App.frame.setVisible(true);
-                    }else{
-                        Notification noti1 = new Notification(20);
-                        noti1.setText("Email and password do not match");
-                        addToMainPanel(noti1);
-                        noti1.removeTextByBao();
-                    }
-                   
+                    String getPass = new String(scanPass.getPassword());
+                    FileHandler.addNewUserData(scanMail.getText(), getPass);
+                    App.frame.setVisible(false);
+                    App.frame.remove(App.loginPanel);
+                    App.loginPanel = new LoginPanel();
+                    App.frame.add(App.loginPanel);
+                    App.frame.setVisible(true);
                 }
             }
 

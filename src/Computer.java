@@ -127,7 +127,7 @@ public class Computer extends User {
                 return e.getKey();
             }
         }
-        
+
         return null;
     }
 
@@ -293,9 +293,8 @@ public class Computer extends User {
             Game.prevCard.setColor(validCard.getColor());
             Game.prevCard.setRank(validCard.getRank());
             chosenCard.hitCardAnimation();
-            
-            if (this.getCards().size() -1 == 0)
-            {
+
+            if (this.getCards().size() - 1 == 0) {
                 Game.addToMainPanel(new EndGame());
             }
             backCards.remove(index);
@@ -313,7 +312,7 @@ public class Computer extends User {
     // if dont have card then play this card when it can play
     public Card computerTurn() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
         Card cardHit = this.computerHitCard();
-        
+
         if (this.isUserHit == true) {
             if (checkChangeColor()) {
                 Game.prevCard.setColor(this.chooseColor());

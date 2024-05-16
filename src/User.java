@@ -1,13 +1,9 @@
-import javax.sound.sampled.LineUnavailableException;
 import javax.swing.*;
-import java.io.*;
-import java.util.*;
 import javax.swing.Timer;
-
-
+import java.util.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
+
 public abstract class User {
     static final int INIT_CARD = 7;
     static final int GAP_CARD_HORIZONTAL = 50;
@@ -32,12 +28,11 @@ public abstract class User {
         for (int i = 0; i < INIT_CARD; i++) {
             Card card = deck.getOneCard();
 
-            if(i==0 && isPlayer() == true)
-            {
+            if (i == 0 && isPlayer() == true) {
                 while (card.getColor() != null) {
                     card = deck.getOneCard();
                 }
-                
+
             }
             card.addEvent();
             card.setUser(this);
@@ -54,13 +49,14 @@ public abstract class User {
         isTurn = false;
         isUserHit = false;
     }
-     void backDefaultCard()
-     {
+
+    void backDefaultCard() {
         for (Card card : cards) {
             card.backDefaultCard();
             card.addEvent();
         }
-     }
+    }
+
     public void setUserPosition() {
         if (position == "SOUTH") {
             xPos = (MyPanel.WIDTH - (Card.WIDTH + (sizeCards() - 1) * GAP_CARD_HORIZONTAL)) / 2;
@@ -198,18 +194,16 @@ public abstract class User {
         int i = index;
         while (i < sizeCard) {
             // cadrs[j] is special
-            if (cards.get(i).isSpecial())
-            {
+            if (cards.get(i).isSpecial()) {
                 // visited to end cards
                 if (i + 1 == sizeCard)
-                return i + 1;
-                else
-                {
+                    return i + 1;
+                else {
                     i++;
                     continue;
                 }
-                
-            }  
+
+            }
             // cards[j] >= new card
             if (cards.get(i).compareTo(newCard) > 0) {
                 System.out.println("(cards[j] > new card)I is " + i);
@@ -343,7 +337,7 @@ public abstract class User {
         } else {
             icon = new ImageIcon("../resources/images/G-ban.png");
         }
-        
+
         int x, y;
 
         if (position.equals("SOUTH")) {
@@ -387,7 +381,7 @@ public abstract class User {
         } else {
             icon = new ImageIcon("../resources/images/uno2.png");
         }
-        
+
         int x, y;
 
         if (position.equals("SOUTH")) {
@@ -433,7 +427,7 @@ public abstract class User {
         } else {
             icon = new ImageIcon("../resources/images/G-DrawTwo.png");
         }
-        
+
         int x, y;
         x = (MyPanel.WIDTH - DRAWTWO_WIDTH) / 2;
         y = (MyPanel.HEIGHT - DRAWTWO_WIDTH) / 2;
@@ -469,7 +463,7 @@ public abstract class User {
         } else {
             icon = new ImageIcon("../resources/images/G-reverse.png");
         }
-        
+
         int x, y;
         x = (MyPanel.WIDTH - REVERSE_WIDTH) / 2;
         y = (MyPanel.HEIGHT - REVERSE_HEIGHT) / 2;

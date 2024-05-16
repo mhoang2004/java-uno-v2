@@ -8,30 +8,36 @@ public class FileHandler {
     private static final String CSV_PATH = "../resources/csv/data.csv";
     private static final String SALT = "random_salt_here";
 
-    public static void main(String[] args) {
-        // add new user
-        addNewUserData("Suu", "123321");
+    // public static void main(String[] args) {
+    // // add new user
+    // addNewUserData("Suu", "123321");
 
-        // print all users
-        List<Map<String, String>> users = getAllUsersData();
+    // // print all users
+    // List<Map<String, String>> users = getAllUsersData();
 
-        for (Map<String, String> row : users) {
-            for (Map.Entry<String, String> entry : row.entrySet()) {
-                System.out.printf("%-12s: %-10s", entry.getKey(), entry.getValue());
-            }
-            System.out.println();
-        }
+    // for (Map<String, String> row : users) {
+    // for (Map.Entry<String, String> entry : row.entrySet()) {
+    // System.out.printf("%-12s: %-10s", entry.getKey(), entry.getValue());
+    // }
+    // System.out.println();
+    // }
 
-        System.out.println(checkValidLogIn("Teo", "abc123"));
+    // System.out.println(checkValidLogIn("c@gmail.com", "123"));
 
-        updateBestScoreById(1, 19);
-    }
+    //  updateBestScoreById(1, 19);
+    // }
 
-    public static void addNewUserData(String username, String password) {
+    public static void addNewUserData(String email, String password) {
         Map<String, String> data = new LinkedHashMap<>();
-        data.put("username", username);
+        int id = getAllUsersData().size();
+
+        data.put("id", String.valueOf(id + 1));
+        data.put("email", email);
         data.put("password", password);
+        data.put("username", email.split("@")[0]);
         data.put("bestScore", "0");
+        data.put("isSound", "true");
+        data.put("backGround", "../abcxyz");
 
         LocalDate date = LocalDate.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
@@ -41,9 +47,6 @@ public class FileHandler {
     }
 
     public static void writeDataToCSV(Map<String, String> rowData) {
-        int id = getAllUsersData().size();
-        rowData.put("id", String.valueOf(id + 1));
-
         // endcode password
         String password = rowData.get("password");
         String hashedPassword = encodePassword(password);
@@ -90,11 +93,14 @@ public class FileHandler {
                 String[] row = line.split(",");
                 Map<String, String> rowData = new LinkedHashMap<>();
 
-                rowData.put("username", row[0]);
-                rowData.put("password", row[1]);
-                rowData.put("bestScore", row[2]);
-                rowData.put("date", row[3]);
-                rowData.put("id", row[4]);
+                rowData.put("id", row[0]);
+                rowData.put("email", row[1]);
+                rowData.put("password", row[2]);
+                rowData.put("username", row[3]);
+                rowData.put("bestScore", row[4]);
+                rowData.put("isSound", row[5]);
+                rowData.put("backGround", row[6]);
+                rowData.put("date", row[7]);
 
                 data.add(rowData);
             }
@@ -136,14 +142,14 @@ public class FileHandler {
         return hashedPassword.equals(encodedPassword);
     }
 
-    public static boolean checkValidLogIn(String usernameString, String password) {
+    public static boolean checkValidLogIn(String emailString, String password) {
         List<Map<String, String>> data = getAllUsersData();
 
         for (Map<String, String> row : data) {
-            String username = row.get("username");
+            String email = row.get("email");
             String encodedPassword = row.get("password");
 
-            if (username.equals(usernameString)) {
+            if (email.equals(emailString)) {
                 if (checkPassword(password, encodedPassword)) {
                     return true;
                 }

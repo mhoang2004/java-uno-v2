@@ -14,7 +14,6 @@ import java.util.Random;
 
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
-import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
@@ -36,13 +35,14 @@ public class BeginPanel extends MyPanel {
     JLabel next1;
     JLabel next2;
     static Timer timer;
-    static String linkImg ;
+    static String linkImg;
     String pathBackround;
     JLayeredPane goLabel;
     JLabel textJLabel;
     JLabel animationLabel;
-    int count =2;
+    int count = 2;
     boolean isOut = false;
+
     BeginPanel(String path) {
         super(path);
         linkImg = new String(path);
@@ -52,75 +52,78 @@ public class BeginPanel extends MyPanel {
         next1 = new JLabel();
         next1.setBounds(330, 480, 78, 88);
         next2 = new JLabel();
-        next2.setBounds(830,480 , 78, 88);
+        next2.setBounds(830, 480, 78, 88);
         add(next1);
         add(next2);
         animationLabel = new JLabel(new ImageIcon(pathBackround));
-        animationLabel.setBounds(-MyPanel.WIDTH,0, MyPanel.WIDTH+50, MyPanel.HEIGHT);
-        //add(animationLabel);
+        animationLabel.setBounds(-MyPanel.WIDTH, 0, MyPanel.WIDTH + 50, MyPanel.HEIGHT);
+        // add(animationLabel);
         goLabel = new JLayeredPane();
-        goLabel.setBounds(-200,MyPanel.HEIGHT/2, 100, 100);
+        goLabel.setBounds(-200, MyPanel.HEIGHT / 2, 100, 100);
 
-        textJLabel= new JLabel(count+1+"");
-        textJLabel.setBounds(35,20,50, 50 );
+        textJLabel = new JLabel(count + 1 + "");
+        textJLabel.setBounds(35, 20, 50, 50);
         textJLabel.setForeground(Color.YELLOW);
         textJLabel.setFont(new Font("Arial Rounded MT Bold", Font.ITALIC, 30));
         goLabel.add(textJLabel);
         ImageIcon roundedIconx = new ImageIcon(drawButtonNext());
         JLabel backround = new JLabel(roundedIconx);
-        backround.setBounds(0,0,100, 100 );
+        backround.setBounds(0, 0, 100, 100);
         goLabel.add(backround);
-        //add(goLabel);
+        // add(goLabel);
     }
+
     BufferedImage drawButtonNext() {
         BufferedImage roundedImage = new BufferedImage(100, 100, BufferedImage.TYPE_INT_ARGB);
-        Graphics2D  g2d = roundedImage.createGraphics();
+        Graphics2D g2d = roundedImage.createGraphics();
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        g2d.setColor(new Color(100, 70, 0, 200) );
-        g2d.fillRoundRect(0, 0,100, 100, 50,50);
+        g2d.setColor(new Color(100, 70, 0, 200));
+        g2d.fillRoundRect(0, 0, 100, 100, 50, 50);
 
-        g2d.dispose();  
+        g2d.dispose();
         return roundedImage;
-}  
-    void createLabel()
-    {
-        
+    }
+
+    void createLabel() {
+
         welcomJLabel = new JLabel();
-        
+
         // welcomJLabel.setIcon(new ImageIcon("../resources/images/IMG-Sign-in.png"));
-         toJLabel = new JLabel("TO");
+        toJLabel = new JLabel("TO");
         toJLabel.setFont(new Font("Harlow Solid Italic", Font.ITALIC, 40));
-         subWelcomJLabel = new JLabel("");
+        subWelcomJLabel = new JLabel("");
         welcomJLabel.setIcon(new ImageIcon("../resources/images/WELCOME.png"));
-        welcomJLabel.setBounds(350, 70,600, 70);
+        welcomJLabel.setBounds(350, 70, 600, 70);
         addToMainPanel(welcomJLabel);
         Timer timer2 = new Timer(1000, new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent e) {
                 Random numbeRandom = new Random();
-                // welcomJLabel.setForeground(new Color(numbeRandom.nextInt(256), numbeRandom.nextInt(256), numbeRandom.nextInt(256)));
-                // toJLabel.setForeground(new Color(numbeRandom.nextInt(256), numbeRandom.nextInt(256), numbeRandom.nextInt(256)));
-                subWelcomJLabel.setForeground(new Color(numbeRandom.nextInt(256), numbeRandom.nextInt(256), numbeRandom.nextInt(256)));
-           
-           
+                // welcomJLabel.setForeground(new Color(numbeRandom.nextInt(256),
+                // numbeRandom.nextInt(256), numbeRandom.nextInt(256)));
+                // toJLabel.setForeground(new Color(numbeRandom.nextInt(256),
+                // numbeRandom.nextInt(256), numbeRandom.nextInt(256)));
+                subWelcomJLabel.setForeground(
+                        new Color(numbeRandom.nextInt(256), numbeRandom.nextInt(256), numbeRandom.nextInt(256)));
+
             }
-            
+
         });
         timer2.start();
-       
+
         toJLabel.setForeground(Color.WHITE);
-        toJLabel.setBounds(620, 150,500, 50);
+        toJLabel.setBounds(620, 150, 500, 50);
         addToMainPanel(toJLabel);
         // animation
-       
+
         subWelcomJLabel.setForeground(Color.RED);
         subWelcomJLabel.setFont(new Font("Harlow Solid Italic", Font.BOLD, 60));
-        subWelcomJLabel.setBounds(430, 200,700, 70);
+        subWelcomJLabel.setBounds(430, 200, 700, 70);
         addToMainPanel(subWelcomJLabel);
-        
-        stringList = new ArrayList<String>(); 
-        stringList.add("J"); 
+
+        stringList = new ArrayList<String>();
+        stringList.add("J");
         stringList.add("JU");
         stringList.add("JUN");
         stringList.add("JUNO");
@@ -128,85 +131,82 @@ public class BeginPanel extends MyPanel {
         stringList.add("JUNO GA");
         stringList.add("JUNO GAM");
         stringList.add("JUNO GAME");
-      timer = new Timer(100, new ActionListener() {
-            int count =0;
+        timer = new Timer(100, new ActionListener() {
+            int count = 0;
             boolean isEnd = false;
             boolean isBegin = true;
+
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(count == -1)
-                    {
-                        subWelcomJLabel.setText("");
-                        count ++;
-                        isEnd= false;
-                    } else{
-                        if(count< stringList.size()&& isEnd == false)
-                        {
-         
-                             subWelcomJLabel.setText(stringList.get(count));
-                             count++;
-                        }else{
-                         isEnd = true; 
-                         if(count == stringList.size())
-                         {
-                             count--;
-                             
-                         }
-                         
-                         subWelcomJLabel.setText(stringList.get(count));
-                         count--;
-                         
-         
-                        }    
-                    }      
-                
+                if (count == -1) {
+                    subWelcomJLabel.setText("");
+                    count++;
+                    isEnd = false;
+                } else {
+                    if (count < stringList.size() && isEnd == false) {
+
+                        subWelcomJLabel.setText(stringList.get(count));
+                        count++;
+                    } else {
+                        isEnd = true;
+                        if (count == stringList.size()) {
+                            count--;
+
+                        }
+
+                        subWelcomJLabel.setText(stringList.get(count));
+                        count--;
+
+                    }
+                }
+
             }
 
         });
         timer.start();
-        
+
     }
 
-    private void createButtonLogin()
-    {
+    private void createButtonLogin() {
         // Create Button
-        buttonLogin = new JLayeredPane();  
-        buttonLogin.setBounds(270, 550, widthLogin+50, heigthLogin+50);
-        //Create Backround
+        buttonLogin = new JLayeredPane();
+        buttonLogin.setBounds(270, 550, widthLogin + 50, heigthLogin + 50);
+        // Create Backround
         JLabel labelLogin = new JLabel();
         labelLogin.setIcon(new ImageIcon("../resources/images/IMG-Sign-in.png"));
-        labelLogin.setBounds(10,10, widthLogin, heigthLogin+30);
+        labelLogin.setBounds(10, 10, widthLogin, heigthLogin + 30);
         addListener(labelLogin);
-        
-        //Create  backroundButtonLogin 
-        ImageIcon img = new ImageIcon(CreatorCompument.createRoundButton(buttonLogin,0));
+
+        // Create backroundButtonLogin
+        ImageIcon img = new ImageIcon(CreatorCompument.createRoundButton(buttonLogin, 0));
         backroundButtonLogin = new JLabel();
         backroundButtonLogin.setIcon(img);
-        backroundButtonLogin.setBounds(0, 0, widthLogin+50, heigthLogin+50);
+        backroundButtonLogin.setBounds(0, 0, widthLogin + 50, heigthLogin + 50);
         buttonLogin.add(backroundButtonLogin);
         buttonLogin.add(labelLogin);
         add(buttonLogin);
     }
-    private void createButtonNoLogin()
-    {
-        // buttonNoLogin = new JLabel();  
-        // buttonNoLogin.setIcon(new ImageIcon("../resources/images/IMG-No-Sign-in.png"));    
-        // buttonNoLogin.setBounds(750, 550,  widthLogin+30, heigthLogin+30);   
-        // addToMainPanel(buttonNoLogin);   
+
+    private void createButtonNoLogin() {
+        // buttonNoLogin = new JLabel();
+        // buttonNoLogin.setIcon(new
+        // ImageIcon("../resources/images/IMG-No-Sign-in.png"));
+        // buttonNoLogin.setBounds(750, 550, widthLogin+30, heigthLogin+30);
+        // addToMainPanel(buttonNoLogin);
         // addListener(buttonNoLogin);
-        buttonNoLogin = new JLayeredPane();  
-        buttonNoLogin.setBounds(750, 550, widthLogin+70, heigthLogin+50);
-        //Create Backround
+        buttonNoLogin = new JLayeredPane();
+        buttonNoLogin.setBounds(750, 550, widthLogin + 70, heigthLogin + 50);
+        // Create Backround
         JLabel labelLogin = new JLabel();
         labelLogin.setIcon(new ImageIcon("../resources/images/IMG-No-Sign-in.png"));
-        labelLogin.setBounds(9,10, widthLogin+20, heigthLogin+30);
+        labelLogin.setBounds(9, 10, widthLogin + 20, heigthLogin + 30);
         addListener(labelLogin);
-        
-        //Create  backroundButtonLogin 
-        ImageIcon img = new ImageIcon(CreatorCompument.createRoundButton(buttonLogin,0));
+
+        // Create backroundButtonLogin
+        ImageIcon img = new ImageIcon(CreatorCompument.createRoundButton(buttonLogin, 0));
         backroundButtonNoLogin = new JLabel();
         backroundButtonNoLogin.setIcon(img);
-        backroundButtonNoLogin.setBounds(0, 0, widthLogin+50, heigthLogin+50);
+        backroundButtonNoLogin.setBounds(0, 0, widthLogin + 50, heigthLogin + 50);
         buttonNoLogin.add(backroundButtonNoLogin);
         buttonNoLogin.add(labelLogin);
         add(buttonNoLogin);
@@ -214,7 +214,7 @@ public class BeginPanel extends MyPanel {
 
     public void addListener(JLabel button) {
         button.addMouseListener(new MouseListener() {
-            
+
             @Override
             public void mouseClicked(MouseEvent e) {
                 try {
@@ -227,17 +227,17 @@ public class BeginPanel extends MyPanel {
 
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        
-                        if (button.getX() ==10 ) {
+
+                        if (button.getX() == 10) {
                             BeginPanel.timer.stop();
                             System.out.println("Clicking   ");
                             App.frame.setVisible(false);
                             App.frame.remove(App.beginPage);
-                            App.loginPanel=new LoginPanel();
+                            App.loginPanel = new LoginPanel();
                             App.frame.add(App.loginPanel);
                             // App.frame = new MyFrame();
                             App.frame.setVisible(true);
-                        } else{
+                        } else {
                             App.frame.remove(App.beginPage);
                             try {
                                 App.newGame(App.backroundGame);
@@ -245,20 +245,19 @@ public class BeginPanel extends MyPanel {
                                 // TODO Auto-generated catch block
                                 e1.printStackTrace();
                             }
-        
 
                         }
                         ((Timer) e.getSource()).stop();
                     }
-                    
+
                 });
                 timer3.start();
-                
+
             }
 
             @Override
             public void mousePressed(MouseEvent e) {
-               
+
             }
 
             @Override
@@ -266,24 +265,22 @@ public class BeginPanel extends MyPanel {
             }
 
             @Override
-            public void mouseEntered(MouseEvent e) { 
-                ImageIcon img = new ImageIcon(CreatorCompument.createRoundButton(buttonLogin,50));
-                if(button.getX()==10)
-                {
+            public void mouseEntered(MouseEvent e) {
+                ImageIcon img = new ImageIcon(CreatorCompument.createRoundButton(buttonLogin, 50));
+                if (button.getX() == 10) {
                     backroundButtonLogin.setIcon(img);
-                }else{
+                } else {
                     backroundButtonNoLogin.setIcon(img);
                 }
-                   
+
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-                ImageIcon img = new ImageIcon(CreatorCompument.createRoundButton(buttonLogin,0));
-                if(button.getX()==10)
-                {
+                ImageIcon img = new ImageIcon(CreatorCompument.createRoundButton(buttonLogin, 0));
+                if (button.getX() == 10) {
                     backroundButtonLogin.setIcon(img);
-                }else{
+                } else {
                     backroundButtonNoLogin.setIcon(img);
                 }
             }
@@ -295,8 +292,8 @@ public class BeginPanel extends MyPanel {
     public void addToMainPanel(JLabel card) {
         this.add(card, Integer.valueOf(MyPanel.LAYER++));
     }
-    void removeComponent()
-    {
+
+    void removeComponent() {
         this.remove(buttonLogin);
         this.remove(buttonNoLogin);
         this.remove(welcomJLabel);
