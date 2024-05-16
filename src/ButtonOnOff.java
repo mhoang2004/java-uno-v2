@@ -4,40 +4,27 @@ import java.awt.Image;
 import java.awt.RenderingHints;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 
-public class ButtonOnOff extends JLayeredPane{
+public class ButtonOnOff extends JLayeredPane implements MouseListener{
     JLabel backround;
     boolean isOn;
-    ButtonOnOff(int x, int y)
+    AccountUser accountUser;
+    ButtonOnOff(int x, int y, boolean isOn, AccountUser accountUser)
     {
-        isOn = true;
+        this.accountUser = accountUser;
+        this.isOn = isOn;
         this.setBounds(x, y,60, 35);
         ImageIcon img = new ImageIcon(createRoundButton(isOn));
         backround = new JLabel(img);
         backround.setBounds(0,0, 60,35);
         this.add(backround);
-        this.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                if(isOn)
-                {
-                    isOn = false;
-                }else{
-                    isOn = true;
-                }
-                remove(backround);
-                ImageIcon img = new ImageIcon(createRoundButton(isOn));
-                backround = new JLabel(img);
-                backround.setBounds(0,0, 60,35);
-                add(backround);                
-                 }
-            
-        });
+        this.addMouseListener(this);
         
     }
     BufferedImage createRoundButton(boolean isOn) {
@@ -65,4 +52,32 @@ public class ButtonOnOff extends JLayeredPane{
     {
         return isOn;
     }
+    @Override
+    public void mouseClicked(MouseEvent e) {
+        if(isOn)
+        {
+            isOn = false;
+        }else{
+            isOn = true;
+        }
+        accountUser.setIsOn(isOn);
+        remove(backround);
+        ImageIcon img = new ImageIcon(createRoundButton(isOn));
+        backround = new JLabel(img);
+        backround.setBounds(0,0, 60,35);
+        add(backround);                
+         
+    }
+    @Override
+    public void mousePressed(MouseEvent e) {
+        }
+    @Override
+    public void mouseReleased(MouseEvent e) {
+        }
+    @Override
+    public void mouseEntered(MouseEvent e) {
+        }
+    @Override
+    public void mouseExited(MouseEvent e) {
+        }
 }

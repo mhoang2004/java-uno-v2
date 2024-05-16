@@ -25,4 +25,11 @@ public class AccountUser {
     void setBackground(String path) {
         FileHandler.setPathABackroung(mailAccount, path);
     }
+    boolean getIsOn()
+    {
+        return FileHandler.getSounnd(mailAccount);
+    }
+    void setIsOn(boolean isOn) {
+        FileHandler.setSounnd(mailAccount, isOn);
+    }
 }

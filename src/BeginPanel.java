@@ -70,7 +70,7 @@ public class BeginPanel extends MyPanel {
         JLabel backround = new JLabel(roundedIconx);
         backround.setBounds(0, 0, 100, 100);
         goLabel.add(backround);
-        add(new ButtonOnOff(0, 0));
+        // add(new ButtonOnOff(0, 0));
     }
 
     BufferedImage drawButtonNext() {

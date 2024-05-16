@@ -222,6 +222,41 @@ public class FileHandler {
         }
         writeDataToCSV(data);
     }
+    public static boolean getSounnd(String emailString) {
+        List<Map<String, String>> data = getAllUsersData();
+
+        for (Map<String, String> row : data) {
+            String email = row.get("email");
+           // String email = row.get("email");
+            if (email.equals(emailString)) {
+                if(row.get("isSound").equals("true"))
+                {
+                    return true;
+                }else{
+                   return false;
+                }
+
+            }
+        }
+        return true;
+    }
+    public static void setSounnd(String emailString, boolean isOn) {
+        List<Map<String, String>> data = getAllUsersData();
+
+        for (Map<String, String> row : data) {
+            String email = row.get("email");
+           // String email = row.get("email");
+            if (email.equals(emailString)) {
+                if(isOn == true)
+                {
+                    row.put("backGround", "true");
+                }else{
+                    row.put("backGround", "false");
+                }
+            }
+        }
+        writeDataToCSV(data);
+    }
     public static void updateBestScoreById(int idToUpdate, int newBestScore) {
         List<Map<String, String>> data = getAllUsersData();
 

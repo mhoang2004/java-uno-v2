@@ -7,7 +7,11 @@ import java.awt.RenderingHints;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.util.ArrayList;
+
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
@@ -19,44 +23,47 @@ public class SettingPanel extends MyPanel {
     JLayeredPane settingBackround;
     JLayeredPane settingName;
     JLayeredPane scanNameLabel;
+    JLayeredPane settingSound;
     JTextField scanName;
     JLabel backround1;
     ArrayList<ChooseBackroundPanel> backroundList;
     String chooseBackround;
-    JLabel butBackGame;
+    JLabel buttonBackGame;
     ImageIcon roundedIcon;
     boolean isHover = false;
     AccountUser account ;
+    ButtonOnOff myButton;
     SettingPanel(String path , AccountUser accountUser) {
         super(path);
         account = accountUser;
         backroundList = new ArrayList<>();
         iconSetting = new JLabel(new ImageIcon("../resources/images/IconSetting.png"));
         iconSetting.setBounds(500, 0, 300, 300);
-        add(iconSetting);
+        // add(iconSetting);
         label = new JLabel("SETTING");
-        label.setFont(new Font("Arial Rounded MT Bold", Font.ITALIC, 40));
+        label.setFont(new Font("Arial Rounded MT Bold", Font.ITALIC, 100));
         label.setForeground(LoginPanel.MAINCOLOR);
-        label.setBounds(550, 250, 470, 60);
+        label.setBounds(200, 10, 470, 100);
         add(label);
-        createButtonBack(70, false, 530, "backIMG");
+        createButtonBack(70, false, "backIMG");
         createBackroundSetting();
         createNameSetting();
+        // createSettingSound();
     }
 
     void createBackroundSetting() {
         settingBackround = new JLayeredPane();
         // add backround
-        settingBackround.setBounds(50, 310, MyPanel.WIDTH - 100, 200);
+        settingBackround.setBounds(50, 200,MyPanel.WIDTH - 100, 150);
         ImageIcon imgIcon = new ImageIcon(drawRound(settingBackround));
         JLabel backroundSetting = new JLabel(imgIcon);
-        backroundSetting.setBounds(0, 0, MyPanel.WIDTH - 100, 200);
+        backroundSetting.setBounds(0, 0, MyPanel.WIDTH - 100, 150);
         settingBackround.add(backroundSetting);
         // add label
         JLabel label = new JLabel("(?) CHOSE BACKROUND : ");
         label.setFont(new Font("Arial Rounded MT Bold", Font.BOLD, 20));
         label.setForeground(Color.WHITE);
-        label.setBounds(50, 80, 300, 60);
+        label.setBounds(50, 50, 300, 60);
         settingBackround.add(label);
         // add chose backround
 
@@ -72,7 +79,7 @@ public class SettingPanel extends MyPanel {
     void createNameSetting() {
         settingName = new JLayeredPane();
         // add backround
-        settingName.setBounds(50, 520, MyPanel.WIDTH - 100, 150);
+        settingName.setBounds(50, 370, MyPanel.WIDTH - 100, 150);
         ImageIcon imgIcon = new ImageIcon(drawRound(settingName));
         JLabel backroundSetting = new JLabel(imgIcon);
         backroundSetting.setBounds(0, 0, MyPanel.WIDTH - 100, 150);
@@ -85,7 +92,7 @@ public class SettingPanel extends MyPanel {
         settingName.add(label);
         // add setname
         scanNameLabel = new JLayeredPane();
-        scanNameLabel.setBounds(400, 50, 500, 60);
+        scanNameLabel.setBounds(250, 60, 500, 60);
         // scanNameLabel.setOpaque(false);
         ImageIcon img = new ImageIcon(drawBackroundScan());
         JLabel backround = new JLabel(img);
@@ -101,9 +108,16 @@ public class SettingPanel extends MyPanel {
         scanNameLabel.add(scanName);
         scanNameLabel.add(backround);
         settingName.add(scanNameLabel);
+        JLabel label_1 = new JLabel("(?) ON / OFF SOUND : ");
+        label_1.setFont(new Font("Arial Rounded MT Bold", Font.BOLD, 20));
+        label_1.setForeground(Color.WHITE);
+        label_1.setBounds(800, 50, 300, 60);
+        settingName.add(label_1);
+        myButton = new ButtonOnOff(1050, 60,account.getIsOn(), account);
+        settingName.add(myButton);
         add(settingName);
     }
-
+    
     void setBackground() {
         for (ChooseBackroundPanel jLabel : backroundList) {
             if (jLabel.isChoose()) {
@@ -126,65 +140,29 @@ public class SettingPanel extends MyPanel {
         return roundedImage;
     }
 
-    BufferedImage drawButtonNext(int width, boolean isText, String path) {
-        // Tạo hình ảnh bo cong 4 góc
-        BufferedImage roundedImage = new BufferedImage(width, 50, BufferedImage.TYPE_INT_ARGB);
-        Graphics2D g2d = roundedImage.createGraphics();
-
-        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        g2d.setColor(Color.BLUE);
-        g2d.fillRoundRect(0, 0, width, 50, 50, 50);
-        g2d.setColor(Color.WHITE);
-        if (isText) {
-
-            g2d.setFont(new Font("Arial", Font.BOLD, 20));
-            String text;
-            if (path.equals("backIMG")) {
-                text = "NEXT";
-            } else {
-                text = "BACK";
-            }
-
-            FontMetrics fm = g2d.getFontMetrics();
-            int textWidth = fm.stringWidth(text);
-            int textHeight = fm.getHeight();
-            int x = (width - textWidth) / 2;
-            int y = (50 - textHeight) / 2 + fm.getAscent();
-            if (path.equals("backIMG")) {
-                g2d.drawString(text, 70, y);
-            } else {
-                g2d.drawString(text, x, y);
-            }
-
-        }
-
-        String pathIcon = new String("../resources/images/");
-        pathIcon += path + ".png";
-        Image img = new ImageIcon(pathIcon).getImage();
-        if (path.equals("backIMG")) {
-            g2d.drawImage(img, 10, 0, null);
-        } else {
-            g2d.drawImage(img, width - 40, 5, null);
-        }
-
-        g2d.dispose();
-        return roundedImage;
-    }
-
-    void createButtonBack(int w, boolean isText, int deltaY, String path) {
+    void createButtonBack(int w, boolean isText, String path) {
         // Tạo ImageIcon từ hình ảnh
-        roundedIcon = new ImageIcon(drawButtonNext(w, isText, path));
+        roundedIcon = new ImageIcon(CreatorCompument.drawButtonBack(w, isText));
 
         // Tạo JLabel và thiết lập hình ảnh
-        butBackGame = new JLabel(roundedIcon);
-        butBackGame.addMouseListener(new MouseListener() {
+        buttonBackGame = new JLabel(roundedIcon);
+        buttonBackGame.addMouseListener(new MouseListener() {
+
             @Override
             public void mouseClicked(MouseEvent e) {
-                
+                try {
+                    SoundControler.soundClick();
+                } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e1) {
+
+                    e1.printStackTrace();
+                }
                 App.frame.setVisible(false);
                 App.frame.remove(App.setting);
                 HomePanel.animationLabel = new JLabel(new ImageIcon(App.backroundGame));
-                FileHandler.setUsername(account.getMail(), scanName.getText());
+                if (scanName.getText().length() > 2) {
+                    FileHandler.setUsername(account.getMail(), scanName.getText());
+                }
+                System.out.println(myButton.getValue());
                 // account.setUsername(scanName.getText());
                 App.homePanel = new HomePanel("../resources/images/BackroundBegin-1.jpg", account);
                 App.frame.add(App.homePanel);
@@ -203,8 +181,8 @@ public class SettingPanel extends MyPanel {
             public void mouseEntered(MouseEvent e) {
                 if (!isHover) {
                     isHover = true;
-                    remove(butBackGame);
-                    createButtonBack(150, true, 550, path);
+                    remove(LoginPanel.buttonBackGame);
+                    createButtonBack(150, true, path);
                 }
 
             }
@@ -215,19 +193,21 @@ public class SettingPanel extends MyPanel {
                 if (isHover) {
                     isHover = false;
                     // remove(LoginPanel.buttonNextGame);
-                    butBackGame.setIcon(null);
-                    createButtonBack(70, false, 550, path);
+                    buttonBackGame.setIcon(null);
+                    createButtonBack(70, false, path);
                 }
 
             }
 
         });
-        butBackGame.setBounds(50, 50, w, 50);
+        buttonBackGame.setBounds(10, 15, w, 50);
 
-        butBackGame.setOpaque(false);
-        add(butBackGame);
+        buttonBackGame.setOpaque(false);
+        add(buttonBackGame);
 
     }
+
+   
 
     BufferedImage drawRoundImage(String path) {
         // Tạo hình ảnh bo cong 4 góc
@@ -251,7 +231,7 @@ public class SettingPanel extends MyPanel {
 
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         g2d.setColor(new Color(0, 0, 0, 80));
-        g2d.fillRoundRect(0, 0, MyPanel.WIDTH - 100, panel.getHeight(), 100, panel.getHeight() - 100);
+        g2d.fillRoundRect(0, 0, MyPanel.WIDTH - 100, panel.getHeight(), 100, panel.getHeight() +100);
         g2d.dispose();
         return roundedImage;
     }

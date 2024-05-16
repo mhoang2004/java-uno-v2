@@ -19,7 +19,7 @@ public class ChooseBackroundPanel extends JLabel {
 
     private void create(String path, int x, int y) {
         this.setIcon(new ImageIcon(path));
-        this.setBounds(x, y, 170, 107);
+        this.setBounds(x, y-20, 170, 107);
         this.addMouseListener(new MouseListener() {
             boolean isClicked = false;
 

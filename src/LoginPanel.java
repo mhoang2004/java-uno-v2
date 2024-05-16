@@ -212,20 +212,7 @@ public class LoginPanel extends MyPanel implements ActionListener {
 
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
                     if (isLogIn) {
-                        if (checkSignOut().size() == 0 && checkLogin() == true) {
-                            App.modeGuest = false;
-                            Notification noti2 = new Notification(20);
-                            noti2.setText("SUCCESS");
-                            addToMainPanel(noti2);
-                            accountUser = new AccountUser(scanMail.getText(), scanPass.getPassword());
-
-                            noti2.removeTextByBao2(accountUser);
-                        } else {
-                            Notification noti1 = new Notification(20);
-                            noti1.setText("Email and password do not match");
-                            addToMainPanel(noti1);
-                            noti1.removeTextByBao();
-                        }
+                        actionNext();
                     } else {
                         String getPass = new String(scanPass.getPassword());
                         if (getPass.equals("PASSWORD") || getPass.length() == 0) {
@@ -639,7 +626,7 @@ public class LoginPanel extends MyPanel implements ActionListener {
             }
 
         });
-        buttonBackGame.setBounds(10, 10, w, 50);
+        buttonBackGame.setBounds(10, 15, w, 50);
 
         buttonBackGame.setOpaque(false);
         add(buttonBackGame);
@@ -829,50 +816,7 @@ public class LoginPanel extends MyPanel implements ActionListener {
                 } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e1) {
                     e1.printStackTrace();
                 }
-
-                if (isLogIn) {
-                    if (checkLogin() == true) {
-                        accountUser = new AccountUser(scanMail.getText(), scanPass.getPassword());
-                        App.modeGuest = false;
-                        Notification noti2 = new Notification(20);
-                        noti2.setText("SUCCESS");
-                        addToMainPanel(noti2);
-                        noti2.removeTextByBao2(accountUser);
-                    } else {
-                        Notification noti1 = new Notification(20);
-                        noti1.setText("Email and password do not match");
-                        addToMainPanel(noti1);
-                        noti1.removeTextByBao();
-                    }
-                } else {
-                    if (checkSignOut().size() == 0 ) {
-                        if(!FileHandler.checkValidSingOut(scanMail.getText()))
-                        {
-                            Notification noti1 = new Notification(20);
-                            noti1.setText("Email already exists");
-                            addToMainPanel(noti1);
-                            noti1.removeTextByBao();
-                        }else{
-                            String getPass = new String(scanPass.getPassword());
-                            FileHandler.addNewUserData(scanMail.getText(), getPass);
-                            Notification noti1 = new Notification(20);
-                            noti1.setText("Success");
-                            addToMainPanel(noti1);
-                            noti1.removeTextByBao();
-                            App.frame.setVisible(false);
-                            App.frame.remove(App.loginPanel);
-                            App.loginPanel = new LoginPanel();
-                            App.frame.add(App.loginPanel);
-                            App.frame.setVisible(true);
-                        }
-                        
-                    } else {
-                        Notification noti2 = new Notification(5);
-                        noti2.setText("Invalid SignIn");
-                        addToMainPanel(noti2);
-                        noti2.removeTextByBao();
-                    }
-                }
+                actionNext();
             }
 
             @Override
@@ -927,5 +871,51 @@ public class LoginPanel extends MyPanel implements ActionListener {
     public void addToMainPanel(JLabel card) {
         this.add(card, Integer.valueOf(MyPanel.LAYER++));
     }
-
+    void actionNext()
+    {
+        if (isLogIn) {
+            if (checkLogin() == true) {
+                accountUser = new AccountUser(scanMail.getText(), scanPass.getPassword());
+                App.modeGuest = false;
+                remove(buttonBackGame);
+                Notification noti2 = new Notification(20);
+                noti2.setText("SUCCESS");
+                addToMainPanel(noti2);
+                noti2.removeTextByBao2(accountUser);
+            } else {
+                Notification noti1 = new Notification(20);
+                noti1.setText("Email and password do not match");
+                addToMainPanel(noti1);
+                noti1.removeTextByBao();
+            }
+        } else {
+            if (checkSignOut().size() == 0 ) {
+                if(!FileHandler.checkValidSingOut(scanMail.getText()))
+                {
+                    Notification noti1 = new Notification(20);
+                    noti1.setText("Email already exists");
+                    addToMainPanel(noti1);
+                    noti1.removeTextByBao();
+                }else{
+                    String getPass = new String(scanPass.getPassword());
+                    FileHandler.addNewUserData(scanMail.getText(), getPass);
+                    Notification noti1 = new Notification(20);
+                    noti1.setText("Success");
+                    addToMainPanel(noti1);
+                    noti1.removeTextByBao();
+                    App.frame.setVisible(false);
+                    App.frame.remove(App.loginPanel);
+                    App.loginPanel = new LoginPanel();
+                    App.frame.add(App.loginPanel);
+                    App.frame.setVisible(true);
+                }
+                
+            } else {
+                Notification noti2 = new Notification(5);
+                noti2.setText("Invalid SignIn");
+                addToMainPanel(noti2);
+                noti2.removeTextByBao();
+            }
+        }
+    }
 }
