@@ -14,7 +14,7 @@ public class App {
     static SettingPanel setting;
     static String backroundGame;
     static boolean modeGuest = true;
-   
+   static String path = new String("../resources/images/");
     public static void newGame(String path, AccountUser accountUser)
             throws UnsupportedAudioFileException, IOException, LineUnavailableException {
         if (isFirtGame) {

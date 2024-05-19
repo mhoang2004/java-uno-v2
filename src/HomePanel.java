@@ -163,6 +163,7 @@ public class HomePanel extends MyPanel {
                         } else {
                             timer.stop();
                             removeComponent();
+                            
                             animationLabel.setBounds(x, 0, MyPanel.WIDTH + 50, MyPanel.HEIGHT);
                             goLabel.setBounds(MyPanel.WIDTH / 2, MyPanel.HEIGHT / 2, 200, 200);
                             timer2 = new Timer(1000, new ActionListener() {
@@ -175,6 +176,8 @@ public class HomePanel extends MyPanel {
                                     } else {
                                         if (!isOut) {
                                             isOut = true;
+                                            animationLabel.setBounds(-MyPanel.WIDTH, 0, MyPanel.WIDTH + 50, MyPanel.HEIGHT);
+
                                             timer2.stop();
                                             App.frame.remove(App.homePanel);
                                             try {

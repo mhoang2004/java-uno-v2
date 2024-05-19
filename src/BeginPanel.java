@@ -5,6 +5,7 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
@@ -42,7 +43,8 @@ public class BeginPanel extends MyPanel {
     JLabel animationLabel;
     int count = 2;
     boolean isOut = false;
-
+    static int x0 =MyPanel.WIDTH-100;
+    static int y0=0;
     BeginPanel(String path) {
         super(path);
         linkImg = new String(path);
@@ -70,7 +72,7 @@ public class BeginPanel extends MyPanel {
         JLabel backround = new JLabel(roundedIconx);
         backround.setBounds(0, 0, 100, 100);
         goLabel.add(backround);
-        // add(new ButtonOnOff(0, 0));
+        
     }
 
     BufferedImage drawButtonNext() {

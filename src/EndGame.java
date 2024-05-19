@@ -40,21 +40,36 @@ public class EndGame extends JLabel {
                 e.printStackTrace();
             }
         }
-
-        playAgainBtn = new JButton("Play Again");
+        if(App.modeGuest == true)
+        {
+            playAgainBtn = new JButton("Play Again");
+        }else{
+            playAgainBtn = new JButton("BACK TO HOME");
+        }
+        
         playAgainBtn.setBackground(new Color(30, 194, 235));
         playAgainBtn.setFont(new Font("Arial", Font.BOLD, 30));
         playAgainBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                App.frame.setVisible(false);
-                App.frame.remove(Game.mainPanel);
-                try {
-                    App.newGame(App.backroundGame, Game.accountUser);
-                } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e1) {
-                    e1.printStackTrace();
+                if(App.modeGuest)
+                {
+                    App.frame.setVisible(false);
+                    App.frame.remove(Game.mainPanel);
+                    try {
+                        App.newGame(App.backroundGame, Game.accountUser);
+                    } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e1) {
+                        e1.printStackTrace();
+                    }
+                    App.frame.setVisible(true);
+                }else{
+                    App.frame.setVisible(false);
+                    App.frame.remove(Game.mainPanel);
+                    App.homePanel = new HomePanel("../resources/images/BackroundBegin-1.jpg", LoginPanel.accountUser);
+                    App.frame.add(App.homePanel);
+                    App.frame.setVisible(true);
                 }
-                App.frame.setVisible(true);
+                
             }
         });
 
