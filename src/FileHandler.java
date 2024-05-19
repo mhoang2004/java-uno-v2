@@ -217,7 +217,6 @@ public class FileHandler {
            // String email = row.get("email");
             if (email.equals(emailString)) {
                 row.put("backGround", path);
-                System.out.println(row.put("username", path));
             }
         }
         writeDataToCSV(data);
@@ -229,7 +228,7 @@ public class FileHandler {
             String email = row.get("email");
            // String email = row.get("email");
             if (email.equals(emailString)) {
-                if(row.get("isSound").equals("true"))
+                if(row.get("backGround").equals("true"))
                 {
                     return true;
                 }else{
@@ -238,7 +237,7 @@ public class FileHandler {
 
             }
         }
-        return true;
+        return false;
     }
     public static void setSounnd(String emailString, boolean isOn) {
         List<Map<String, String>> data = getAllUsersData();

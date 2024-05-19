@@ -15,13 +15,13 @@ public class App {
     static String backroundGame;
     static boolean modeGuest = true;
    
-    public static void newGame(String path)
+    public static void newGame(String path, AccountUser accountUser)
             throws UnsupportedAudioFileException, IOException, LineUnavailableException {
         if (isFirtGame) {
             frame.remove(beginPage);
         }
 
-        game = new Game(path);
+        game = new Game(path, accountUser);
         App.frame.add(Game.mainPanel);
         game.start();
 
@@ -32,7 +32,7 @@ public class App {
                 if (Game.isEndGame == true) {
 
                     try {
-                        game = new Game(path);
+                        game = new Game(path, accountUser);
                     } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
                         e.printStackTrace();
                     }

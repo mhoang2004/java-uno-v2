@@ -35,7 +35,6 @@ public class Player extends User {
             xPadding += GAP_CARD_HORIZONTAL;
         }
     }
-
     public Card drawCard2() {
         if (Game.deck.getDeck().size() == 0) {
             Game.deck.createDeck();
@@ -50,6 +49,8 @@ public class Player extends User {
 
         // cards.add(card);
         cards.add(sortCard(card), card);
+        int xPadding = 0;
+        int yPadding = 0;
         for (Card card2 : cards) {
             Game.mainPanel.remove(card2);
         }
@@ -60,7 +61,6 @@ public class Player extends User {
         card.drawCardAnimationByBao2();
         return card;
     }
-
     public Card drawCard() {
         if (Game.deck.getDeck().size() == 0) {
             Game.deck.createDeck();
@@ -75,6 +75,8 @@ public class Player extends User {
 
         // cards.add(card);
         cards.add(sortCard(card), card);
+        int xPadding = 0;
+        int yPadding = 0;
         for (Card card2 : cards) {
             Game.mainPanel.remove(card2);
         }

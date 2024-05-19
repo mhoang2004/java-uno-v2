@@ -1,6 +1,5 @@
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.FontMetrics;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.RenderingHints;
@@ -16,6 +15,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import javax.swing.JTextField;
+import javax.swing.border.LineBorder;
 
 public class SettingPanel extends MyPanel {
     JLabel iconSetting;
@@ -48,7 +48,6 @@ public class SettingPanel extends MyPanel {
         createButtonBack(70, false, "backIMG");
         createBackroundSetting();
         createNameSetting();
-        // createSettingSound();
     }
 
     void createBackroundSetting() {
@@ -66,13 +65,18 @@ public class SettingPanel extends MyPanel {
         label.setBounds(50, 50, 300, 60);
         settingBackround.add(label);
         // add chose backround
-
         backroundList.add(new ChooseBackroundPanel(this, "Iconbackgroundmain-0", 400, 45));
         settingBackround.add(backroundList.get(0));
         backroundList.add(new ChooseBackroundPanel(this, "Iconbackgroundmain-1", 600, 45));
         settingBackround.add(backroundList.get(1));
         backroundList.add(new ChooseBackroundPanel(this, "Iconbackgroundmain-2", 800, 45));
         settingBackround.add(backroundList.get(2));
+        for (ChooseBackroundPanel chooseBackroundPanel : backroundList) {
+            if(account.getPathBackround().equals(chooseBackroundPanel.getBackround()))
+            {
+                chooseBackroundPanel.setBorder(new LineBorder(Color.RED, 3));
+            }
+        }
         add(settingBackround);
     }
 
@@ -100,11 +104,35 @@ public class SettingPanel extends MyPanel {
         backround.setBounds(0, 0, 470, 40);
 
         scanName = new JTextField();
+        
+        scanName.addMouseListener(new MouseListener() {
+
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                scanName.setText("");
+                }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+                 }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                 }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                 }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                 }
+            
+        });
         scanName.setFont(new Font("Arial", Font.BOLD, 20));
         scanName.setForeground(LoginPanel.MAINCOLOR);
+        scanName.setText(account.getUserName());
         scanName.setBounds(0, 0, 470, 40);
-        LoginPanel.setSingleLine(scanName);
-
         scanNameLabel.add(scanName);
         scanNameLabel.add(backround);
         settingName.add(scanNameLabel);

@@ -50,7 +50,7 @@ public class EndGame extends JLabel {
                 App.frame.setVisible(false);
                 App.frame.remove(Game.mainPanel);
                 try {
-                    App.newGame(App.backroundGame);
+                    App.newGame(App.backroundGame, Game.accountUser);
                 } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e1) {
                     e1.printStackTrace();
                 }

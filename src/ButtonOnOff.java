@@ -60,6 +60,7 @@ public class ButtonOnOff extends JLayeredPane implements MouseListener{
         }else{
             isOn = true;
         }
+        System.out.println(isOn);
         accountUser.setIsOn(isOn);
         remove(backround);
         ImageIcon img = new ImageIcon(createRoundButton(isOn));

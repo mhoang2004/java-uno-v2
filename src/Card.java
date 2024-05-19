@@ -26,12 +26,12 @@ public class Card extends JLabel implements MouseListener, Comparable, ActionLis
     static boolean isDragg = false;
     static int newX;
     static int newY;
-    boolean isKey = false;
-    Timer timer = new Timer(200, this);
-    boolean bool = true;
+     boolean isKey = false;
+     Timer timer = new Timer(200, this);
+     boolean bool = true;
+    // BACK CARD
 
     Card() {
-        // BACK CARD
         super();
         color = null;
         rank = "BACK";
@@ -51,7 +51,6 @@ public class Card extends JLabel implements MouseListener, Comparable, ActionLis
         this.rank = rank;
         setCard();
     }
-
     public void setCard() {
         String path = "../resources/cards/";
         if (color != null) {
@@ -63,28 +62,43 @@ public class Card extends JLabel implements MouseListener, Comparable, ActionLis
         this.setVerticalAlignment(JLabel.CENTER); // Center the image vertically
         this.setSize(Card.WIDTH, Card.HEIGHT);
     }
-
-    public boolean isKey() {
+    public boolean isKey()
+    {
         return isKey;
     }
-
-    void updateIsKey() {
-        isKey = isKey == true ? false : true;
+    void updateIsKey()
+    {
+        isKey = isKey == true ? false:true;
     }
-
     public void suggestedEffect() {
         isSuggest = true;
         setLocation(getX(), MyPanel.HEIGHT - 120);
         timer.start();
     }
-
-    public static Card createCard(String color, String rank) {
+    public Color getColorByBao()
+    {
+        if(this.color.equals("B"))
+        {
+            return Color.BLUE;
+        }
+        if(this.color.equals("R"))
+        {
+            return Color.RED;
+        }
+        if(this.color.equals("Y"))
+        {
+            return Color.YELLOW;
+        }
+        return Color.GREEN;
+    }
+    public static Card  createCard(String color, String rank)
+    {
         Card card = new Card(color, rank);
         return card;
     }
-
     public void removeEffect() {
         isSuggest = false;
+        bool = true;
         timer.stop();
         setBorder(new EmptyBorder(0, 0, 0, 0));
     }
@@ -108,7 +122,11 @@ public class Card extends JLabel implements MouseListener, Comparable, ActionLis
             return true;
         return false;
     }
-
+    public Boolean isSuperSpecial() {
+        if(rank.equals("WILD")|| rank.equals("DRAWFOUR"))
+            return true;
+        return false;
+    }
     public String getColor() {
         return color;
     }
@@ -124,21 +142,23 @@ public class Card extends JLabel implements MouseListener, Comparable, ActionLis
     public void setRank(String rank) {
         this.rank = rank;
     }
-
-    public boolean isSkip() {
-        if (this.getRank() == "SKIP") {
+    public boolean isSkip()
+    {
+        if(this.getRank() == "SKIP")
+        {
             return true;
         }
-        if (this.getRank() == "DRAWTWO") {
+        if(this.getRank() == "DRAWTWO")
+        {
             return true;
         }
-        if (this.getRank() == "DRAWFOUR") {
+        if(this.getRank() == "DRAWFOUR")
+        {
             return true;
         }
         return false;
     }
-
-    public void drawCardAnimationByBao(int xDeck, int yDeck, int x, int y) {
+    public void drawCardAnimationByBao(int xDeck, int yDeck,int x, int y) {
         Card tempCard = this;
         try {
             SoundControler.soundDraw();
@@ -153,8 +173,8 @@ public class Card extends JLabel implements MouseListener, Comparable, ActionLis
 
         Timer timer = new Timer(10, new ActionListener() {
             // Starting point
-            int x1 = xDeck;
-            int y1 = yDeck;
+            int x1 =xDeck;
+            int y1 =yDeck;
 
             int dx = x2 - x1;
             int dy = y2 - y1;
@@ -178,16 +198,16 @@ public class Card extends JLabel implements MouseListener, Comparable, ActionLis
                     tempCard.repaint();
                 } else {
                     // handle others things
-                    Timer time = new Timer(250, new ActionListener() {
+                    Timer time = new Timer(200, new ActionListener() {
 
                         @Override
                         public void actionPerformed(ActionEvent e) {
-                            tempCard.drawCardAnimation(Deck.X + 200, Deck.Y + 100);
+                            tempCard.drawCardAnimation(Deck.X+200, Deck.Y+100);
                             ((Timer) e.getSource()).stop();
                         }
-
+                        
                     });
-
+                   
                     ((Timer) e.getSource()).stop();
                     time.start();
                 }
@@ -196,7 +216,6 @@ public class Card extends JLabel implements MouseListener, Comparable, ActionLis
 
         timer.start();
     }
-
     public void drawCardAnimationByBao2() {
         Card tempCard = this;
         try {
@@ -204,44 +223,43 @@ public class Card extends JLabel implements MouseListener, Comparable, ActionLis
         } catch (LineUnavailableException e) {
             e.printStackTrace();
         }
-        tempCard.drawCardAnimationByBao(Deck.X, Deck.Y, Deck.X + 200, Deck.Y + 100);
+        tempCard.drawCardAnimationByBao(Deck.X, Deck.Y, Deck.X+200, Deck.Y+100);
         user.setCardsPosition();
-        if (tempCard.user.checkValid(this) == false) {
+        if(tempCard.user.checkValid(this)== false)
+        {
             this.removeEffect();
         }
         timer.start();
     }
-
     public void drawCardAnimation(int x, int y) {
         Card tempCard = this;
-
         try {
             SoundControler.soundDraw();
         } catch (LineUnavailableException e) {
             e.printStackTrace();
         }
-
         // Ending point
         final int x2;
         final int y2;
         String position = user.getPosition();
 
         if (position.equals("SOUTH") || position.equals("NORTH")) {
-            if (position.equals("SOUTH")) {
+            if(position.equals("SOUTH") )
+            {
                 x2 = user.getXPos() + ((user.sortCard(this)) * User.GAP_CARD_HORIZONTAL);
-            } else {
+            }else{
                 x2 = user.getXPos() + (user.sizeCards() * User.GAP_CARD_HORIZONTAL);
             }
             y2 = user.getYPos();
         } else {
-            x2 = user.getXPos();
+            x2 = user.getXPos() ;
             y2 = user.getYPos() + (user.sizeCards() * User.GAP_CARD_VERTICAL);
         }
 
         Timer timer = new Timer(10, new ActionListener() {
             // Starting point
-            int x1 = x;
-            int y1 = y;
+            int x1 =x;
+            int y1 =y;
 
             int dx = x2 - x1;
             int dy = y2 - y1;
@@ -271,43 +289,47 @@ public class Card extends JLabel implements MouseListener, Comparable, ActionLis
 
                         isDrawOneCard = false;
                         Card card = user.getLastCard();
+                        System.out.println(card);
 
                         if (user.checkValid(card)) {
                             Computer computer = (Computer) user;
                             try {
-                                Game.hisComputerHit.put(computer.getPos(), computer.computerHitCard());
+                                Game.hisComputerHit.put(computer.getPos(),computer.computerHitCard());
                             } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e1) {
-
+                                // TODO Auto-generated catch block
                                 e1.printStackTrace();
                             }
                             Game.updatePrevCard();
-
+                            Game.deck.removeEffect();
                             int index = Game.computerNumber(computer);
                             // skip or draw cards
-                            if (Game.nextIsPlayer(index)) {
-                                for (int i = 0; i < Game.player.sizeCards(); i++) {
-                                    Game.player.cards.get(i).backDefaultCard();
-                                    ;
+                            if(Game.nextIsPlayer(index))
+                            {
+                                for(int i=0; i< Game.player.sizeCards(); i++)
+                                {
+                                    Game.player.cards.get(i).backDefaultCard();;
                                 }
-                                if (Game.player.checkCard()) {
+                                if(Game.player.checkCard())
+                                {
                                     Game.player.suggestedEffect();
-                                } else {
+                                }else{
                                     Game.addToMainPanel(Game.vector);
                                 }
-
+                                
                             }
+                            
                             if ((computer.isUserHit == true) && (computer.checkChangeColor())) {
                                 Game.prevCard.setColor(computer.chooseColor());
                             }
-                            if (computer.endGame()) {
-                                Game.addToMainPanel(new EndGame());
-                            } else {
+                                if (computer.endGame()) {
+                                    Game.addToMainPanel(new EndGame());
+                                } else {
                                 // REVERSE
                                 if ((Game.prevCard.getRank() == "REVERSE") && (computer.isUserHit != false)) {
                                     Game.reverse();
                                 }
                                 // if (computer.getNextUser().isPlayer() == true && !computer.checkSkip()) {
-                                // player.suggestedEffect();
+                                //     player.suggestedEffect();
                                 // }
                                 computer.getNextUser().setTurn(true);
                                 computer.setTurn(false);
@@ -315,7 +337,7 @@ public class Card extends JLabel implements MouseListener, Comparable, ActionLis
                                 if ((computer.checkSkip()) && (computer.isUserHit != false)) {
                                     computer.skip();
                                     // if (index == 1) {
-                                    // player.suggestedEffect();
+                                    //     player.suggestedEffect();
                                     // }
                                     Game.delaySkip(index);
                                     return;
@@ -370,6 +392,7 @@ public class Card extends JLabel implements MouseListener, Comparable, ActionLis
                     user.hitCard(tempCard, true);
                     if ((tempCard.color == null) && (user.getIsPlayer())) {
                         // choose color
+                        
 
                     }
 
@@ -387,113 +410,111 @@ public class Card extends JLabel implements MouseListener, Comparable, ActionLis
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        try {
-            SoundControler.soundClick();
-        } catch (LineUnavailableException e1) {
-            e1.printStackTrace();
-        } catch (UnsupportedAudioFileException e1) {
-            e1.printStackTrace();
-        } catch (IOException e1) {
-            e1.printStackTrace();
-        }
         addMouseMotionListener(new MouseAdapter() {
             int x, y;
 
             @Override
             public void mousePressed(MouseEvent e) {
-
+               
             }
-
             @Override
-            public void mouseReleased(MouseEvent e) {
-
-            }
-
+             public void mouseReleased(MouseEvent e) {
+               
+               
+             }
             @Override
             public void mouseDragged(MouseEvent e) {
-                isDragg = true;
+             isDragg = true;
             }
         });
-        if (e.getClickCount() == 2 || (e.getClickCount() == 1 && isClicked && user.checkValid(this))) {
+        if(e.getClickCount() == 2 ||(e.getClickCount() ==1 && isClicked&& user.checkValid(this)))
+        {
 
             try {
-                processing();
+                processing ();
             } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e1) {
+                // TODO Auto-generated catch block
                 e1.printStackTrace();
             }
         }
-        if (e.getClickCount() == 1) {
-            user.offFocus();
-            isClicked = true;
-            user.effectArroundClickCard();
-            this.setLocation(this.getX(), MyPanel.HEIGHT - 150);
-            this.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        if(e.getClickCount() ==1)
+        {
+                user.offFocus();
+                isClicked = true;
+                user.effectArroundClickCard();               
+                this.setLocation(this.getX(), MyPanel.HEIGHT - 150);
+                this.setCursor(new Cursor(Cursor.HAND_CURSOR));               
         }
-
+        
     }
-
-    public void backDefaultCard() {
+    public void backDefaultCard()
+    {
         this.isClicked = false;
         this.setLocation(this.getX(), MyPanel.HEIGHT - 110);
         this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
     }
-
-    public void effectArround() {
+    public void effectArround()
+    {
         this.setLocation(this.getX(), MyPanel.HEIGHT - 130);
         this.setCursor(new Cursor(Cursor.HAND_CURSOR));
     }
-
-    void processing() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
-        if (Game.check(this)) {
+    void processing() throws UnsupportedAudioFileException, IOException, LineUnavailableException
+    {
+        if (Game.check(this)) 
+        {
             Game.setButtonUno();
             this.removeEffect();
-            hitCard();
-
-            Game.player.isUserHit = true;
-            if (user.getCard().size() - 1 == 0) {
-
+            hitCard(); 
+            System.out.println(this.user.getCard().size());
+            Game.player.isUserHit = true;   
+            if (user.getCard().size() -1 == 0)
+            {
+                System.out.println("END GAME");
                 Game.addToMainPanel(new EndGame());
 
-            } else {
+            }else{
                 if (this.getColor() == null) {
                     Game.player.setTurn(false);
                     Game.displayNotification();
                     Game.notiToUser.setText("Change the current color to play more game");
                     new ChooseColorPanel();
-                    // Game.updatePrevCard();
-                } else {
+                    // Game.updatePrevCard();   
+                } else 
+                {                 
                     Game.player.hitCard(this, Game.check(this));
-
+                    
                     Game.prevCard.setColor(this.getColor());
-                    Game.prevCard.setRank(this.getRank());
+                    Game.prevCard.setRank(this.getRank());   
                     Game.checkTheCase();
-                }
+                } 
                 Game.displayNotification();
-                Game.checkUno();
-
+                Game.checkUno(); 
+                
+                
             }
-            for (Card card : user.cards) {
-                card.removeEffect();
-            }
-        }
+            for(Card card : user.cards)
+                {
+                    card.removeEffect();
+                }
+        }   
     }
-
     void hitCard() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
         this.removeMouseListener(this);
         this.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 
         Game.prevCard.setColor(this.getColor());
         Game.prevCard.setRank(this.getRank());
-
+        
         this.hitCardAnimation();
     }
 
     @Override
     public void mousePressed(MouseEvent e) {
+        // System.out.println("HELLLLLLO");
 
     }
-
-    void addEvent() {
+    void addEvent()
+    {
         this.addMouseMotionListener(new MouseAdapter() {
             int x, y;
 
@@ -502,46 +523,48 @@ public class Card extends JLabel implements MouseListener, Comparable, ActionLis
                 x = e.getX();
                 y = e.getY();
             }
-
             @Override
-            public void mouseReleased(MouseEvent e) {
-
-            }
-
+             public void mouseReleased(MouseEvent e) {
+                System.out.println("HI");
+               
+             }
             @Override
             public void mouseDragged(MouseEvent e) {
                 Card.isDragg = true;
                 Card.newX = getX() + e.getX() - x;
-                Card.newY = getY() + e.getY() - y;
-                setBounds(Card.newX, Card.newY, Card.WIDTH, Card.HEIGHT);
+                Card.newY =getY() + e.getY() - y;
+                setBounds(Card.newX, Card.newY, Card.WIDTH,  Card.HEIGHT);
             }
         });
     }
-
     @Override
     public void mouseReleased(MouseEvent e) {
-        if (isDragg) {
+        if(isDragg)
+        {
             isDragg = false;
-            if (user.checkValid(this) && user.getTurn() == true) {
-                try {
-                    processing();
-                } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e1) {
-                    e1.printStackTrace();
-                }
-            } else {
-                for (Card card : user.getCard()) {
-                    card.backDefaultCard();
-                    card.isClicked = false;
-                    if (user.checkValid(card) && user.getTurn() == true) {
-                        card.isSuggest = true;
-                        Border border = new LineBorder(Color.YELLOW, 5);
-                        card.setBorder(border);
-                    }
-                }
-                this.drawCardAnimation(newX, newY);
+            if( user.checkValid(this) && user.getTurn() == true)
+            {
+             try {
+                processing();
+            } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
             }
+            }else{
+             for (Card card : user.getCard()) {
+                 card.backDefaultCard();
+                 card.isClicked = false;
+                 if(user.checkValid(card) && user.getTurn() == true)
+                 {
+                     card.isSuggest = true;
+                     Border border = new LineBorder(Color.YELLOW, 5);
+                     card.setBorder(border);
+                 }
+             }
+             this.drawCardAnimation(newX, newY);
+     }
         }
-
+        
     }
 
     @Override
@@ -551,36 +574,36 @@ public class Card extends JLabel implements MouseListener, Comparable, ActionLis
 
     @Override
     public void mouseExited(MouseEvent e) {
-
+        
     }
-
     public void mouseDragged(MouseEvent e) {
-
+        System.out.println("1111");
     }
-
     @Override
     public int compareTo(Object o) {
         Card card2 = (Card) o;
         return this.rank.compareTo(card2.rank);
     }
-
-    boolean equal(Object o) {
+    boolean equal(Object o)
+    {
         Card card2 = (Card) o;
         return this.rank.equals(card2.rank);
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (bool == true) {
-            bool = false;
-            Border border = new LineBorder(Color.YELLOW, 5);
-            setBorder(border);
-
-        } else {
-            bool = true;
-            Border border = new LineBorder(Color.YELLOW, 0);
-            setBorder(border);
-
-        }
-    }
+        if(bool == true)
+                {
+                    bool = false;
+                    Border border = new LineBorder(Color.YELLOW, 5);
+                    setBorder(border);
+                   
+                }
+                else{
+                    bool = true;
+                    Border border = new LineBorder(Color.YELLOW, 0);
+                    setBorder(border);
+            
+                }
+     }
 }

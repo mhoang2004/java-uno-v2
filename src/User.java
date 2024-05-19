@@ -158,6 +158,7 @@ public abstract class User {
 
         } else if (Game.prevCard.getRank() == "DRAWFOUR") {
             this.getNextUser().banAnimation();
+            
             this.getNextUser().drawCard();
             this.getNextUser().drawCard();
             this.getNextUser().drawCard();
@@ -181,8 +182,6 @@ public abstract class User {
         if (index == -1)
             return sizeCards();
         int sizeCard = LogicGame.countCard(cards.get(index).getColor(), this) + index;
-        System.out.println("THIS CARD IS " + newCard + "-- index insert :" + LogicGame.isNewColor(newCard, this)
-                + "-- index last color: " + sizeCard);
         // new card is special
         if (newCard.isSpecial()) {
             for (int j = index; j < sizeCard; j++)

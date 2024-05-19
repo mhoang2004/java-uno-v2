@@ -1,14 +1,21 @@
+import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.*;
 
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
+import javax.swing.JLabel;
+import javax.swing.Timer;
 
 public class Computer extends User {
     private ArrayList<Card> backCards;
     private Map<String, Integer> mpColor;
     private Map<String, Integer> mpRank;
-
+    static javax.swing.Timer timer;
+    static int x1 = -MyPanel.WIDTH;
+    static int gap = 10;
     Computer(Deck deck, String position) {
         super(deck, position);
         isPlayer = false;
@@ -124,6 +131,7 @@ public class Computer extends User {
         for (Map.Entry<String, Integer> e : hm.entrySet()) {
             if (e.getValue() == max) {
                 System.out.println("Change Color: " + e.getKey());
+                
                 return e.getKey();
             }
         }
@@ -293,12 +301,13 @@ public class Computer extends User {
             Game.prevCard.setColor(validCard.getColor());
             Game.prevCard.setRank(validCard.getRank());
             chosenCard.hitCardAnimation();
-
+            
             if (this.getCards().size() - 1 == 0) {
                 Game.addToMainPanel(new EndGame());
             }
             backCards.remove(index);
             cards.remove(index);
+           
             Game.updatePrevCard();
             // if (chosenCard.getColor() == null) {
             // Game.prevCard.setColor(cards.get(0).getColor());
@@ -312,7 +321,7 @@ public class Computer extends User {
     // if dont have card then play this card when it can play
     public Card computerTurn() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
         Card cardHit = this.computerHitCard();
-
+        
         if (this.isUserHit == true) {
             if (checkChangeColor()) {
                 Game.prevCard.setColor(this.chooseColor());
@@ -323,6 +332,7 @@ public class Computer extends User {
             this.drawCard();
             Card.isDrawOneCard = true;
         }
+        
         return cardHit;
     }
 
@@ -354,5 +364,30 @@ public class Computer extends User {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'effectArroundClickCard'");
     }
+    static void chooseColorEffect(Color color){
+        JLabel animationJLabel = new JLabel();
+         animationJLabel.setBounds( - MyPanel.WIDTH, 0, MyPanel.WIDTH, MyPanel.HEIGHT);
+        animationJLabel.setBackground(Color.BLACK);
+        animationJLabel.setOpaque(true);
 
+        animationJLabel.setBackground(color);
+        Game.addToMainPanel(animationJLabel);
+        timer = new Timer(10,new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (x1 < MyPanel.WIDTH * 2) {
+                    x1 += gap * 4;
+                    animationJLabel.setBounds(x1, 0, MyPanel.WIDTH, MyPanel.HEIGHT);
+                    
+                } else {
+                    x1=- MyPanel.WIDTH;
+                    timer.stop();
+                     Game.mainPanel.remove(animationJLabel);
+                        Game.mainPanel.repaint();
+                    
+                }
+            }
+        });
+        timer.start();
+    }
 }

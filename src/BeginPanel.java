@@ -236,7 +236,7 @@ public class BeginPanel extends MyPanel {
                         } else {
                             App.frame.remove(App.beginPage);
                             try {           
-                                App.newGame(App.backroundGame);
+                                App.newGame(App.backroundGame, null);
                             } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e1) {
                                 e1.printStackTrace();
                             }

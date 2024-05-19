@@ -1,6 +1,8 @@
 import java.util.ArrayList;
 import java.util.HashMap;
 import javax.swing.*;
+
+import java.awt.Color;
 import java.awt.event.*;
 import java.io.File;
 
@@ -24,8 +26,9 @@ public class Game implements KeyListener {
     static Clip clip;
     // private boolean isTurnPlayer;
     static Arrow vector;
-    
-    Game(String path) throws UnsupportedAudioFileException, IOException, LineUnavailableException {
+    static AccountUser accountUser;
+       
+    Game(String path, AccountUser accountUser) throws UnsupportedAudioFileException, IOException, LineUnavailableException {
         //sound 
         File file = new File("../resources/sounds/mainSound.wav");
         AudioInputStream audioStream = AudioSystem.getAudioInputStream(file);
@@ -33,7 +36,16 @@ public class Game implements KeyListener {
         clip.open(audioStream);
         clip.loop(Clip.LOOP_CONTINUOUSLY);
         clip.start();
+        this.accountUser = accountUser;
+        if (accountUser != null) {
+            if (!accountUser.getIsOn()) {
+                clip.stop();
+            }
+            SoundControler.setIsON(accountUser.getIsOn());
+        }
+       
         mainPanel = new MyPanel(path);
+        
         // Game.mainPanel.remove(goLabel);
         deck = new Deck();
         hisComputerHit = new HashMap<Integer, Card>();
@@ -152,6 +164,7 @@ public class Game implements KeyListener {
     // Set computer`s time, delay 2s
     public static void delayReverse(int index) {
         updatePrevCard();
+       // deck.removeEffect();
         Game.notiToUser.removeText();
         Timer timer = new Timer(2000, new ActionListener() {
            
@@ -189,41 +202,47 @@ public static boolean nextIsPlayer(int index)
 {
     if(index == 1)
     {
+        if(hisComputerHit.get(index) == null)
+            {
+                return false;
+            }
         if(prevCard.isSkip() == true)
         {
             return true;
         }
+        return false;
     }
     if(Game.isReverse == true)
     {
         if(index == 2)
         {
-            
             if(hisComputerHit.get(index) == null)
             {
                 return true;
             }
-            if(hisComputerHit.get(index).isSkip() == false)
+            if(hisComputerHit.get(index).isSkip() == true)
             {
-                return true;
+                return false;
             }
             if(hisComputerHit.get(index).getRank().equals("Reverse"))
             {
                 return false;
             }
+              return true;  
         }
         if(index ==0)
         {
-            
             if(hisComputerHit.get(index) == null)
             {
                 return false;
             }
-            if(hisComputerHit.get(index).getRank().equals("Reverse"))
+            if(!hisComputerHit.get(index).getRank().equals("Reverse"))
             {
-                return true;
+                return false;
             } 
+            return true; 
         }
+        return false;
     }else{
         if(index ==0)
         {
@@ -232,34 +251,36 @@ public static boolean nextIsPlayer(int index)
             {
                 return true;
             }
-            if(hisComputerHit.get(index).isSkip()== false)
-            {
-                return true;
-            }
             if(hisComputerHit.get(index).getRank().equals("Reverse"))
             {
                 return false;
             } 
+            if(hisComputerHit.get(index).isSkip()== true)
+            {
+                return false;
+            }
+            return false;
         }
         if(index == 2)
         {
-            
             if(hisComputerHit.get(index) == null)
             {
                 return false;
             }
-            if(hisComputerHit.get(index).getRank().equals("Reverse"))
+            if(!hisComputerHit.get(index).getRank().equals("Reverse"))
             {
-                return true;
+                return false;
             }
+            return true;
         }
+        return false;
     }
-    return false;
 }
+   
    
     // Computer play card, pass next user, check reverse, skip this here
     public static void computerHit(int index) {
-       
+        // player.offFocus();
         if (com.get(index).getTurn() == false)
             return;
         try {
@@ -275,14 +296,20 @@ public static boolean nextIsPlayer(int index)
             player.suggestedEffect();
             if(player.checkCard() == false)
             {
-               vector.add();
+                System.out.println("HEEELOOOO");
+               deck.suggestedEffect();
             }
         }  
-        
+        System.out.println(hisComputerHit.toString());
         updatePrevCard();
         if (com.get(index).endGame()) {
             Game.addToMainPanel(new EndGame());
         } else {
+            if(prevCard.isSuperSpecial())
+            {
+                System.out.println();
+                Computer.chooseColorEffect(Game.prevCard.getColorByBao());
+            }
             // REVERSE
             if ((Game.prevCard.getRank() == "REVERSE") && (com.get(index).isUserHit != false)) {
                 reverse();

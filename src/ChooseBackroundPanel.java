@@ -9,7 +9,7 @@ public class ChooseBackroundPanel extends JLabel {
     private String path;
     private boolean isChoose;
     private SettingPanel controler;
-
+    boolean isClicked = false;
     public ChooseBackroundPanel(SettingPanel controler, String path, int x, int y) {
         isChoose = false;
         this.path = "../resources/images/" + path;
@@ -21,24 +21,9 @@ public class ChooseBackroundPanel extends JLabel {
         this.setIcon(new ImageIcon(path));
         this.setBounds(x, y-20, 170, 107);
         this.addMouseListener(new MouseListener() {
-            boolean isClicked = false;
-
             @Override
             public void mouseClicked(java.awt.event.MouseEvent e) {
-
-                for (ChooseBackroundPanel panel : controler.getListBackround()) {
-                    if (panel.isChoose == true) {
-                        panel.isChoose = false;
-                        panel.setBorder(new LineBorder(Color.RED, 0));
-                    }
-                }
-                isClicked = true;
-                isChoose = true;
-                System.out.println(getBackround());
-                controler.setBackroundAccount(getBackround());
-                setBorder(new LineBorder(Color.RED, 3));
-                controler.setBackground();
-
+                setClick();
             }
 
             @Override
@@ -64,7 +49,17 @@ public class ChooseBackroundPanel extends JLabel {
 
         });
     }
-
+    void setClick()
+    {
+        for (ChooseBackroundPanel panel : controler.getListBackround()) {
+                panel.setBorder(new LineBorder(Color.RED, 0));
+        }
+        isClicked = true;
+        isChoose = true;
+        controler.setBackroundAccount(getBackround());
+        setBorder(new LineBorder(Color.RED, 3));
+        controler.setBackground();
+    }
     String getBackround() {
         return path.replaceAll("Iconb", "b") + ".jpg";
     }

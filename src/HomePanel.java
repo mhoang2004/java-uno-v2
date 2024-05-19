@@ -83,9 +83,11 @@ public class HomePanel extends MyPanel {
     private void createName(String nameString) {
         name = new JLabel(nameString);
         name.setText(nameString);
-        name.setForeground(LoginPanel.MAINCOLOR);
+        name.setForeground(Color.WHITE);
         name.setFont(new Font("Harlow Solid Italic", Font.BOLD, 40));
-        name.setBounds(150, 400, 500, 200);
+        name.setBounds(50, 400, 500, 200);
+        name.setHorizontalAlignment(JLabel.CENTER); // Center the image horizontally
+        name.setVerticalAlignment(JLabel.CENTER); // Center the image vertically
         add(name);
     }
 
@@ -174,11 +176,12 @@ public class HomePanel extends MyPanel {
                                         if (!isOut) {
                                             isOut = true;
                                             timer2.stop();
-                                            timer.stop();
                                             App.frame.remove(App.homePanel);
-                                            try {           
-                                                App.newGame(accountUser.getPathBackround());
-                                            } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e1) {
+                                            try {
+                                                App.newGame(App.backroundGame, accountUser);
+                                            } catch (UnsupportedAudioFileException | IOException
+                                                    | LineUnavailableException e1) {
+                                                // TODO Auto-generated catch block
                                                 e1.printStackTrace();
                                             }
                                         }
@@ -270,7 +273,7 @@ public class HomePanel extends MyPanel {
                                             timer2.stop();
                                             App.frame.remove(App.homePanel);
                                             try {
-                                                App.newGame(App.backroundGame);
+                                                App.newGame(App.backroundGame, accountUser);
                                             } catch (UnsupportedAudioFileException | IOException
                                                     | LineUnavailableException e1) {
                                                 // TODO Auto-generated catch block
