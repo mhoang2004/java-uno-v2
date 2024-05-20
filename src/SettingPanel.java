@@ -33,6 +33,7 @@ public class SettingPanel extends MyPanel {
     boolean isHover = false;
     AccountUser account ;
     ButtonOnOff myButton;
+    
     SettingPanel(String path , AccountUser accountUser) {
         super(path);
         account = accountUser;
@@ -48,8 +49,59 @@ public class SettingPanel extends MyPanel {
         createButtonBack(70, false, "backIMG");
         createBackroundSetting();
         createNameSetting();
+        createLogout();
     }
+    void createLogout()
+    {
+        ImageIcon imgIcon = new ImageIcon(App.path+ "LogoutIcon.png");
+        JLabel logoutImg = new JLabel();
+        logoutImg.setIcon(imgIcon);
+        logoutImg.setBounds(150, 550,70, 70);
+        add(logoutImg);
+        JLabel logoutLabel = new JLabel("Log - out");
+        logoutLabel.setFont(new Font("Arial Rounded MT Bold", Font.BOLD, 30));
+        logoutLabel.setForeground(Color.WHITE);
+        logoutLabel.setBounds(250, 550,500, 70);
+        logoutLabel.addMouseListener(new MouseListener() {
 
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                try {
+                    SoundControler.soundClick();
+                } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e1) {
+                    // TODO Auto-generated catch block
+                    e1.printStackTrace();
+                }
+                App.modeGuest = true;
+                LoginPanel.accountUser = null;
+                App.frame.setVisible(false);
+                App.frame.remove(App.setting);
+                App.beginPage = new BeginPanel("../resources/images/BackroundBegin-1.jpg");
+                App.frame.add(App.beginPage);
+                App.frame.setVisible(true);
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+                }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                logoutLabel.setForeground(Color.RED);
+                }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                logoutLabel.setForeground(Color.WHITE);
+               }
+            
+        });
+        add(logoutLabel);
+    }
     void createBackroundSetting() {
         settingBackround = new JLayeredPane();
         // add backround
