@@ -46,7 +46,7 @@ public class EndGame extends JLabel {
         }else{
             playAgainBtn = new JButton("BACK TO HOME");
         }
-        
+        Game.stop();
         playAgainBtn.setBackground(new Color(30, 194, 235));
         playAgainBtn.setFont(new Font("Arial", Font.BOLD, 30));
         playAgainBtn.addActionListener(new ActionListener() {

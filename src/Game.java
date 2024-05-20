@@ -25,7 +25,6 @@ public class Game implements KeyListener {
     Timer timer;
     static Clip clip;
     // private boolean isTurnPlayer;
-    static Arrow vector;
     static AccountUser accountUser;
        
     Game(String path, AccountUser accountUser) throws UnsupportedAudioFileException, IOException, LineUnavailableException {
@@ -49,8 +48,6 @@ public class Game implements KeyListener {
         // Game.mainPanel.remove(goLabel);
         deck = new Deck();
         hisComputerHit = new HashMap<Integer, Card>();
-        vector = new Arrow();
-        addToMainPanel(vector);
         player = new Player(deck, "SOUTH");
         prevCard = new Card("G", "WILD");
         while (prevCard.isSpecial()) {
@@ -183,11 +180,6 @@ public class Game implements KeyListener {
         {
             Game.notiToUser.removeText();
         }
-        if(Game.vector != null )
-        {
-            Game.mainPanel.remove(vector);;
-
-        }
         
         Timer timer = new Timer(2000, new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -200,6 +192,7 @@ public class Game implements KeyListener {
 // check user is player or computer
 public static boolean nextIsPlayer(int index)
 {
+    System.out.println("revers: " +isReverse);
     if(index == 1)
     {
         if(hisComputerHit.get(index) == null)
@@ -212,41 +205,50 @@ public static boolean nextIsPlayer(int index)
         }
         return false;
     }
-    if(Game.isReverse == true)
+    if(index ==2)
     {
-        if(index == 2)
+        if(Game.isReverse == true)
         {
             if(hisComputerHit.get(index) == null)
             {
                 return true;
             }
+           
+            if(hisComputerHit.get(index).getRank().equals("Reverse"))
+            {
+                return false;
+            }
             if(hisComputerHit.get(index).isSkip() == true)
+            {
+                return false;
+            }
+        }else{
+            if(hisComputerHit.get(index) == null)
             {
                 return false;
             }
             if(hisComputerHit.get(index).getRank().equals("Reverse"))
             {
-                return false;
+                return true;
             }
-              return true;  
-        }
-        if(index ==0)
+        }    
+    }
+    if (index == 0)
+    {
+        if(Game.isReverse == true)
         {
-            if(hisComputerHit.get(index) == null)
+            if(index ==0)
             {
-                return false;
+                if(hisComputerHit.get(index) == null)
+                {
+                    return false;
+                }
+                if(hisComputerHit.get(index).getRank().equals("Reverse"))
+                {
+                    return true;
+                } 
             }
-            if(!hisComputerHit.get(index).getRank().equals("Reverse"))
-            {
-                return false;
-            } 
-            return true; 
-        }
-        return false;
-    }else{
-        if(index ==0)
-        {
-            
+        }else{
             if(hisComputerHit.get(index) == null)
             {
                 return true;
@@ -259,22 +261,9 @@ public static boolean nextIsPlayer(int index)
             {
                 return false;
             }
-            return false;
         }
-        if(index == 2)
-        {
-            if(hisComputerHit.get(index) == null)
-            {
-                return false;
-            }
-            if(!hisComputerHit.get(index).getRank().equals("Reverse"))
-            {
-                return false;
-            }
-            return true;
-        }
-        return false;
     }
+    return false;
 }
    
    
@@ -297,7 +286,7 @@ public static boolean nextIsPlayer(int index)
             if(player.checkCard() == false)
             {
                 System.out.println("HEEELOOOO");
-               deck.suggestedEffect();
+                deck.suggestedEffect();
             }
         }  
         System.out.println(hisComputerHit.toString());
@@ -305,11 +294,7 @@ public static boolean nextIsPlayer(int index)
         if (com.get(index).endGame()) {
             Game.addToMainPanel(new EndGame());
         } else {
-            if(prevCard.isSuperSpecial())
-            {
-                System.out.println();
-                Computer.chooseColorEffect(Game.prevCard.getColorByBao());
-            }
+            
             // REVERSE
             if ((Game.prevCard.getRank() == "REVERSE") && (com.get(index).isUserHit != false)) {
                 reverse();
@@ -357,8 +342,7 @@ public static boolean nextIsPlayer(int index)
         player.setTurn(true);
         if(player.checkCard() == false)
             {
-                vector = new Arrow();
-                Game.addToMainPanel(vector);
+                deck.suggestedEffect();
             }
     }
     //Update PrevCard
@@ -464,5 +448,13 @@ public static boolean nextIsPlayer(int index)
     @Override
     public void keyReleased(KeyEvent e) {
         
+    }
+    static void stop()
+    {
+        player.setTurn(false);
+        for(int i=0; i< 3; i++)
+        {
+            com.get(i).setTurn(false);
+        }
     }
 }

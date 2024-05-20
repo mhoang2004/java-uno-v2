@@ -39,8 +39,12 @@ public class Player extends User {
         if (Game.deck.getDeck().size() == 0) {
             Game.deck.createDeck();
         }
-
         Card card = Game.deck.getOneCard();
+
+                        while (!checkValid(card)) {
+                            card = Game.deck.getOneCard();
+                        }
+        
         // card.setLocation(Deck.X, Deck.Y);
         card.addMouseListener(card); // only player not computer
         card.setUser(this);

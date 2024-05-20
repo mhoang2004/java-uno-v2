@@ -130,7 +130,10 @@ public class Card extends JLabel implements MouseListener, Comparable, ActionLis
     public String getColor() {
         return color;
     }
-
+    public User getUser()
+    {
+        return user;
+    }
     public void setColor(String color) {
         this.color = color;
     }
@@ -313,7 +316,7 @@ public class Card extends JLabel implements MouseListener, Comparable, ActionLis
                                 {
                                     Game.player.suggestedEffect();
                                 }else{
-                                    Game.addToMainPanel(Game.vector);
+                                    Game.deck.suggestedEffect();
                                 }
                                 
                             }

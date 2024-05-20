@@ -28,12 +28,12 @@ public abstract class User {
         for (int i = 0; i < INIT_CARD; i++) {
             Card card = deck.getOneCard();
 
-            if (i == 0 && isPlayer() == true) {
-                while (card.getColor() != null) {
-                    card = deck.getOneCard();
-                }
+            // if (i == 0 && isPlayer() == true) {
+            //     while (card.getColor() != null) {
+            //         card = deck.getOneCard();
+            //     }
 
-            }
+            // }
             card.addEvent();
             card.setUser(this);
             if (this.isPlayer()) {
