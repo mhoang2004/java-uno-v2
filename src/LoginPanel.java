@@ -23,6 +23,7 @@ public class LoginPanel extends MyPanel implements ActionListener {
     int deltaX = 7;
     int deltaY = 10;
     // compunent of this
+    JLabel iconEyesComfirm = new JLabel();
     boolean check = false;
     JTextField scanMail;
     JPasswordField scanPass;
@@ -51,6 +52,7 @@ public class LoginPanel extends MyPanel implements ActionListener {
     JLabel passImgWarnings;
     JLabel confirmImgWarnings;
     JLayeredPane parentNew;
+    JLabel iconEyes;
     static AccountUser accountUser;
     LoginPanel() {
         super("../resources/images/BackroundBegin-1.jpg");
@@ -87,7 +89,7 @@ public class LoginPanel extends MyPanel implements ActionListener {
         // setSingleLine(scanMail);
         scanMail.setFont(new Font("Arial", Font.BOLD, 20));
         scanMail.setForeground(MAINCOLOR);
-        scanMail.setFocusable(false);
+        scanMail.setFocusable(true);
         scanMail.setBounds(20, 5, 470, 40);
         scanMail.setBorder(myBorder);
         setSingleLine(scanMail);
@@ -119,8 +121,23 @@ public class LoginPanel extends MyPanel implements ActionListener {
         });
         scanMail.addKeyListener(new KeyAdapter() {
             @Override
+                    public void keyTyped(KeyEvent e) {
+                        if (scanMail.getText().equals("EMAIL") ) {
+                            scanMail.setText("");
+                        }
+                    }
+
+                    @Override
+                    public void keyPressed(KeyEvent e) {
+                        if (scanMail.getText().equals("EMAIL")  ) {
+                            scanMail.setText("");
+                        }
+                    }
+            @Override
             public void keyReleased(KeyEvent e) {
-            
+                if (scanMail.getText().equals("EMAIL")  ) {
+                    scanMail.setText("");
+                }
                 if (!isLogIn) {
                     effectSuccess();
                     effectWarn();
@@ -130,12 +147,9 @@ public class LoginPanel extends MyPanel implements ActionListener {
                         scanMail.setText("EMAIL");
                     }
                     scanMail.setFocusable(false);
-                    scanPass.setFocusable(true);
                     String getPass = new String(scanPass.getPassword());
                     if (getPass.equals("PASSWORD") || getPass.length() == 0) {
-                        scanPass.setBorder(myBorder);
-                        scanPass.setText("");
-                        scanPass.setEchoChar('*');
+                        actionClickPassword();
                     }
                     e.consume(); // Ngăn không cho JTextArea thêm dòng mới
                 }
@@ -162,23 +176,20 @@ public class LoginPanel extends MyPanel implements ActionListener {
 
     void createScanPass() {
         scanPass = new JPasswordField("PASSWORD");
-        scanPass.setEchoChar((char) 0);
         scanPass.setFont(new Font("Arial", Font.BOLD, 20));
         scanPass.setForeground(MAINCOLOR);
         scanPass.setBounds(20, 0, 400, 50);
-        scanPass.setBorder(myBorder);
         scanPass.setOpaque(false);
         scanPass.setBackground(new Color(0, 0, 0, 0)); // Màu đen và có độ trong suốt
+        backDefaultPassword();
+        scanPass.setFocusable(true);
         scanPass.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 // scanPass.setBorder(myBorderEffect);
                 // String getCoFirm= new String(scanComfirm.getPassword());
-                scanPass.setFocusable(true);
-                scanConfirm.setEchoChar('*');
-                if (!isEyes) {
-                    scanConfirm.setEchoChar('*');
-                }
+                actionClickPassword();
+               
                 if (scanMail.getText().equals("EMAIL") || scanMail.getText().length() == 0) {
                     scanMail.setBorder(myBorder);
                     scanMail.setText("EMAIL");
@@ -198,46 +209,74 @@ public class LoginPanel extends MyPanel implements ActionListener {
         });
         scanPass.addKeyListener(new KeyListener() {
             @Override
-            public void keyTyped(KeyEvent e) {
+                    public void keyTyped(KeyEvent e) {
+                        String getPass = new String(scanPass.getPassword());
+                        if (getPass.equals("PASSWORD") ) {
+                            scanPass.setText("");
+                        }
+                    }
 
-            }
-
-            @Override
-            public void keyPressed(KeyEvent e) {
-
-            }
+                    @Override
+                    public void keyPressed(KeyEvent e) {
+                        String getPass = new String(scanPass.getPassword());
+                        if (getPass.equals("PASSWORD") ) {
+                            scanPass.setText("");
+                        }
+                    }
 
             @Override
             public void keyReleased(KeyEvent e) {
-
+                String getPass = new String(scanPass.getPassword());
+                if (getPass=="PASSWORD" ) {
+                    scanPass.setText("");
+                }
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
                     if (isLogIn) {
                         actionNext();
-                    } else {
-                        String getPass = new String(scanPass.getPassword());
+                    } else 
+                    {
+                         getPass = new String(scanPass.getPassword());
                         if (getPass.equals("PASSWORD") || getPass.length() == 0) {
-                            scanPass.setBorder(myBorder);
-                            scanPass.setText("PASSWORD");
-                            scanPass.setEchoChar((char) 0);
+                           backDefaultPassword();
                         }
                         String getCoFirm = new String(scanConfirm.getPassword());
-                        scanPass.setFocusable(false);
                         scanConfirm.setFocusable(true);
                         if (getCoFirm.equals("CONFIRM") || getCoFirm.length() == 0) {
                             scanConfirm.setBorder(myBorder);
                             scanConfirm.setText("");
                             scanConfirm.setEchoChar('*');
+                            scanConfirm.setFocusable(true);
+                            iconEyesComfirm.setIcon(new ImageIcon("../resources/images/Sleep.png"));
                         }
                     }
 
-                    e.consume(); // Ngăn không cho JTextArea thêm dòng mới
+                    e.consume(); 
                 }
             }
 
         });
         parentPass.add(scanPass);
     }
-
+    void backDefaultPassword()
+    {
+        scanPass.setFocusable(false);
+        scanPass.setBorder(myBorder);
+        scanPass.setText("PASSWORD");
+        scanPass.setEchoChar((char) 0);
+        iconEyes.setIcon(null);
+    }
+    void actionClickPassword()
+    {
+        scanPass.setFocusable(true);
+        scanPass.setFocusable(true);
+        iconEyes.setIcon(new ImageIcon("../resources/images/Show.png"));
+        isEyes = true;
+        scanPass.setEchoChar((char) '*');
+        String getPass = new String(scanPass.getPassword());
+                if (getPass.equals("PASSWORD") || getPass.length() == 0) {
+                    scanPass.setText("");
+                }
+    }
     void createAccount() {
         parentNew = new JLayeredPane();
         parentNew.setBounds(400, 480, 150, 30);
@@ -247,7 +286,7 @@ public class LoginPanel extends MyPanel implements ActionListener {
         backroundNew.setBounds(0, 0, 150, 30);
         createAccount = new JLabel("Create Acount");
         createAccount.setFont(new Font("Arial", Font.BOLD, 15));
-        createAccount.setForeground(MAINCOLOR);
+        createAccount.setForeground(Color.RED);
         createAccount.setBounds(10, 0, 110, 30);
         createAccount.setOpaque(false);
         createAccount.setBackground(new Color(0, 0, 0, 0)); // Màu đen và có độ trong suốt
@@ -257,11 +296,9 @@ public class LoginPanel extends MyPanel implements ActionListener {
             @Override
             public void mouseClicked(MouseEvent e) {
                 scanConfirm.setText("CONFIRM");
-                scanConfirm.setFocusable(false);
                 scanPass.setText("PASSWORD");
-                scanPass.setFocusable(false);
+                backDefaultPassword();
                 scanMail.setText("EMAIL");
-                scanMail.setFocusable(false);
                 isLogIn = false;
                 parentNew.remove(backroundNew);
                 MouseListener a = this;
@@ -280,6 +317,7 @@ public class LoginPanel extends MyPanel implements ActionListener {
                             createAccount.setBounds(0, 0, 510, 60);
                             parentNew.setBounds(x, y, 510, 60);
                         } else {
+                            ((Timer) e.getSource()).stop();
                             remove(subHeading);
                             scanPass.addKeyListener(new KeyAdapter() {
                                 @Override
@@ -394,9 +432,9 @@ public class LoginPanel extends MyPanel implements ActionListener {
                 parentPass.setPreferredSize(new Dimension(500, 50));
                 ImageIcon backroundPassIcon = new ImageIcon(drawBackroundScan(true));
                 JLabel backroundPass = new JLabel(backroundPassIcon);
-                createScanPass();
                 imgEyes = new ImageIcon("../resources/images/Show.png");
-                JLabel iconEyes = new JLabel(imgEyes);
+                iconEyes = new JLabel(imgEyes);
+                createScanPass();
                 iconEyes.setBounds(440, 0, 50, 50);
                 iconEyes.setBorder(myBorder);
                 iconEyes.setOpaque(false);
@@ -457,6 +495,7 @@ public class LoginPanel extends MyPanel implements ActionListener {
                 scanConfirm.setBounds(20, 10, 400, 50);
                 scanConfirm.setBorder(myBorder);
                 scanConfirm.setOpaque(false);
+               
                 scanConfirm.setBackground(new Color(0, 0, 0, 0)); // Màu đen và có độ trong suốt
                 scanConfirm.addMouseListener(new MouseAdapter() {
                     @Override
@@ -468,33 +507,33 @@ public class LoginPanel extends MyPanel implements ActionListener {
                             e1.printStackTrace();
                         }
                         scanConfirm.setFocusable(true);
-                        effectSuccess();
-                        effectWarn();
+                        iconEyesComfirm.setIcon(new ImageIcon("../resources/images/Show.png"));
                         String getCoFirm = new String(scanConfirm.getPassword());
                         String getPass = new String(scanPass.getPassword());
                         if (!isEyes) {
                             scanConfirm.setEchoChar('*');
                         }
-
                         if (scanMail.getText().equals("EMAIL") || scanMail.getText().length() == 0) {
                             scanMail.setBorder(myBorder);
                             scanMail.setText("EMAIL");
                         }
                         if (getPass.equals("PASSWORD") || getPass.length() == 0) {
-                            scanPass.setBorder(myBorder);
-                            scanPass.setText("PASSWORD");
-                            scanPass.setEchoChar((char) 0);
+                            backDefaultPassword();
                         }
                         if (getCoFirm.equals("CONFIRM") || getCoFirm.length() == 0) {
                             scanConfirm.setText("");
                         }
                     }
                 });
-                scanConfirm.addKeyListener(new KeyAdapter() {
+                scanConfirm.addKeyListener(new KeyListener() {
                     @Override
                     public void keyReleased(KeyEvent e) {
-                        effectSuccess();
-                        effectWarn();
+
+                       
+                        if (!isLogIn) {
+                            effectSuccess();
+                            effectWarn();
+                        }
                         if (e.getKeyCode() == KeyEvent.VK_ENTER) {
                             if (checkSignOut().size() == 0) {
                                 Notification noti2 = new Notification(5);
@@ -512,9 +551,22 @@ public class LoginPanel extends MyPanel implements ActionListener {
                             e.consume(); // Ngăn không cho JTextArea thêm dòng mới
                         }
                     }
+
+                    @Override
+                    public void keyTyped(KeyEvent e) {
+                        String getCoFirm = new String(scanConfirm.getPassword());
+                        if (getCoFirm.equals("CONFIRM") ) {
+                            scanConfirm.setText("");
+                        }
+                    }
+
+                    @Override
+                    public void keyPressed(KeyEvent e) {
+                        String getCoFirm = new String(scanConfirm.getPassword());
+                        if (getCoFirm.equals("CONFIRM") ) {
+                            scanConfirm.setText("");
+                        }}
                 });
-                imgEyes = new ImageIcon("../resources/images/Show.png");
-                JLabel iconEyesComfirm = new JLabel(imgEyes);
                 iconEyesComfirm.setBounds(440, 10, 50, 50);
                 iconEyesComfirm.setBorder(myBorder);
                 iconEyesComfirm.setOpaque(false);
@@ -626,7 +678,7 @@ public class LoginPanel extends MyPanel implements ActionListener {
             }
 
         });
-        buttonBackGame.setBounds(10, 15, w, 50);
+        buttonBackGame.setBounds(10, 15, w+60, 50);
 
         buttonBackGame.setOpaque(false);
         add(buttonBackGame);
@@ -667,7 +719,7 @@ public class LoginPanel extends MyPanel implements ActionListener {
         // Tạo hình ảnh bo cong 4 góc
         BufferedImage roundedImage = new BufferedImage(width, 50, BufferedImage.TYPE_INT_ARGB);
         Graphics2D g2d = roundedImage.createGraphics();
-
+        
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         g2d.setColor(new Color(0, 0, 200, flur));
         g2d.fillRoundRect(0, 0, width, 50, 50, 50);

@@ -121,7 +121,7 @@ public class BeginPanel extends MyPanel {
 
         subWelcomJLabel.setForeground(Color.RED);
         subWelcomJLabel.setFont(new Font("Harlow Solid Italic", Font.BOLD, 60));
-        subWelcomJLabel.setBounds(430, 200, 700, 70);
+        subWelcomJLabel.setBounds(430, 200, 700, 75);
         addToMainPanel(subWelcomJLabel);
 
         stringList = new ArrayList<String>();

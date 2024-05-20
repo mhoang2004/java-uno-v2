@@ -40,10 +40,10 @@ public class SettingPanel extends MyPanel {
         iconSetting = new JLabel(new ImageIcon("../resources/images/IconSetting.png"));
         iconSetting.setBounds(500, 0, 300, 300);
         // add(iconSetting);
-        label = new JLabel("SETTING");
-        label.setFont(new Font("Arial Rounded MT Bold", Font.ITALIC, 100));
+        label = new JLabel("CONTROL PANEL");
+        label.setFont(new Font("Arial Rounded MT Bold", Font.BOLD, 50));
         label.setForeground(LoginPanel.MAINCOLOR);
-        label.setBounds(200, 10, 470, 100);
+        label.setBounds(200, 10, 700, 100);
         add(label);
         createButtonBack(70, false, "backIMG");
         createBackroundSetting();

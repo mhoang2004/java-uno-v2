@@ -27,13 +27,14 @@ public class CreatorCompument {
         if (isText == true) {
             flur = 100;
         }
+       
         // Tạo hình ảnh bo cong 4 góc
         BufferedImage roundedImage = new BufferedImage(width, 50, BufferedImage.TYPE_INT_ARGB);
         Graphics2D g2d = roundedImage.createGraphics();
 
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         g2d.setColor(new Color(255, 255, 255, flur));
-        g2d.fillRoundRect(3, 0, width, 50, 50, 50);
+        g2d.fillRoundRect(0, 0, width, 50, 50, 50);
         g2d.setColor(Color.WHITE);
         if (isText) {
             g2d.setFont(new Font("Arial", Font.BOLD, 20));
