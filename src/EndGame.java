@@ -79,7 +79,7 @@ public class EndGame extends JLabel {
         rankBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // TODO show rank here
+               new RankPanel();
             }
         });
 
@@ -89,7 +89,7 @@ public class EndGame extends JLabel {
         gameBtns.add(rankBtn);
 
         gameResult = new JLabel("END GAME", SwingConstants.CENTER);
-        if (Game.player.getCard().size() < 2) {
+        if (Game.player.getCard().size() < 1) {
             gameResult.setText("VICTORY");
         } else {
             gameResult.setText("LOSE");

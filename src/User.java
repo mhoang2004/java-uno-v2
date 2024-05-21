@@ -27,21 +27,10 @@ public abstract class User {
 
         for (int i = 0; i < INIT_CARD; i++) {
             Card card = deck.getOneCard();
-
-            // if (i == 0 && isPlayer() == true) {
-            //     while (card.getColor() != null) {
-            //         card = deck.getOneCard();
-            //     }
-
-            // }
             card.addEvent();
             card.setUser(this);
             if (this.isPlayer()) {
                 cards.add(sortCard(card), card);
-                System.out.println("Buoc " + i);
-                for (Card card2 : cards) {
-                    System.out.println(card2);
-                }
             } else {
                 cards.add(card);
             }
@@ -229,10 +218,6 @@ public abstract class User {
         if (card.getColor() == null) {
             return true;
         }
-        // if (prevCard.getRank() == null && card.getColor().charAt(0) ==
-        // prevCard.getColor().charAt(0) ) {
-        // return true;
-        // }
         if (card.getColor() == null) {
             return true;
         }
@@ -263,26 +248,6 @@ public abstract class User {
         }
         return false;
     }
-
-    // khi user đánh ra là wild hoặc drawfour
-    // String changePrevCard(String src, Card card) {
-    // card.hitCard();
-
-    // Card tmp = new Card(src, card.getRank());
-
-    // if (card.getRank() == "DRAWFOUR") {
-    // this.passTurn();
-    // Game.delaySkip(3);
-    // } else {
-    // this.nextUser.setTurn(true);
-    // this.setTurn(false);
-    // Game.delayReverse(3);
-    // }
-
-    // return src;
-    // }
-
-    // Check prevCard is skip, drawtwo or drawfour
     public boolean checkSkip() {
         if (Game.prevCard.getRank() == "SKIP") {
             return true;
@@ -301,10 +266,6 @@ public abstract class User {
             if (card.getRank().length() == 1) {
                 scores = scores + Integer.parseInt(card.getRank());
             }
-            // if (card.getRank() == "DRAWTWO" || card.getRank() == "SKIP" || card.getRank()
-            // == "REVERSE") {
-            // scores = scores + 20;
-            // }
             if (card.getRank().length() > 1 && card.getColor() != null) {
                 scores = scores + 20;
             }

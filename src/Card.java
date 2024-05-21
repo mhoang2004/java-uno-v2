@@ -251,7 +251,7 @@ public class Card extends JLabel implements MouseListener, Comparable, ActionLis
             {
                 x2 = user.getXPos() + ((user.sortCard(this)) * User.GAP_CARD_HORIZONTAL);
             }else{
-                x2 = user.getXPos() + ((user.sortCard(this)) * User.GAP_CARD_HORIZONTAL);
+                x2 = user.getXPos() + (user.sizeCards() * User.GAP_CARD_HORIZONTAL);
             }
             y2 = user.getYPos();
         } else {
@@ -288,9 +288,9 @@ public class Card extends JLabel implements MouseListener, Comparable, ActionLis
                     // handle others things
                     user.setCardsPosition();
 
-                    if (isDrawOneCard && !user.isPlayer()) {
+                    if (isDrawOneCard && !user.isPlayer()&& user.getTurn() == true) {
                         System.out.println("HELLLO");
-                        Timer timer = new Timer(1000,new ActionListener() {
+                        Timer timer = new Timer(500,new ActionListener() {
 
                             @Override
                             public void actionPerformed(ActionEvent e) {
@@ -311,20 +311,7 @@ public class Card extends JLabel implements MouseListener, Comparable, ActionLis
                                     Game.deck.removeEffect();
                                     int index = Game.computerNumber(computer);
                                     // skip or draw cards
-                                    if(Game.nextIsPlayer(index))
-                                    {
-                                        for(int i=0; i< Game.player.sizeCards(); i++)
-                                        {
-                                            Game.player.cards.get(i).backDefaultCard();;
-                                        }
-                                        if(Game.player.checkCard())
-                                        {
-                                            Game.player.suggestedEffect();
-                                        }else{
-                                            Game.deck.suggestedEffect();
-                                        }
-                                        
-                                    }
+                                    
                                     
                                     if ((computer.isUserHit == true) && (computer.checkChangeColor())) {
                                         Game.prevCard.setColor(computer.chooseColor());
@@ -332,21 +319,24 @@ public class Card extends JLabel implements MouseListener, Comparable, ActionLis
                                         if (computer.endGame()) {
                                             Game.addToMainPanel(new EndGame());
                                         } else {
+                                            if(Game.nextIsPlayer(index) == true)
+                                    {
+                                        Game.player.offFocus();
+                                        Game.player.suggestedEffect();
+                                        if(Game.player.checkCard() == false)
+                                        {
+                                            Game.deck.suggestedEffect();
+                                        }
+                                    }  
                                         // REVERSE
                                         if ((Game.prevCard.getRank() == "REVERSE") && (computer.isUserHit != false)) {
                                             Game.reverse();
                                         }
-                                        // if (computer.getNextUser().isPlayer() == true && !computer.checkSkip()) {
-                                        //     player.suggestedEffect();
-                                        // }
                                         computer.getNextUser().setTurn(true);
                                         computer.setTurn(false);
                                         // SKIP
                                         if ((computer.checkSkip()) && (computer.isUserHit != false)) {
                                             computer.skip();
-                                            // if (index == 1) {
-                                            //     player.suggestedEffect();
-                                            // }
                                             Game.delaySkip(index);
                                             return;
                                         }

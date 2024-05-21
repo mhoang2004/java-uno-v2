@@ -43,7 +43,7 @@ public class App {
     }
 
     public static void main(String[] args) throws Exception {
-        backroundGame = new String("../resources/images/backgroundmain-0.jpg");
+        backroundGame = new String("../resources/images/backgroundmain-2.jpg");
         frame = new MyFrame();
         frame.addKeyListener(game);
         // newGame();

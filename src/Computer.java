@@ -51,7 +51,7 @@ public class Computer extends User {
 
     public Card drawCard() {
         if (Game.deck.getDeck().size() == 0) {
-            Game.deck.createDeck();
+            Game.deck= new Deck();
         }
 
         Card card = Game.deck.getOneCard();
@@ -68,12 +68,7 @@ public class Computer extends User {
         Game.addToMainPanel(backCard);
 
         backCards.add(backCard);
-        for (Card card2 : backCards) {
-            Game.mainPanel.remove(card2);
-        }
-        for (Card card1 : backCards) {
-            Game.addToMainPanel(card1);
-        }
+
         backCard.drawCardAnimation(Deck.X, Deck.Y);
         // System.out.println("Draw card " + card);
         return card;

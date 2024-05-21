@@ -75,6 +75,11 @@ public class Deck extends JLabel implements MouseListener, ActionListener {
     }
 
     public Card getOneCard() {
+        if(deck.size() == 0)
+        {
+            createDeck();
+            shuffleDeck();
+        }
         return deck.remove(0);
     }
 

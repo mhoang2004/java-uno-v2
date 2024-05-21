@@ -95,42 +95,21 @@ public class DrawCardPanel{
                                             buttonFalse.setBounds((MyPanel.WIDTH - WIDTH) / 2 + WIDTH +20-100, (MyPanel.HEIGHT - HEIGHT) / 2+150, WIDTH, HEIGHT);
                                             ((Timer) e.getSource()).stop();
                                             Game.player.setTurn(true);
+                                            Game.deck.setEnabled(true);
                                             try {
-                                                cardDrawn.hitCard();
-                                            } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e1) {
+                                                cardDrawn.processing();
+                                            } catch (UnsupportedAudioFileException | IOException
+                                                    | LineUnavailableException e1) {
                                                 // TODO Auto-generated catch block
                                                 e1.printStackTrace();
                                             }
-                                            Game.updatePrevCard();
-                                            if(cardDrawn.getColor() == null)
-                                            {
-                                                ChooseColorPanel chooseColor = new ChooseColorPanel();
-                                                Game.addToMainPanel(chooseColor);
-                                            }else{
-                                                
-                                                Game.checkTheCase();
-                                            }
-                                            Game.deck.setEnabled(true);
-                                            Game.player.getNextUser().setTurn(true);
-                                            // Game.player.setTurn(false);
-                                            Game.delayReverse(3);
-                                            remove();
-                                            Game.mainPanel.repaint();
-                                            // Game.mainPanel.remove(Game.vector);        
-                                            Game.addToMainPanel(Game.buttonUno); 
                             }
                                     }
                                     
                                 });
                                 timer2.start();
                             }
-                        }else
-                        {
-
-                            
-                        
-                       
-                    }
+                        }
                 }
                     
                 });
@@ -138,13 +117,9 @@ public class DrawCardPanel{
                     
             }else{
                 Game.deck.setEnabled(true);
-            Game.player.getNextUser().setTurn(true);
-            // Game.player.setTurn(false);
-            Game.delayReverse(3);
-             remove();
-            Game.mainPanel.repaint();
-            // Game.mainPanel.remove(Game.vector);        
-            Game.addToMainPanel(Game.buttonUno); 
+                
+                remove();
+               Game.checkTheCase();
             }
                
         }
