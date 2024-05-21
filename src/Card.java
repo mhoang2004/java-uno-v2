@@ -251,7 +251,7 @@ public class Card extends JLabel implements MouseListener, Comparable, ActionLis
             {
                 x2 = user.getXPos() + ((user.sortCard(this)) * User.GAP_CARD_HORIZONTAL);
             }else{
-                x2 = user.getXPos() + (user.sizeCards() * User.GAP_CARD_HORIZONTAL);
+                x2 = user.getXPos() + ((user.sortCard(this)) * User.GAP_CARD_HORIZONTAL);
             }
             y2 = user.getYPos();
         } else {
@@ -288,67 +288,77 @@ public class Card extends JLabel implements MouseListener, Comparable, ActionLis
                     // handle others things
                     user.setCardsPosition();
 
-                    if (isDrawOneCard && !user.isPlayer) {
+                    if (isDrawOneCard && !user.isPlayer()) {
+                        System.out.println("HELLLO");
+                        Timer timer = new Timer(1000,new ActionListener() {
 
-                        isDrawOneCard = false;
-                        Card card = user.getLastCard();
-                        System.out.println(card);
-
-                        if (user.checkValid(card)) {
-                            Computer computer = (Computer) user;
-                            try {
-                                Game.hisComputerHit.put(computer.getPos(),computer.computerHitCard());
-                            } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e1) {
-                                // TODO Auto-generated catch block
-                                e1.printStackTrace();
-                            }
-                            Game.updatePrevCard();
-                            Game.deck.removeEffect();
-                            int index = Game.computerNumber(computer);
-                            // skip or draw cards
-                            if(Game.nextIsPlayer(index))
-                            {
-                                for(int i=0; i< Game.player.sizeCards(); i++)
-                                {
-                                    Game.player.cards.get(i).backDefaultCard();;
-                                }
-                                if(Game.player.checkCard())
-                                {
-                                    Game.player.suggestedEffect();
-                                }else{
-                                    Game.deck.suggestedEffect();
-                                }
-                                
+                            @Override
+                            public void actionPerformed(ActionEvent e) {
+                                ((Timer) e.getSource()).stop();
+                                isDrawOneCard = false;
+                                Card card = user.getLastCard();
+                                System.out.println(card);
+        
+                                if (user.checkValid(card)) {
+                                    Computer computer = (Computer) user;
+                                    try {
+                                        Game.hisComputerHit.put(computer.getPos(),computer.computerHitCard());
+                                    } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e1) {
+                                        // TODO Auto-generated catch block
+                                        e1.printStackTrace();
+                                    }
+                                    Game.updatePrevCard();
+                                    Game.deck.removeEffect();
+                                    int index = Game.computerNumber(computer);
+                                    // skip or draw cards
+                                    if(Game.nextIsPlayer(index))
+                                    {
+                                        for(int i=0; i< Game.player.sizeCards(); i++)
+                                        {
+                                            Game.player.cards.get(i).backDefaultCard();;
+                                        }
+                                        if(Game.player.checkCard())
+                                        {
+                                            Game.player.suggestedEffect();
+                                        }else{
+                                            Game.deck.suggestedEffect();
+                                        }
+                                        
+                                    }
+                                    
+                                    if ((computer.isUserHit == true) && (computer.checkChangeColor())) {
+                                        Game.prevCard.setColor(computer.chooseColor());
+                                    }
+                                        if (computer.endGame()) {
+                                            Game.addToMainPanel(new EndGame());
+                                        } else {
+                                        // REVERSE
+                                        if ((Game.prevCard.getRank() == "REVERSE") && (computer.isUserHit != false)) {
+                                            Game.reverse();
+                                        }
+                                        // if (computer.getNextUser().isPlayer() == true && !computer.checkSkip()) {
+                                        //     player.suggestedEffect();
+                                        // }
+                                        computer.getNextUser().setTurn(true);
+                                        computer.setTurn(false);
+                                        // SKIP
+                                        if ((computer.checkSkip()) && (computer.isUserHit != false)) {
+                                            computer.skip();
+                                            // if (index == 1) {
+                                            //     player.suggestedEffect();
+                                            // }
+                                            Game.delaySkip(index);
+                                            return;
+                                        }
+                                        Game.delayReverse(index);
+                                    }
+                               }
                             }
                             
-                            if ((computer.isUserHit == true) && (computer.checkChangeColor())) {
-                                Game.prevCard.setColor(computer.chooseColor());
-                            }
-                                if (computer.endGame()) {
-                                    Game.addToMainPanel(new EndGame());
-                                } else {
-                                // REVERSE
-                                if ((Game.prevCard.getRank() == "REVERSE") && (computer.isUserHit != false)) {
-                                    Game.reverse();
-                                }
-                                // if (computer.getNextUser().isPlayer() == true && !computer.checkSkip()) {
-                                //     player.suggestedEffect();
-                                // }
-                                computer.getNextUser().setTurn(true);
-                                computer.setTurn(false);
-                                // SKIP
-                                if ((computer.checkSkip()) && (computer.isUserHit != false)) {
-                                    computer.skip();
-                                    // if (index == 1) {
-                                    //     player.suggestedEffect();
-                                    // }
-                                    Game.delaySkip(index);
-                                    return;
-                                }
-                                Game.delayReverse(index);
-                            }
-                        }
-                    }
+                        } );
+                        timer.start();
+                        
+                   }
 
                     ((Timer) e.getSource()).stop();
                 }
@@ -477,15 +487,13 @@ public class Card extends JLabel implements MouseListener, Comparable, ActionLis
 
             }else{
                 if (this.getColor() == null) {
-                    Game.player.setTurn(false);
-                    Game.displayNotification();
-                    Game.notiToUser.setText("Change the current color to play more game");
+                   
                     new ChooseColorPanel();
                     // Game.updatePrevCard();   
                 } else 
                 {                 
                     Game.player.hitCard(this, Game.check(this));
-                    
+                    Game.updatePrevCard();
                     Game.prevCard.setColor(this.getColor());
                     Game.prevCard.setRank(this.getRank());   
                     Game.checkTheCase();

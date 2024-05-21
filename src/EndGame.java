@@ -27,7 +27,7 @@ public class EndGame extends JLabel {
         this.setBounds((MyPanel.WIDTH - WIDTH) / 2, (MyPanel.HEIGHT - HEIGHT) / 2, WIDTH, HEIGHT);
         this.setLayout(new GridLayout(4, 1));
         Game.clip.stop();
-        if (Game.player.getCard().size() < 2) {
+        if (Game.player.getCard().size() < 1) {
             try {
                 SoundControler.soundVicroty();
             } catch (LineUnavailableException e) {

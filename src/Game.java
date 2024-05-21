@@ -192,16 +192,14 @@ public class Game implements KeyListener {
 // check user is player or computer
 public static boolean nextIsPlayer(int index)
 {
-    System.out.println("revers: " +isReverse);
     if(index == 1)
     {
-        if(hisComputerHit.get(index) == null)
-            {
-                return false;
-            }
-        if(prevCard.isSkip() == true)
+        if(hisComputerHit.get(index) != null)
         {
-            return true;
+            if(prevCard.isSkip() == true)
+            {
+                return true;
+            }
         }
         return false;
     }
@@ -209,58 +207,57 @@ public static boolean nextIsPlayer(int index)
     {
         if(Game.isReverse == true)
         {
-            if(hisComputerHit.get(index) == null)
+            if(hisComputerHit.get(index) != null)
             {
-                return true;
+                    if(hisComputerHit.get(index).getRank().equals("REVERSE"))
+                    {
+                        return false;
+                    }
+                     if(hisComputerHit.get(index).isSkip() == true)
+                    {
+                        return false;
+                    }
             }
-           
-            if(hisComputerHit.get(index).getRank().equals("Reverse"))
-            {
-                return false;
-            }
-            if(hisComputerHit.get(index).isSkip() == true)
-            {
-                return false;
-            }
+            return true;
         }else{
-            if(hisComputerHit.get(index) == null)
+            if(hisComputerHit.get(index) != null)
             {
-                return false;
+                if(hisComputerHit.get(index).getRank().equals("REVERSE"))
+                {
+                    return true;
+                }
             }
-            if(hisComputerHit.get(index).getRank().equals("Reverse"))
-            {
-                return true;
-            }
+            return false;
         }    
     }
     if (index == 0)
     {
         if(Game.isReverse == true)
         {
-            if(index ==0)
+                if(hisComputerHit.get(index) != null)
+                {
+                    if(hisComputerHit.get(index).getRank().equals("REVERSE"))
+                    {
+                        return true;
+                    }
+                    return false;
+                }else{
+                    return false;
+                }
+               
+        }else{
+            if(hisComputerHit.get(index) != null)
             {
-                if(hisComputerHit.get(index) == null)
+                if(hisComputerHit.get(index).getRank().equals("REVERSE"))
+                {
+                    return false;
+                } 
+                if(hisComputerHit.get(index).isSkip()== true)
                 {
                     return false;
                 }
-                if(hisComputerHit.get(index).getRank().equals("Reverse"))
-                {
-                    return true;
-                } 
             }
-        }else{
-            if(hisComputerHit.get(index) == null)
-            {
-                return true;
-            }
-            if(hisComputerHit.get(index).getRank().equals("Reverse"))
-            {
-                return false;
-            } 
-            if(hisComputerHit.get(index).isSkip()== true)
-            {
-                return false;
-            }
+            return true;
         }
     }
     return false;
@@ -278,41 +275,43 @@ public static boolean nextIsPlayer(int index)
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        com.get(index).checkUno();
-        if(nextIsPlayer(index) == true)
+        if(!hisComputerHit.get(index).getRank().equals("-1"))
         {
-            player.offFocus();
-            player.suggestedEffect();
-            if(player.checkCard() == false)
+            com.get(index).checkUno();
+            if(nextIsPlayer(index) == true)
             {
-                System.out.println("HEEELOOOO");
-                deck.suggestedEffect();
-            }
-        }  
-        System.out.println(hisComputerHit.toString());
-        updatePrevCard();
-        if (com.get(index).endGame()) {
-            Game.addToMainPanel(new EndGame());
-        } else {
-            
-            // REVERSE
-            if ((Game.prevCard.getRank() == "REVERSE") && (com.get(index).isUserHit != false)) {
-                reverse();
-            }
-            updatePrevCard();
-            if (com.get(index).getNextUser().isPlayer() == true && !com.get(index).checkSkip()) {
+                player.offFocus();
                 player.suggestedEffect();
+                if(player.checkCard() == false)
+                {
+                    deck.suggestedEffect();
+                }
+            }  
+            updatePrevCard();
+            if (com.get(index).endGame()) {
+                Game.addToMainPanel(new EndGame());
+            } else {
+                
+                // REVERSE
+                if ((Game.prevCard.getRank() == "REVERSE") && (com.get(index).isUserHit != false)) {
+                    reverse();
+                }
+                updatePrevCard();
+                if (com.get(index).getNextUser().isPlayer() == true && !com.get(index).checkSkip()) {
+                    player.suggestedEffect();
+                }
+                com.get(index).getNextUser().setTurn(true);
+                com.get(index).setTurn(false);
+                // SKIP
+                if ((com.get(index).checkSkip()) && (com.get(index).isUserHit != false)) {
+                    com.get(index).skip();
+                    delaySkip(index);
+                    return;
+                }
+                delayReverse(index);
             }
-            com.get(index).getNextUser().setTurn(true);
-            com.get(index).setTurn(false);
-            // SKIP
-            if ((com.get(index).checkSkip()) && (com.get(index).isUserHit != false)) {
-                com.get(index).skip();
-                delaySkip(index);
-                return;
-            }
-            delayReverse(index);
         }
+        
     }
     
     // Turn`s computer 0
@@ -373,7 +372,6 @@ public static boolean nextIsPlayer(int index)
     // check player click button uno
     public static void checkUno() {
         if (player.sizeCards() == 1) {
-            System.out.println(buttonUno.getUnoClicked());
             // wait player 3s to click button uno
             Timer timer = new Timer(3000, new ActionListener() {
                 public void actionPerformed(ActionEvent e) {

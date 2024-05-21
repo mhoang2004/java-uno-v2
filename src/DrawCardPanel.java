@@ -72,14 +72,13 @@ public class DrawCardPanel{
                              buttonFalse.setBounds(x, (MyPanel.HEIGHT - HEIGHT) / 2+150, WIDTH, HEIGHT);
                             }else
                             {
-                                System.out.println(x+"-"+y+"-"+y2+"-"+x2);
                                 x= (MyPanel.WIDTH - WIDTH) / 2 -100;
                                 steps++;
                                 buttonFalse.setIcon(null);
                                 buttonTrue.setIcon(new ImageIcon(App.path+"Set.png"));
                                 buttonTrue.setBounds(x, y,30 , 30);
                                 ((Timer) e.getSource()).stop();
-                                Timer timer2 = new Timer(20, new ActionListener() {
+                                Timer timer2 = new Timer(10, new ActionListener() {
                                    int  x3= (MyPanel.WIDTH - WIDTH) / 2 -100;
                                     @Override
                                     public void actionPerformed(ActionEvent e) {
@@ -87,7 +86,6 @@ public class DrawCardPanel{
                                         {
                                         x3+=10;
                                         double a = (130/(x2 -465))*x3 + (490-60450/(x2-465));
-                                        System.out.println(a);
                                         y = (int) a;
                                         buttonTrue.setBounds(x3,y, WIDTH, HEIGHT);
                                         }else{

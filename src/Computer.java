@@ -55,6 +55,9 @@ public class Computer extends User {
         }
 
         Card card = Game.deck.getOneCard();
+                        while (!checkValid(card)) {
+                            card = Game.deck.getOneCard();
+                        }
         cards.add(card);
 
         Card backCard = new Card();
@@ -65,7 +68,12 @@ public class Computer extends User {
         Game.addToMainPanel(backCard);
 
         backCards.add(backCard);
-
+        for (Card card2 : backCards) {
+            Game.mainPanel.remove(card2);
+        }
+        for (Card card1 : backCards) {
+            Game.addToMainPanel(card1);
+        }
         backCard.drawCardAnimation(Deck.X, Deck.Y);
         // System.out.println("Draw card " + card);
         return card;
@@ -329,7 +337,15 @@ public class Computer extends User {
 
             }
         } else if (this.isUserHit == false) {
-            this.drawCard();
+            Card cardDraw = this.drawCard();
+            System.out.println(cardDraw);
+            if(checkValid(cardDraw))
+            {
+                
+                Card.isDrawOneCard = true;
+                Card newCard = new Card("-1", "-1");
+                return newCard;
+            }
             Card.isDrawOneCard = true;
         }
         
@@ -364,30 +380,5 @@ public class Computer extends User {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'effectArroundClickCard'");
     }
-    static void chooseColorEffect(Color color){
-        JLabel animationJLabel = new JLabel();
-         animationJLabel.setBounds( - MyPanel.WIDTH, 0, MyPanel.WIDTH, MyPanel.HEIGHT);
-        animationJLabel.setBackground(Color.BLACK);
-        animationJLabel.setOpaque(true);
-
-        animationJLabel.setBackground(color);
-        Game.addToMainPanel(animationJLabel);
-        timer = new Timer(10,new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (x1 < MyPanel.WIDTH * 2) {
-                    x1 += gap * 4;
-                    animationJLabel.setBounds(x1, 0, MyPanel.WIDTH, MyPanel.HEIGHT);
-                    
-                } else {
-                    x1=- MyPanel.WIDTH;
-                    timer.stop();
-                     Game.mainPanel.remove(animationJLabel);
-                        Game.mainPanel.repaint();
-                    
-                }
-            }
-        });
-        timer.start();
-    }
+    
 }

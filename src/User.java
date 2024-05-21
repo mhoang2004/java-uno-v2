@@ -205,10 +205,8 @@ public abstract class User {
             }
             // cards[j] >= new card
             if (cards.get(i).compareTo(newCard) > 0) {
-                System.out.println("(cards[j] > new card)I is " + i);
                 return i;
             } else {
-                System.out.println("(cards[j]< new card)I is " + i);
                 if (i + 1 == sizeCard) {
                     return i + 1;
                 } else {

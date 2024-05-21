@@ -79,8 +79,6 @@ public class Player extends User {
 
         // cards.add(card);
         cards.add(sortCard(card), card);
-        int xPadding = 0;
-        int yPadding = 0;
         for (Card card2 : cards) {
             Game.mainPanel.remove(card2);
         }
