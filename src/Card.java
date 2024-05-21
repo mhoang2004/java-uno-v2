@@ -259,7 +259,7 @@ public class Card extends JLabel implements MouseListener, Comparable, ActionLis
             y2 = user.getYPos() + (user.sizeCards() * User.GAP_CARD_VERTICAL);
         }
 
-        Timer timer = new Timer(10, new ActionListener() {
+        Timer timer = new Timer(5, new ActionListener() {
             // Starting point
             int x1 =x;
             int y1 =y;
@@ -359,7 +359,13 @@ public class Card extends JLabel implements MouseListener, Comparable, ActionLis
     }
 
     public void hitCardAnimation() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
+       if(this.isSpecial())
+       {
+        SoundControler.soundHitSpecial();
+       }else{
         SoundControler.soundHit();
+       }
+        
         Game.mainPanel.setLayer(this, MyPanel.LAYER++);
 
         Card tempCard = this;
@@ -395,8 +401,6 @@ public class Card extends JLabel implements MouseListener, Comparable, ActionLis
                     user.hitCard(tempCard, true);
                     if ((tempCard.color == null) && (user.getIsPlayer())) {
                         // choose color
-                        
-
                     }
 
                     ((Timer) e.getSource()).stop();

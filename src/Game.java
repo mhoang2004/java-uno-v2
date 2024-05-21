@@ -275,7 +275,7 @@ public static boolean nextIsPlayer(int index)
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        if(!hisComputerHit.get(index).getRank().equals("-1"))
+        if(hisComputerHit.get(index)== null)
         {
             com.get(index).checkUno();
             if(nextIsPlayer(index) == true)
@@ -310,10 +310,47 @@ public static boolean nextIsPlayer(int index)
                 }
                 delayReverse(index);
             }
+        }else{
+            if(!hisComputerHit.get(index).getRank().equals("-1"))
+            {
+                com.get(index).checkUno();
+                if(nextIsPlayer(index) == true)
+                {
+                    player.offFocus();
+                    player.suggestedEffect();
+                    if(player.checkCard() == false)
+                    {
+                        deck.suggestedEffect();
+                    }
+                }  
+                updatePrevCard();
+                if (com.get(index).endGame()) {
+                    Game.addToMainPanel(new EndGame());
+                } else {
+                    
+                    // REVERSE
+                    if ((Game.prevCard.getRank() == "REVERSE") && (com.get(index).isUserHit != false)) {
+                        reverse();
+                    }
+                    updatePrevCard();
+                    if (com.get(index).getNextUser().isPlayer() == true && !com.get(index).checkSkip()) {
+                        player.suggestedEffect();
+                    }
+                    com.get(index).getNextUser().setTurn(true);
+                    com.get(index).setTurn(false);
+                    // SKIP
+                    if ((com.get(index).checkSkip()) && (com.get(index).isUserHit != false)) {
+                        com.get(index).skip();
+                        delaySkip(index);
+                        return;
+                    }
+                    delayReverse(index);
+                }
+            }
         }
         
+        
     }
-    
     // Turn`s computer 0
     public static void computer0Hit() {
         // updatePrevCard();

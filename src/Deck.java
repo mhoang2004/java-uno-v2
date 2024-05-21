@@ -1,5 +1,13 @@
 import java.awt.event.*;
+import java.io.File;
+import java.io.IOException;
 import java.util.*;
+
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.*;
 import javax.swing.Timer;
 import javax.swing.border.Border;
@@ -16,8 +24,8 @@ public class Deck extends JLabel implements MouseListener, ActionListener {
     private ArrayList<Card> deck;
     private boolean bool= true;
     private Timer timer = new Timer(200, this);
-
-    Deck() {
+    Clip clip;
+    Deck() throws LineUnavailableException {
         if (deck != null)
             deck.clear();
 
@@ -29,7 +37,26 @@ public class Deck extends JLabel implements MouseListener, ActionListener {
         this.setHorizontalAlignment(JLabel.CENTER); // Center the image horizontally
         this.setVerticalAlignment(JLabel.CENTER); // Center the image vertically
         this.setCursor(new Cursor(Cursor.HAND_CURSOR));
-
+        File file = new File("../resources/sounds/sos.wav");
+        AudioInputStream audioStream;
+        try {
+            audioStream = AudioSystem.getAudioInputStream(file);
+            clip= AudioSystem.getClip();
+           
+            if(Game.accountUser== null)
+            {
+                clip.open(audioStream);
+            }else{
+                if(Game.accountUser.isSound)
+                {
+                    clip.open(audioStream);
+                }
+            }
+        } catch (UnsupportedAudioFileException e) {
+            System.err.println("The specified audio file is not supported.");
+        } catch (IOException e) {
+            System.err.println("Error occurred while reading the audio file.");
+        }
         addMouseListener(this);
     }
     
@@ -75,11 +102,15 @@ public class Deck extends JLabel implements MouseListener, ActionListener {
     }
 
     public Card getOneCard() {
-        if(deck.size() == 0)
+        if(Game.prevCard != null)
         {
-            createDeck();
-            shuffleDeck();
+            if(!Game.prevCard.isSuperSpecial() && !deck.getLast().equals(Game.prevCard))
+            {
+                deck.addLast(Game.prevCard);
+            }
         }
+        
+       
         return deck.remove(0);
     }
 
@@ -123,11 +154,13 @@ public class Deck extends JLabel implements MouseListener, ActionListener {
     }
 
    public void removeEffect() {
+    clip.stop();
         timer.stop();
         setBorder(new EmptyBorder(0, 0, 0, 0));
     }
 
     public void suggestedEffect() {
+        clip.start();
         Border border = new LineBorder(Color.YELLOW, 6);
         setBorder(border);
         timer.start();

@@ -1,19 +1,11 @@
-import java.awt.Color;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.*;
-
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
-import javax.swing.JLabel;
-import javax.swing.Timer;
-
 public class Computer extends User {
     private ArrayList<Card> backCards;
     private Map<String, Integer> mpColor;
     private Map<String, Integer> mpRank;
-    static javax.swing.Timer timer;
     static int x1 = -MyPanel.WIDTH;
     static int gap = 10;
     Computer(Deck deck, String position) {
@@ -50,14 +42,7 @@ public class Computer extends User {
     }
 
     public Card drawCard() {
-        if (Game.deck.getDeck().size() == 0) {
-            Game.deck= new Deck();
-        }
-
-        Card card = Game.deck.getOneCard();
-                        while (!checkValid(card)) {
-                            card = Game.deck.getOneCard();
-                        }
+        Card card = Game.deck.getOneCard();   
         cards.add(card);
 
         Card backCard = new Card();

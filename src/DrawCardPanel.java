@@ -2,6 +2,7 @@
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
+import java.awt.event.MouseListener;
 import java.io.IOException;
 
 import javax.sound.sampled.LineUnavailableException;
@@ -22,6 +23,7 @@ public class DrawCardPanel{
     double x2;
     int y2;
     Timer timer;
+    MouseListener mouse;
     DrawCardPanel(Card cardDrawn)
     {
         // Game.mainPanel.remove(Game.buttonUno);
@@ -54,10 +56,17 @@ public class DrawCardPanel{
        JLabel buttonTmp = button;
       
         button.addMouseListener(new MouseAdapter() {
+ 
         int x= (MyPanel.WIDTH - WIDTH) / 2 + WIDTH +20-100;
         int y=(MyPanel.HEIGHT - HEIGHT) / 2+150;
             @Override
         public void mouseClicked(java.awt.event.MouseEvent e) {
+            try {
+                SoundControler.soundHitElectricity();
+            } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+            }
          if(buttonTmp.getX()==(MyPanel.WIDTH - WIDTH) / 2-100)
             {
                 Timer timer = new Timer(20, new ActionListener() {
@@ -117,7 +126,8 @@ public class DrawCardPanel{
                     
             }else{
                 Game.deck.setEnabled(true);
-                
+                buttonTrue.removeMouseListener(this);
+                buttonFalse.removeMouseListener(this);
                 remove();
                Game.checkTheCase();
             }
@@ -130,6 +140,7 @@ public class DrawCardPanel{
     void remove()
     {
         buttonTrue.setIcon(null);
+       
         buttonFalse.setIcon(null);
     }
         

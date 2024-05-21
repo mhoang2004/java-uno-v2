@@ -236,6 +236,7 @@ public class BeginPanel extends MyPanel {
                             App.frame.add(App.loginPanel);
                             App.frame.setVisible(true);
                         } else {
+                            ((Timer) e.getSource()).stop();
                             App.frame.remove(App.beginPage);
                             try {           
                                 App.newGame(App.backroundGame, null);
@@ -243,7 +244,6 @@ public class BeginPanel extends MyPanel {
                                 e1.printStackTrace();
                             }
                         }
-                        ((Timer) e.getSource()).stop();
                     }
 
                 });

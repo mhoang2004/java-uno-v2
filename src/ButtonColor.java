@@ -5,7 +5,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.IOException;
 
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import javax.swing.Timer;
@@ -117,6 +120,18 @@ public class ButtonColor extends JLabel implements MouseListener {
 
     @Override
     public void mouseClicked(MouseEvent e) {
+        try {
+            SoundControler.soundClick();
+        } catch (UnsupportedAudioFileException e1) {
+            // TODO Auto-generated catch block
+            e1.printStackTrace();
+        } catch (IOException e1) {
+            // TODO Auto-generated catch block
+            e1.printStackTrace();
+        } catch (LineUnavailableException e1) {
+            // TODO Auto-generated catch block
+            e1.printStackTrace();
+        }
         controler.removeAllButton();
         timer = new Timer(1, new ActionListener() {
 
@@ -158,7 +173,12 @@ public class ButtonColor extends JLabel implements MouseListener {
     @Override
     public void mouseEntered(MouseEvent e) {
         isHover = true;
-
+        try {
+            SoundControler.soundTap();
+        } catch (LineUnavailableException e1) {
+            // TODO Auto-generated catch block
+            e1.printStackTrace();
+        }
         this.setLocation(color, WIDTH + 10, HEIGHT + 10);
         // controler.zoomIn(this);
 

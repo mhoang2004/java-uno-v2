@@ -2,8 +2,8 @@
 import java.awt.Cursor;
 import java.awt.GridLayout;
 
+import javax.sound.sampled.LineUnavailableException;
 import javax.swing.JLabel;
-import javax.swing.Timer;
 
 public class ChooseColorPanel extends JLabel  {
     static int WIDTH = 500;
@@ -12,7 +12,6 @@ public class ChooseColorPanel extends JLabel  {
     static ButtonColor blueButtonColor;
     static ButtonColor yellowButtonColor;
     static ButtonColor greenButtonColor;
-    Timer timer2 ;
     ChooseColorPanel() {
         this.setBounds((MyPanel.WIDTH - WIDTH) / 2, (MyPanel.HEIGHT - HEIGHT) / 2, WIDTH, HEIGHT);
         this.setLayout(new GridLayout());
@@ -22,7 +21,12 @@ public class ChooseColorPanel extends JLabel  {
         blueButtonColor = createButton(blueButtonColor, "BLUE");
         yellowButtonColor = createButton(yellowButtonColor, "YELLOW");
         greenButtonColor= createButton(greenButtonColor, "GREEN");
-
+        try {
+            SoundControler.soundChooseColor();
+        } catch (LineUnavailableException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     }
 
     private ButtonColor createButton(ButtonColor buttonColor , String color) {
