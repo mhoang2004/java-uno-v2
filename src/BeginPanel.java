@@ -229,8 +229,8 @@ public class BeginPanel extends MyPanel {
                     public void actionPerformed(ActionEvent e) {
 
                         if (button.getX() == 10) {
-                            BeginPanel.timer.stop();
-                            App.frame.setVisible(false);
+                            ((Timer) e.getSource()).stop();
+                                                        App.frame.setVisible(false);
                             App.frame.remove(App.beginPage);
                             App.loginPanel = new LoginPanel();
                             App.frame.add(App.loginPanel);

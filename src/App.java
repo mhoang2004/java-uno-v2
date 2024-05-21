@@ -47,7 +47,7 @@ public class App {
         frame = new MyFrame();
         frame.addKeyListener(game);
         // newGame();
-        beginPage = new BeginPanel("../resources/images/BackroundBegin-1.jpg");
+        beginPage = new BeginPanel("../resources/images/BackroundBegin-2.jpg");
         
         frame.add(beginPage);
         // button uno

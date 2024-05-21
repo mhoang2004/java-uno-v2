@@ -55,7 +55,7 @@ public class LoginPanel extends MyPanel implements ActionListener {
     JLabel iconEyes;
     static AccountUser accountUser;
     LoginPanel() {
-        super("../resources/images/BackroundBegin-1.jpg");
+        super("../resources/images/BackroundBegin-2.jpg");
         myBorder = BorderFactory.createMatteBorder(0, 0, 0, 0, Color.BLACK);
         myBorderEffect = BorderFactory.createMatteBorder(0, 0, 3, 0, Color.BLUE);
         signInImage = new ImageIcon("../resources/images/IMG-Sign-in.png").getImage();

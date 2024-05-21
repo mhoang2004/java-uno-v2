@@ -5,11 +5,11 @@ import java.awt.event.MouseListener;
 import javax.swing.JLabel;
 import javax.swing.border.LineBorder;
 
-public class MyButton extends JLabel implements MouseListener {
+public class myButton extends JLabel implements MouseListener {
 
     String text;
 
-    MyButton(String text) {
+    myButton(String text) {
 
         setOpaque(true);
         this.text = text;
