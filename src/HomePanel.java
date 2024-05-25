@@ -44,6 +44,8 @@ public class HomePanel extends MyPanel {
         createButtonSolo();
         createButton2vs2();
         animationLabel = new JLabel(new ImageIcon(accountUser.getPathBackround()));
+        System.out.println("Backround" +accountUser.getPathBackround());
+        System.out.println(".......");
         animationLabel.setBounds(-MyPanel.WIDTH, 0, MyPanel.WIDTH + 50, MyPanel.HEIGHT);
         goLabel = new JLayeredPane();
         goLabel.setBounds(-200, MyPanel.HEIGHT / 2, 100, 100);
@@ -149,6 +151,7 @@ public class HomePanel extends MyPanel {
             public void mouseReleased(MouseEvent e) {
                 backround.setIcon(new ImageIcon(drawButtonNext(ButtonSolo, 500, 100, 150)));
                 text.setFont(new Font("Arial Rounded MT Bold", Font.ITALIC, 30));
+                animationLabel.setIcon(new ImageIcon(accountUser.getPathBackround()));
                 add(animationLabel);
                 timer = new Timer(10, new ActionListener() {
                     int x = -MyPanel.WIDTH;
@@ -177,11 +180,10 @@ public class HomePanel extends MyPanel {
                                         if (!isOut) {
                                             isOut = true;
                                             animationLabel.setBounds(-MyPanel.WIDTH, 0, MyPanel.WIDTH + 50, MyPanel.HEIGHT);
-
                                             timer2.stop();
                                             App.frame.remove(App.homePanel);
                                             try {
-                                                App.newGame(App.backroundGame, accountUser);
+                                                App.newGame(accountUser.getPathBackround(), accountUser);
                                             } catch (UnsupportedAudioFileException | IOException
                                                     | LineUnavailableException e1) {
                                                 // TODO Auto-generated catch block
@@ -272,11 +274,12 @@ public class HomePanel extends MyPanel {
                                         count--;
                                     } else {
                                         if (!isOut) {
+                                            animationLabel.setBounds(-MyPanel.WIDTH, 0, MyPanel.WIDTH + 50, MyPanel.HEIGHT);
                                             isOut = true;
                                             timer2.stop();
                                             App.frame.remove(App.homePanel);
                                             try {
-                                                App.newGame(App.backroundGame, accountUser);
+                                                App.newGame(accountUser.getPathBackround(), accountUser);
                                             } catch (UnsupportedAudioFileException | IOException
                                                     | LineUnavailableException e1) {
                                                 // TODO Auto-generated catch block

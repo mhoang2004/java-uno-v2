@@ -5,7 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public abstract class User {
-    static final int INIT_CARD = 7;
+    static final int INIT_CARD =0;
     static final int GAP_CARD_HORIZONTAL = 50;
     static final int GAP_CARD_VERTICAL = 20;
     static final String PATH_TO_DB = "../resources/csv/data.csv";

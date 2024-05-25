@@ -104,14 +104,6 @@ public class FileHandler {
 
                 data.add(rowData);
             }
-
-            // Print the data
-            // for (Map<String, String> row : data) {
-            // for (Map.Entry<String, String> entry : row.entrySet()) {
-            // System.out.printf("%-12s: %-10s", entry.getKey(), entry.getValue());
-            // }
-            // System.out.println();
-            // }
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -176,7 +168,7 @@ public class FileHandler {
             String email = row.get("email");
            // String email = row.get("email");
             if (email.equals(emailString)) {
-                    return row.get("username");
+                                    return row.get("username");
 
             }
         }
@@ -200,11 +192,8 @@ public class FileHandler {
 
         for (Map<String, String> row : data) {
             String email = row.get("email");
-           // String email = row.get("email");
             if (email.equals(emailString)) {
-                System.out.println(row.get("backGround"));
                     return row.get("backGround");
-
             }
         }
         return null;

@@ -32,4 +32,8 @@ public class AccountUser {
     void setIsOn(boolean isOn) {
         FileHandler.setSounnd(mailAccount, isOn);
     }
+    public String toString()
+    {
+        return "Mail: "+ getMail() + "Pass: "+ passwAccount + "UserName: "+ getUserName() + "Backround: "+ getPathBackround() +"Sound: "+ getIsOn();
+    }
 }

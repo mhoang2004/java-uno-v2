@@ -24,6 +24,7 @@ public class Game implements KeyListener {
     static HashMap<Integer, Card> hisComputerHit;
     Timer timer;
     static Clip clip;
+    int step=0;
     // private boolean isTurnPlayer;
     static AccountUser accountUser;
        
@@ -80,7 +81,21 @@ public class Game implements KeyListener {
 
         isReverse = true; // clockwise
         isEndGame = false;
-        
+        Timer timer = new Timer(500, new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(step<7)
+                {
+                    step++;
+                    effectDrawCard(100, step);
+                }else{
+                    ((Timer) e.getSource()).stop();
+                }
+            }
+            
+        });
+        timer.start();
     }
     public static void addToMainPanel(JLabel card) {
         mainPanel.add(card, Integer.valueOf(MyPanel.LAYER++));
@@ -492,4 +507,51 @@ public static boolean nextIsPlayer(int index)
             com.get(i).setTurn(false);
         }
     }
+    
+    void effectDrawCard(int delay, int step)
+    {
+        
+            Timer timer = new Timer(delay, new ActionListener() {
+
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    ((Timer) e.getSource()).stop();
+                    player.drawCard();
+                    Timer timer2 = new Timer(delay, new ActionListener() {
+    
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            ((Timer) e.getSource()).stop();
+                            com.get(0).drawCard();
+                            Timer timer3= new Timer(delay, new ActionListener() {
+    
+                                @Override
+                                public void actionPerformed(ActionEvent e) {
+                                    ((Timer) e.getSource()).stop();
+                                    com.get(1).drawCard();
+                                    Timer timer4 = new Timer(delay/2, new ActionListener() {
+    
+                                        @Override
+                                        public void actionPerformed(ActionEvent e) {
+                                            ((Timer) e.getSource()).stop();
+                                            com.get(2).drawCard();
+                                        }
+                                        
+                                    });
+                                    timer4.start();
+                                }
+                                
+                            });
+                            timer3.start();
+                        }
+                        
+                    });
+                    timer2.start();
+                }
+                
+            });
+            timer.start();
+        }
+        
+    
 }
