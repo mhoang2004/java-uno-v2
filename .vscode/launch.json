@@ -3,6 +3,13 @@
   "configurations": [
     {
       "type": "java",
+      "name": "EndGame",
+      "request": "launch",
+      "mainClass": "EndGame",
+      "projectName": "java-uno-v2-11_6b9f8b08"
+    },
+    {
+      "type": "java",
       "name": "App",
       "request": "launch",
       "mainClass": "App",

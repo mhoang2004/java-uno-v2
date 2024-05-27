@@ -91,6 +91,10 @@ public class Game implements KeyListener {
                     effectDrawCard(100, step);
                 }else{
                     ((Timer) e.getSource()).stop();
+                    System.out.println("HI");
+                   if(!player.checkCard())
+                   deck.suggestedEffect();
+                   player.suggestedEffect();
                 }
             }
             
@@ -304,7 +308,7 @@ public static boolean nextIsPlayer(int index)
             }  
             updatePrevCard();
             if (com.get(index).endGame()) {
-                Game.addToMainPanel(new EndGame());
+                mainPanel.add(new EndGame(), Integer.valueOf(MyPanel.LAYER++));
             } else {
                 
                 // REVERSE
@@ -340,7 +344,7 @@ public static boolean nextIsPlayer(int index)
                 }  
                 updatePrevCard();
                 if (com.get(index).endGame()) {
-                    Game.addToMainPanel(new EndGame());
+                    mainPanel.add(new EndGame(), Integer.valueOf(MyPanel.LAYER++));
                 } else {
                     
                     // REVERSE
@@ -395,6 +399,7 @@ public static boolean nextIsPlayer(int index)
             {
                 deck.suggestedEffect();
             }
+        deck.removeEffect();
     }
     //Update PrevCard
     public static void updatePrevCard()

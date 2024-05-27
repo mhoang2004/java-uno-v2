@@ -317,8 +317,7 @@ public class Card extends JLabel implements MouseListener, Comparable, ActionLis
                                         Game.prevCard.setColor(computer.chooseColor());
                                     }
                                         if (computer.endGame()) {
-                                            Game.addToMainPanel(new EndGame());
-                                        } else {
+                                            Game.mainPanel.add(new EndGame(), Integer.valueOf(MyPanel.LAYER++));                                        } else {
                                             if(Game.nextIsPlayer(index) == true)
                                     {
                                         Game.player.offFocus();
@@ -477,8 +476,7 @@ public class Card extends JLabel implements MouseListener, Comparable, ActionLis
             if (user.getCard().size() -1 == 0)
             {
                 System.out.println("END GAME");
-                Game.addToMainPanel(new EndGame());
-
+                Game.mainPanel.add(new EndGame(), Integer.valueOf(MyPanel.LAYER++));
             }else{
                 if (this.getColor() == null) {
                    

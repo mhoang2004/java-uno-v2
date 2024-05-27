@@ -291,8 +291,7 @@ public class Computer extends User {
             chosenCard.hitCardAnimation();
             
             if (this.getCards().size() - 1 == 0) {
-                Game.addToMainPanel(new EndGame());
-            }
+                Game.mainPanel.add(new EndGame(), Integer.valueOf(MyPanel.LAYER++));            }
             backCards.remove(index);
             cards.remove(index);
            
