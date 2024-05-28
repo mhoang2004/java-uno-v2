@@ -245,16 +245,28 @@ public class FileHandler {
         }
         writeDataToCSV(data);
     }
-    public static void updateBestScoreById(int idToUpdate, int newBestScore) {
+    public static void updateBestScoreByEmail(String email, int newBestScore) {
         List<Map<String, String>> data = getAllUsersData();
 
         for (Map<String, String> row : data) {
-            if (Integer.parseInt(row.get("id")) == idToUpdate) {
+            if (row.get("email").equals(email)) {
                 row.put("bestScore", String.valueOf(newBestScore));
                 break;
             }
         }
 
         writeDataToCSV(data);
+    }
+
+    public static int getBestScore(String emailString) {
+        List<Map<String, String>> data = getAllUsersData();
+
+        for (Map<String, String> row : data) {
+            String email = row.get("email");
+            if (email.equals(emailString)) {
+                return Integer.parseInt(row.get("bestScore"));
+            }
+        }
+        return 0;
     }
 }

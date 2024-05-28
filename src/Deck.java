@@ -102,13 +102,13 @@ public class Deck extends JLabel implements MouseListener, ActionListener {
     }
 
     public Card getOneCard() {
-        if(Game.prevCard != null)
-        {
-            if(!Game.prevCard.isSuperSpecial() && !deck.getLast().equals(Game.prevCard))
-            {
-                deck.addLast(Game.prevCard);
-            }
-        }
+        // if(Game.prevCard != null)
+        // {
+        //     if(!Game.prevCard.isSuperSpecial() && !deck.getLast().equals(Game.prevCard))
+        //     {
+        //         deck.addLast(Game.prevCard);
+        //     }
+        // }
         
        
         return deck.remove(0);

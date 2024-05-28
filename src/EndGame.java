@@ -27,7 +27,7 @@ public class EndGame extends JLabel {
         this.setBounds((MyPanel.WIDTH - WIDTH) / 2, (MyPanel.HEIGHT - HEIGHT) / 2, WIDTH, HEIGHT);
         this.setLayout(new GridLayout(4, 1));
         Game.clip.stop();
-        if (Game.player.getCard().size() < 1) {
+        if (Game.player.sizeCards() == 0) {
             try {
                 SoundControler.soundVicroty();
             } catch (LineUnavailableException e) {
@@ -44,7 +44,7 @@ public class EndGame extends JLabel {
         {
             playAgainBtn = new JButton("Play Again");
         }else{
-            playAgainBtn = new JButton("BACK TO HOME");
+            playAgainBtn = new JButton("Back To Home");
         }
         Game.stop();
         playAgainBtn.setBackground(new Color(30, 194, 235));
@@ -88,17 +88,22 @@ public class EndGame extends JLabel {
         gameBtns.add(playAgainBtn);
         gameBtns.add(rankBtn);
 
+        int currentScore = 0;
         gameResult = new JLabel("END GAME", SwingConstants.CENTER);
-        if (Game.player.getCard().size() < 1) {
+        System.out.println("Player cards size: " + Game.player.sizeCards());
+        if (Game.player.sizeCards() == 0) {
             gameResult.setText("VICTORY");
+            currentScore = Game.player.scores();
         } else {
             gameResult.setText("LOSE");
         }
+
         gameResult.setFont(new Font("Arial", Font.BOLD, 30));
         gameResult.setOpaque(true);
         this.add(gameResult);
 
-        String scoreString = "Score: " + Game.player.scores();
+
+        String scoreString = "Score: " + currentScore;
         gameScore = new JLabel(scoreString, SwingConstants.CENTER);
         gameScore.setFont(new Font("Arial", Font.BOLD, 30));
         gameScore.setOpaque(true);
@@ -106,7 +111,12 @@ public class EndGame extends JLabel {
         this.add(gameScore);
 
         if (App.modeGuest != true) {
-            String bestScoreString = "Best Score: 17";
+            String emailString = Game.accountUser.getMail();
+            int bestScore = FileHandler.getBestScore(emailString);
+            if(currentScore > bestScore) {
+                FileHandler.updateBestScoreByEmail(emailString, bestScore); 
+            }
+            String bestScoreString = "Best Score: " + bestScore;
             gameBestScore = new JLabel(bestScoreString, SwingConstants.CENTER);
             gameBestScore.setFont(new Font("Arial", Font.BOLD, 30));
             gameBestScore.setOpaque(true);

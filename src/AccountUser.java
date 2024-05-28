@@ -12,7 +12,7 @@ public class AccountUser {
     }
     String getUserName()
     {
-        return  new String(FileHandler.getUsername(mailAccount));
+        return new String(FileHandler.getUsername(mailAccount));
     }
     String getMail(){
         System.out.println(mailAccount);

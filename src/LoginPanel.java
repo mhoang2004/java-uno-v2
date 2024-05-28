@@ -966,7 +966,6 @@ public class LoginPanel extends MyPanel implements ActionListener {
                     App.frame.add(App.loginPanel);
                     App.frame.setVisible(true);
                 }
-                
             } else {
                 Notification noti2 = new Notification(5);
                 noti2.setText("Invalid SignIn");

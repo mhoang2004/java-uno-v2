@@ -5,7 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public abstract class User {
-    static final int INIT_CARD =0;
+    static final int INIT_CARD = 0;
     static final int GAP_CARD_HORIZONTAL = 50;
     static final int GAP_CARD_VERTICAL = 20;
     static final String PATH_TO_DB = "../resources/csv/data.csv";
@@ -262,15 +262,18 @@ public abstract class User {
     // score
     public int scores() {
         int scores = 0;
-        for (Card card : cards) {
-            if (card.getRank().length() == 1) {
-                scores = scores + Integer.parseInt(card.getRank());
-            }
-            if (card.getRank().length() > 1 && card.getColor() != null) {
-                scores = scores + 20;
-            }
-            if (card.getColor() == null) {
-                scores = scores + 50;
+
+        for(Computer com : Game.com) {
+            for (Card card : com.cards) {
+                if (card.getRank().length() == 1) {
+                    scores = scores + Integer.parseInt(card.getRank());
+                }
+                if (card.getRank().length() > 1 && card.getColor() != null) {
+                    scores = scores + 20;
+                }
+                if (card.getColor() == null) {
+                    scores = scores + 50;
+                }
             }
         }
         return scores;
