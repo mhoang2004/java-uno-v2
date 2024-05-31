@@ -19,12 +19,13 @@ import java.awt.*;
 public class Deck extends JLabel implements MouseListener, ActionListener {
     static final String[] ranks = { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "DRAWTWO", "REVERSE", "SKIP" };
     static final String[] colors = { "B", "G", "Y", "R" };
-    static  int X = ((MyPanel.WIDTH - Card.WIDTH) / 2) - 250;
-    static  int Y = (MyPanel.HEIGHT - Card.HEIGHT) / 2 + 100;
+    static int X = ((MyPanel.WIDTH - Card.WIDTH) / 2) - 250;
+    static int Y = (MyPanel.HEIGHT - Card.HEIGHT) / 2 + 100;
     private ArrayList<Card> deck;
-    private boolean bool= true;
+    private boolean bool = true;
     private Timer timer = new Timer(200, this);
     Clip clip;
+
     Deck() throws LineUnavailableException {
         if (deck != null)
             deck.clear();
@@ -41,14 +42,12 @@ public class Deck extends JLabel implements MouseListener, ActionListener {
         AudioInputStream audioStream;
         try {
             audioStream = AudioSystem.getAudioInputStream(file);
-            clip= AudioSystem.getClip();
-           
-            if(Game.accountUser== null)
-            {
+            clip = AudioSystem.getClip();
+
+            if (Game.accountUser == null) {
                 clip.open(audioStream);
-            }else{
-                if(Game.accountUser.isSound)
-                {
+            } else {
+                if (Game.accountUser.isSound) {
                     clip.open(audioStream);
                 }
             }
@@ -59,7 +58,7 @@ public class Deck extends JLabel implements MouseListener, ActionListener {
         }
         addMouseListener(this);
     }
-    
+
     public void createDeck() {
         deck = new ArrayList<Card>();
         Card tempCard;
@@ -104,37 +103,34 @@ public class Deck extends JLabel implements MouseListener, ActionListener {
     public Card getOneCard() {
         // if(Game.prevCard != null)
         // {
-        //     if(!Game.prevCard.isSuperSpecial() && !deck.getLast().equals(Game.prevCard))
-        //     {
-        //         deck.addLast(Game.prevCard);
-        //     }
+        // if(!Game.prevCard.isSuperSpecial() && !deck.getLast().equals(Game.prevCard))
+        // {
+        // deck.addLast(Game.prevCard);
         // }
-        
-       
+        // }
+
         return deck.remove(0);
     }
 
     public void mouseClicked(MouseEvent e) {
-        if(Game.player.getTurn() == true && Game.player.checkCard() == false )
-        {      
+        if (Game.player.getTurn() == true && Game.player.checkCard() == false) {
             removeEffect();
             this.setEnabled(false);
             Game.player.setTurn(false);
-            Card cardDrawn =  Game.player.drawCard2();
-            cardDrawn.removeEffect();             
-            if(Game.player.checkValid(cardDrawn))
-            {
-               // Game.addToMainPanel(new DrawCard(cardDrawn));  
-               new DrawCardPanel(cardDrawn);
-            }else{
+            Card cardDrawn = Game.player.drawCard2();
+            cardDrawn.removeEffect();
+            if (Game.player.checkValid(cardDrawn)) {
+                // Game.addToMainPanel(new DrawCard(cardDrawn));
+                new DrawCardPanel(cardDrawn);
+            } else {
                 Game.deck.setEnabled(true);
                 Game.player.getNextUser().setTurn(true);
                 // Game.player.setTurn(false);
                 Game.delayReverse(3);
-            }         
-      
+            }
+
         }
-        
+
     }
 
     @Override
@@ -153,8 +149,8 @@ public class Deck extends JLabel implements MouseListener, ActionListener {
     public void mouseExited(MouseEvent e) {
     }
 
-   public void removeEffect() {
-    clip.stop();
+    public void removeEffect() {
+        clip.stop();
         timer.stop();
         setBorder(new EmptyBorder(0, 0, 0, 0));
     }
@@ -168,16 +164,14 @@ public class Deck extends JLabel implements MouseListener, ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if(bool == true)
-                {
-                    bool = false;
-                    Border border = new LineBorder(Color.YELLOW, 6);
-                    setBorder(border);
-                }
-                else{
-                    bool = true;
-                    Border border = new LineBorder(Color.RED, 6);
-                    setBorder(border);
-                }
+        if (bool == true) {
+            bool = false;
+            Border border = new LineBorder(Color.YELLOW, 6);
+            setBorder(border);
+        } else {
+            bool = true;
+            Border border = new LineBorder(Color.RED, 6);
+            setBorder(border);
+        }
     }
 }

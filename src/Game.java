@@ -1,13 +1,12 @@
 import java.util.ArrayList;
 import java.util.HashMap;
 import javax.swing.*;
-
-import java.awt.Color;
 import java.awt.event.*;
 import java.io.File;
 
 import java.io.IOException;
 import javax.sound.sampled.*;
+
 public class Game implements KeyListener {
     final int COMPUTER_NUM = 3;
     static MyPanel mainPanel; // display users
@@ -24,14 +23,15 @@ public class Game implements KeyListener {
     static HashMap<Integer, Card> hisComputerHit;
     Timer timer;
     static Clip clip;
-    int step=0;
-    int xDeck =600;
+    int step = 0;
+    int xDeck = 600;
     int yDeck = 300;
     // private boolean isTurnPlayer;
     static AccountUser accountUser;
-       
-    Game(String path, AccountUser accountUser) throws UnsupportedAudioFileException, IOException, LineUnavailableException {
-        //sound 
+
+    Game(String path, AccountUser accountUser)
+            throws UnsupportedAudioFileException, IOException, LineUnavailableException {
+        // sound
         File file = new File("../resources/sounds/mainSound.wav");
         AudioInputStream audioStream = AudioSystem.getAudioInputStream(file);
         clip = AudioSystem.getClip();
@@ -45,9 +45,9 @@ public class Game implements KeyListener {
             }
             SoundControler.setIsON(accountUser.getIsOn());
         }
-       
+
         mainPanel = new MyPanel(path);
-        
+
         // Game.mainPanel.remove(goLabel);
         deck = new Deck();
         hisComputerHit = new HashMap<Integer, Card>();
@@ -59,7 +59,7 @@ public class Game implements KeyListener {
         isReverse = true;
         vectorLeft = new Reverse("L");
         vectorRight = new Reverse("R");
-       
+
         prevCard.setLocation((MyPanel.WIDTH - Card.WIDTH) / 2, (MyPanel.HEIGHT - Card.HEIGHT) / 2);
 
         buttonUno = new ButtonUno();
@@ -88,47 +88,46 @@ public class Game implements KeyListener {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(step<7)
-                {
+                if (step < 7) {
                     step++;
                     effectDrawCard(100, step);
-                }else{
+                } else {
                     ((Timer) e.getSource()).stop();
                     Timer timer = new Timer(30, new ActionListener() {
 
                         @Override
                         public void actionPerformed(ActionEvent e) {
-                            if(xDeck > 350)
-                            {
-                                xDeck-=20;
-                                yDeck =(int)(-0.4 * xDeck +540);
+                            if (xDeck > 350) {
+                                xDeck -= 20;
+                                yDeck = (int) (-0.4 * xDeck + 540);
                                 deck.setLocation(xDeck, yDeck);
-                            }else{
+                            } else {
                                 ((Timer) e.getSource()).stop();
                                 Deck.X = ((MyPanel.WIDTH - Card.WIDTH) / 2) - 250;
-                                 Deck.Y = (MyPanel.HEIGHT - Card.HEIGHT) / 2 + 100;
-                                 if(!player.checkCard())
-                                deck.suggestedEffect();
+                                Deck.Y = (MyPanel.HEIGHT - Card.HEIGHT) / 2 + 100;
+                                if (!player.checkCard())
+                                    deck.suggestedEffect();
                                 player.suggestedEffect();
                                 addToMainPanel(prevCard);
                                 addToMainPanel(vectorLeft);
                                 addToMainPanel(vectorRight);
                             }
                         }
-                        
+
                     });
-                   timer.start();
+                    timer.start();
 
                 }
             }
-            
+
         });
         timer.start();
     }
+
     public static void addToMainPanel(JLabel card) {
         mainPanel.add(card, Integer.valueOf(MyPanel.LAYER++));
     }
-    
+
     public static boolean getIsReverse() {
         return isReverse;
     }
@@ -204,10 +203,10 @@ public class Game implements KeyListener {
     // Set computer`s time, delay 2s
     public static void delayReverse(int index) {
         updatePrevCard();
-       // deck.removeEffect();
+        // deck.removeEffect();
         Game.notiToUser.removeText();
         Timer timer = new Timer(2000, new ActionListener() {
-           
+
             public void actionPerformed(ActionEvent e) {
                 nextUser(index);
                 ((Timer) e.getSource()).stop();
@@ -219,11 +218,10 @@ public class Game implements KeyListener {
     // Set computer`s time, delay 2s, this case pass a user when use skip card
     public static void delaySkip(int index) {
         updatePrevCard();
-        if(Game.notiToUser != null)
-        {
+        if (Game.notiToUser != null) {
             Game.notiToUser.removeText();
         }
-        
+
         Timer timer = new Timer(2000, new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 oppositeUser(index);
@@ -232,81 +230,63 @@ public class Game implements KeyListener {
         });
         timer.start();
     }
-// check user is player or computer
-public static boolean nextIsPlayer(int index)
-{
-    if(index == 1)
-    {
-        if(hisComputerHit.get(index) != null)
-        {
-            if(prevCard.isSkip() == true)
-            {
+
+    // check user is player or computer
+    public static boolean nextIsPlayer(int index) {
+        if (index == 1) {
+            if (hisComputerHit.get(index) != null) {
+                if (prevCard.isSkip() == true) {
+                    return true;
+                }
+            }
+            return false;
+        }
+        if (index == 2) {
+            if (Game.isReverse == true) {
+                if (hisComputerHit.get(index) != null) {
+                    if (hisComputerHit.get(index).getRank().equals("REVERSE")) {
+                        return false;
+                    }
+                    if (hisComputerHit.get(index).isSkip() == true) {
+                        return false;
+                    }
+                }
+                return true;
+            } else {
+                if (hisComputerHit.get(index) != null) {
+                    if (hisComputerHit.get(index).getRank().equals("REVERSE")) {
+                        return true;
+                    }
+                }
+                return false;
+            }
+        }
+        if (index == 0) {
+            if (Game.isReverse == true) {
+                if (hisComputerHit.get(index) != null) {
+                    if (hisComputerHit.get(index).getRank().equals("REVERSE")) {
+                        return true;
+                    }
+                    return false;
+                } else {
+                    return false;
+                }
+
+            } else {
+                if (hisComputerHit.get(index) != null) {
+                    if (hisComputerHit.get(index).getRank().equals("REVERSE")) {
+                        return false;
+                    }
+                    if (hisComputerHit.get(index).isSkip() == true) {
+                        return false;
+                    }
+                }
                 return true;
             }
         }
         return false;
     }
-    if(index ==2)
-    {
-        if(Game.isReverse == true)
-        {
-            if(hisComputerHit.get(index) != null)
-            {
-                    if(hisComputerHit.get(index).getRank().equals("REVERSE"))
-                    {
-                        return false;
-                    }
-                     if(hisComputerHit.get(index).isSkip() == true)
-                    {
-                        return false;
-                    }
-            }
-            return true;
-        }else{
-            if(hisComputerHit.get(index) != null)
-            {
-                if(hisComputerHit.get(index).getRank().equals("REVERSE"))
-                {
-                    return true;
-                }
-            }
-            return false;
-        }    
-    }
-    if (index == 0)
-    {
-        if(Game.isReverse == true)
-        {
-                if(hisComputerHit.get(index) != null)
-                {
-                    if(hisComputerHit.get(index).getRank().equals("REVERSE"))
-                    {
-                        return true;
-                    }
-                    return false;
-                }else{
-                    return false;
-                }
-               
-        }else{
-            if(hisComputerHit.get(index) != null)
-            {
-                if(hisComputerHit.get(index).getRank().equals("REVERSE"))
-                {
-                    return false;
-                } 
-                if(hisComputerHit.get(index).isSkip()== true)
-                {
-                    return false;
-                }
-            }
-            return true;
-        }
-    }
-    return false;
-}
-   
-   
+
     // Computer play card, pass next user, check reverse, skip this here
     public static void computerHit(int index) {
         // player.offFocus();
@@ -318,23 +298,20 @@ public static boolean nextIsPlayer(int index)
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        if(hisComputerHit.get(index)== null)
-        {
+        if (hisComputerHit.get(index) == null) {
             com.get(index).checkUno();
-            if(nextIsPlayer(index) == true)
-            {
+            if (nextIsPlayer(index) == true) {
                 player.offFocus();
                 player.suggestedEffect();
-                if(player.checkCard() == false)
-                {
+                if (player.checkCard() == false) {
                     deck.suggestedEffect();
                 }
-            }  
+            }
             updatePrevCard();
             if (com.get(index).endGame()) {
                 mainPanel.add(new EndGame(), Integer.valueOf(MyPanel.LAYER++));
             } else {
-                
+
                 // REVERSE
                 if ((Game.prevCard.getRank() == "REVERSE") && (com.get(index).isUserHit != false)) {
                     reverse();
@@ -353,24 +330,21 @@ public static boolean nextIsPlayer(int index)
                 }
                 delayReverse(index);
             }
-        }else{
-            if(!hisComputerHit.get(index).getRank().equals("-1"))
-            {
+        } else {
+            if (!hisComputerHit.get(index).getRank().equals("-1")) {
                 com.get(index).checkUno();
-                if(nextIsPlayer(index) == true)
-                {
+                if (nextIsPlayer(index) == true) {
                     player.offFocus();
                     player.suggestedEffect();
-                    if(player.checkCard() == false)
-                    {
+                    if (player.checkCard() == false) {
                         deck.suggestedEffect();
                     }
-                }  
+                }
                 updatePrevCard();
                 if (com.get(index).endGame()) {
                     mainPanel.add(new EndGame(), Integer.valueOf(MyPanel.LAYER++));
                 } else {
-                    
+
                     // REVERSE
                     if ((Game.prevCard.getRank() == "REVERSE") && (com.get(index).isUserHit != false)) {
                         reverse();
@@ -391,9 +365,9 @@ public static boolean nextIsPlayer(int index)
                 }
             }
         }
-        
-        
+
     }
+
     // Turn`s computer 0
     public static void computer0Hit() {
         // updatePrevCard();
@@ -419,18 +393,18 @@ public static boolean nextIsPlayer(int index)
     public void start() {
         player.suggestedEffect();
         player.setTurn(true);
-        if(player.checkCard() == false)
-            {
-                deck.suggestedEffect();
-            }
+        if (player.checkCard() == false) {
+            deck.suggestedEffect();
+        }
         deck.removeEffect();
     }
-    //Update PrevCard
-    public static void updatePrevCard()
-    {
+
+    // Update PrevCard
+    public static void updatePrevCard() {
         vectorLeft.updateReverse("L");
         vectorRight.updateReverse("R");
     }
+
     public static boolean endGame() {
         return (player.sizeCards() == 0 || com.get(0).sizeCards() == 0 ||
                 com.get(1).sizeCards() == 0 || com.get(2).sizeCards() == 0);
@@ -469,16 +443,21 @@ public static boolean nextIsPlayer(int index)
             timer.start();
         }
     }
+
     // What computer number
     public static int computerNumber(Computer computer) {
-        if (computer.equals(com.get(0))) return 0;
-        else if (computer.equals(com.get(1))) return 1;
-        else if (computer.equals(com.get(2))) return 2;
-        else return -1;
+        if (computer.equals(com.get(0)))
+            return 0;
+        else if (computer.equals(com.get(1)))
+            return 1;
+        else if (computer.equals(com.get(2)))
+            return 2;
+        else
+            return -1;
     }
+
     // check the case is special
-    public static void checkTheCase()
-    {
+    public static void checkTheCase() {
         // REVERSE
         if ((Game.prevCard.getRank() == "REVERSE") && (Game.player.isUserHit != false)) {
             Game.reverse();
@@ -489,10 +468,10 @@ public static boolean nextIsPlayer(int index)
             card.backDefaultCard();
         }
         // SKIP
-        if (((Game.player.checkSkip() )&& (Game.player.isUserHit != false)) ) {
+        if (((Game.player.checkSkip()) && (Game.player.isUserHit != false))) {
             Game.player.skip();
             Game.delaySkip(3);
-        }       
+        }
         Game.delayReverse(3);
     }
 
@@ -503,84 +482,79 @@ public static boolean nextIsPlayer(int index)
         // boolean isAction = false;
         // for(int i=0; i< player.getCard().size(); i++)
         // {
-        //     if(player.getCard().get(i).isKey())
-        //     {
-        //         isAction = true;
-        //     }
+        // if(player.getCard().get(i).isKey())
+        // {
+        // isAction = true;
+        // }
         // }
         // if(isAction == false)
         // {
-        //     player.getCard().get(0).updateIsKey();
-        //         player.offFocus();
-        //         player.getCard().get(0).isClicked = true;
-        //         player.effectArroundClickCard();               
-        //         player.getCard().get(0).setLocation(player.getCard().get(0).getX(), MyPanel.HEIGHT - 150);
-        //         player.getCard().get(0).setCursor(new Cursor(Cursor.HAND_CURSOR));  
+        // player.getCard().get(0).updateIsKey();
+        // player.offFocus();
+        // player.getCard().get(0).isClicked = true;
+        // player.effectArroundClickCard();
+        // player.getCard().get(0).setLocation(player.getCard().get(0).getX(),
+        // MyPanel.HEIGHT - 150);
+        // player.getCard().get(0).setCursor(new Cursor(Cursor.HAND_CURSOR));
         // }
     }
 
     @Override
     public void keyPressed(KeyEvent e) {
-        
+
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
-        
+
     }
-    static void stop()
-    {
+
+    static void stop() {
         player.setTurn(false);
-        for(int i=0; i< 3; i++)
-        {
+        for (int i = 0; i < 3; i++) {
             com.get(i).setTurn(false);
         }
     }
-    
-    void effectDrawCard(int delay, int step)
-    {
-        
-            Timer timer = new Timer(delay, new ActionListener() {
 
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    ((Timer) e.getSource()).stop();
-                    player.drawCard();
-                    Timer timer2 = new Timer(delay, new ActionListener() {
-    
-                        @Override
-                        public void actionPerformed(ActionEvent e) {
-                            ((Timer) e.getSource()).stop();
-                            com.get(0).drawCard();
-                            Timer timer3= new Timer(delay, new ActionListener() {
-    
-                                @Override
-                                public void actionPerformed(ActionEvent e) {
-                                    ((Timer) e.getSource()).stop();
-                                    com.get(1).drawCard();
-                                    Timer timer4 = new Timer(delay/2, new ActionListener() {
-    
-                                        @Override
-                                        public void actionPerformed(ActionEvent e) {
-                                            ((Timer) e.getSource()).stop();
-                                            com.get(2).drawCard();
-                                        }
-                                        
-                                    });
-                                    timer4.start();
-                                }
-                                
-                            });
-                            timer3.start();
-                        }
-                        
-                    });
-                    timer2.start();
-                }
-                
-            });
-            timer.start();
-        }
-        
-    
+    void effectDrawCard(int delay, int step) {
+        Timer timer = new Timer(delay, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ((Timer) e.getSource()).stop();
+                player.drawCard();
+                Timer timer2 = new Timer(delay, new ActionListener() {
+
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        ((Timer) e.getSource()).stop();
+                        com.get(0).drawCard();
+                        Timer timer3 = new Timer(delay, new ActionListener() {
+
+                            @Override
+                            public void actionPerformed(ActionEvent e) {
+                                ((Timer) e.getSource()).stop();
+                                com.get(1).drawCard();
+                                Timer timer4 = new Timer(delay / 2, new ActionListener() {
+
+                                    @Override
+                                    public void actionPerformed(ActionEvent e) {
+                                        ((Timer) e.getSource()).stop();
+                                        com.get(2).drawCard();
+                                    }
+
+                                });
+                                timer4.start();
+                            }
+
+                        });
+                        timer3.start();
+                    }
+
+                });
+                timer2.start();
+            }
+
+        });
+        timer.start();
+    }
 }

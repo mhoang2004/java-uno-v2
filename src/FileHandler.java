@@ -9,22 +9,13 @@ public class FileHandler {
     private static final String SALT = "random_salt_here";
 
     // public static void main(String[] args) {
-    // // add new user
+    // add new user
     // addNewUserData("Suu", "123321");
 
-    // // print all users
     // List<Map<String, String>> users = getAllUsersData();
+    // updateBestScoreByEmail("a@gmail.com", 16);
+    // System.out.println(getBestScore("a@gmail.com"));
 
-    // for (Map<String, String> row : users) {
-    // for (Map.Entry<String, String> entry : row.entrySet()) {
-    // System.out.printf("%-12s: %-10s", entry.getKey(), entry.getValue());
-    // }
-    // System.out.println();
-    // }
-
-    // System.out.println(checkValidLogIn("c@gmail.com", "123"));
-
-    // updateBestScoreById(1, 19);
     // }
 
     public static void addNewUserData(String email, String password) {
@@ -149,6 +140,7 @@ public class FileHandler {
         }
         return false;
     }
+
     public static boolean checkValidSingOut(String emailString) {
         List<Map<String, String>> data = getAllUsersData();
 
@@ -161,25 +153,27 @@ public class FileHandler {
         }
         return true;
     }
+
     public static String getUsername(String emailString) {
         List<Map<String, String>> data = getAllUsersData();
 
         for (Map<String, String> row : data) {
             String email = row.get("email");
-           // String email = row.get("email");
+            // String email = row.get("email");
             if (email.equals(emailString)) {
-                                    return row.get("username");
+                return row.get("username");
 
             }
         }
         return null;
     }
+
     public static void setUsername(String emailString, String username) {
         List<Map<String, String>> data = getAllUsersData();
 
         for (Map<String, String> row : data) {
             String email = row.get("email");
-           // String email = row.get("email");
+            // String email = row.get("email");
             if (email.equals(emailString)) {
                 row.put("username", username);
                 System.out.println(row.put("username", username));
@@ -187,64 +181,67 @@ public class FileHandler {
         }
         writeDataToCSV(data);
     }
+
     public static String getPathABackroung(String emailString) {
         List<Map<String, String>> data = getAllUsersData();
 
         for (Map<String, String> row : data) {
             String email = row.get("email");
             if (email.equals(emailString)) {
-                    return row.get("backGround");
+                return row.get("backGround");
             }
         }
         return null;
     }
+
     public static void setPathABackroung(String emailString, String path) {
         List<Map<String, String>> data = getAllUsersData();
 
         for (Map<String, String> row : data) {
             String email = row.get("email");
-           // String email = row.get("email");
+            // String email = row.get("email");
             if (email.equals(emailString)) {
                 row.put("backGround", path);
             }
         }
         writeDataToCSV(data);
     }
+
     public static boolean getSounnd(String emailString) {
         List<Map<String, String>> data = getAllUsersData();
 
         for (Map<String, String> row : data) {
             String email = row.get("email");
-           // String email = row.get("email");
+            // String email = row.get("email");
             if (email.equals(emailString)) {
-                if(row.get("backGround").equals("true"))
-                {
+                if (row.get("isSound").equals("true")) {
                     return true;
-                }else{
-                   return false;
+                } else {
+                    return false;
                 }
 
             }
         }
         return false;
     }
+
     public static void setSounnd(String emailString, boolean isOn) {
         List<Map<String, String>> data = getAllUsersData();
 
         for (Map<String, String> row : data) {
             String email = row.get("email");
-           // String email = row.get("email");
+            // String email = row.get("email");
             if (email.equals(emailString)) {
-                if(isOn == true)
-                {
-                    row.put("backGround", "true");
-                }else{
-                    row.put("backGround", "false");
+                if (isOn == true) {
+                    row.put("isSound", "true");
+                } else {
+                    row.put("isSound", "false");
                 }
             }
         }
         writeDataToCSV(data);
     }
+
     public static void updateBestScoreByEmail(String email, int newBestScore) {
         List<Map<String, String>> data = getAllUsersData();
 

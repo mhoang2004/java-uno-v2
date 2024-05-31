@@ -6,11 +6,12 @@ import javax.sound.sampled.*;
 import javax.swing.Timer;
 
 public class SoundControler {
-    static boolean isOn= true;
-    static void  setIsON(boolean isON)
-    {
-       isOn = isON;
+    static boolean isOn = true;
+
+    static void setIsON(boolean isON) {
+        isOn = isON;
     }
+
     static void soundClick() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
         File file = new File("../resources/sounds/click.wav");
         AudioInputStream audioStream = AudioSystem.getAudioInputStream(file);
@@ -19,8 +20,7 @@ public class SoundControler {
             Clip clip = AudioSystem.getClip();
             clip.open(audioStream);
             clip.start();
-            if(!isOn)
-            {
+            if (!isOn) {
                 clip.stop();
             }
         } catch (UnsupportedAudioFileException e) {
@@ -28,7 +28,7 @@ public class SoundControler {
         } catch (IOException e) {
             System.err.println("Error occurred while reading the audio file.");
         }
-       
+
     }
 
     static void soundHit() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
@@ -39,8 +39,7 @@ public class SoundControler {
             Clip clip = AudioSystem.getClip();
             clip.open(audioStream);
             clip.start();
-            if(!isOn)
-            {
+            if (!isOn) {
                 clip.stop();
             }
         } catch (UnsupportedAudioFileException e) {
@@ -49,6 +48,7 @@ public class SoundControler {
             System.err.println("Error occurred while reading the audio file.");
         }
     }
+
     static void soundHitSpecial() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
         File file = new File("../resources/sounds/hitSpecial.wav");
         AudioInputStream audioStream;
@@ -57,8 +57,7 @@ public class SoundControler {
             Clip clip = AudioSystem.getClip();
             clip.open(audioStream);
             clip.start();
-            if(!isOn)
-            {
+            if (!isOn) {
                 clip.stop();
             }
         } catch (UnsupportedAudioFileException e) {
@@ -67,6 +66,7 @@ public class SoundControler {
             System.err.println("Error occurred while reading the audio file.");
         }
     }
+
     static void soundHitElectricity() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
         File file = new File("../resources/sounds/electricity.wav");
         AudioInputStream audioStream;
@@ -75,8 +75,7 @@ public class SoundControler {
             Clip clip = AudioSystem.getClip();
             clip.open(audioStream);
             clip.start();
-            if(!isOn)
-            {
+            if (!isOn) {
                 clip.stop();
             }
             Timer timer = new Timer(1100, new ActionListener() {
@@ -86,16 +85,16 @@ public class SoundControler {
                     ((Timer) e.getSource()).stop();
                     clip.stop();
                 }
-                
+
             });
-            timer .start();
+            timer.start();
         } catch (UnsupportedAudioFileException e) {
             System.err.println("The specified audio file is not supported.");
         } catch (IOException e) {
             System.err.println("Error occurred while reading the audio file.");
         }
     }
-    
+
     static void soundDraw() throws LineUnavailableException {
         File file = new File("../resources/sounds/draw.wav");
         AudioInputStream audioStream;
@@ -104,8 +103,7 @@ public class SoundControler {
             Clip clip = AudioSystem.getClip();
             clip.open(audioStream);
             clip.start();
-            if(!isOn)
-            {
+            if (!isOn) {
                 clip.stop();
             }
         } catch (UnsupportedAudioFileException e) {
@@ -123,8 +121,7 @@ public class SoundControler {
             Clip clip = AudioSystem.getClip();
             clip.open(audioStream);
             clip.start();
-            if(!isOn)
-            {
+            if (!isOn) {
                 clip.stop();
             }
         } catch (UnsupportedAudioFileException e) {
@@ -142,8 +139,7 @@ public class SoundControler {
             Clip clip = AudioSystem.getClip();
             clip.open(audioStream);
             clip.start();
-            if(!isOn)
-            {
+            if (!isOn) {
                 clip.stop();
             }
         } catch (UnsupportedAudioFileException e) {
@@ -162,8 +158,7 @@ public class SoundControler {
             Clip clip = AudioSystem.getClip();
             clip.open(audioStream);
             clip.start();
-            if(!isOn)
-            {
+            if (!isOn) {
                 clip.stop();
             }
         } catch (UnsupportedAudioFileException e) {
@@ -173,6 +168,7 @@ public class SoundControler {
         }
 
     }
+
     static void soundChooseColor() throws LineUnavailableException {
         File file = new File("../resources/sounds/chooseColor.wav");
         AudioInputStream audioStream;
@@ -181,8 +177,7 @@ public class SoundControler {
             Clip clip = AudioSystem.getClip();
             clip.open(audioStream);
             clip.start();
-            if(!isOn)
-            {
+            if (!isOn) {
                 clip.stop();
             }
         } catch (UnsupportedAudioFileException e) {
@@ -192,6 +187,7 @@ public class SoundControler {
         }
 
     }
+
     static void soundTap() throws LineUnavailableException {
         File file = new File("../resources/sounds/tap.wav");
         AudioInputStream audioStream;
@@ -200,8 +196,7 @@ public class SoundControler {
             Clip clip = AudioSystem.getClip();
             clip.open(audioStream);
             clip.start();
-            if(!isOn)
-            {
+            if (!isOn) {
                 clip.stop();
             }
         } catch (UnsupportedAudioFileException e) {
