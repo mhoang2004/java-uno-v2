@@ -11,6 +11,7 @@ public class App {
     static Game game;
     static LoginPanel loginPanel;
     static HomePanel homePanel;
+    static RankPanel rankPanel;
     static SettingPanel setting;
     static String backroundGame;
     static boolean modeGuest = true;

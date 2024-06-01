@@ -51,23 +51,19 @@ public class EndGame extends JLabel {
         playAgainBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                App.frame.setVisible(false);
+                App.frame.remove(Game.mainPanel);
                 if (App.modeGuest) {
-                    App.frame.setVisible(false);
-                    App.frame.remove(Game.mainPanel);
                     try {
                         App.newGame(App.backroundGame, Game.accountUser);
                     } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e1) {
                         e1.printStackTrace();
                     }
-                    App.frame.setVisible(true);
                 } else {
-                    App.frame.setVisible(false);
-                    App.frame.remove(Game.mainPanel);
                     App.homePanel = new HomePanel("../resources/images/BackroundBegin-1.jpg", LoginPanel.accountUser);
                     App.frame.add(App.homePanel);
-                    App.frame.setVisible(true);
                 }
-
+                App.frame.setVisible(true);
             }
         });
 
@@ -77,7 +73,11 @@ public class EndGame extends JLabel {
         rankBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new RankPanel();
+                App.frame.setVisible(false);
+                App.frame.remove(Game.mainPanel);
+                App.rankPanel = new RankPanel();
+                App.frame.add(App.rankPanel);
+                App.frame.setVisible(true);
             }
         });
 
@@ -108,7 +108,6 @@ public class EndGame extends JLabel {
         this.add(gameScore);
 
         if (App.modeGuest != true) {
-
             String emailString = Game.accountUser.getMail();
             int bestScore = FileHandler.getBestScore(emailString);
             System.out.println("bestScore: " + bestScore + "currentScore: " + currentScore);

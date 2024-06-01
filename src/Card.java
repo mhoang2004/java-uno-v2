@@ -306,7 +306,6 @@ public class Card extends JLabel implements MouseListener, Comparable, ActionLis
                                         Game.hisComputerHit.put(computer.getPos(), computer.computerHitCard());
                                     } catch (UnsupportedAudioFileException | IOException
                                             | LineUnavailableException e1) {
-                                        // TODO Auto-generated catch block
                                         e1.printStackTrace();
                                     }
                                     Game.updatePrevCard();
@@ -438,7 +437,6 @@ public class Card extends JLabel implements MouseListener, Comparable, ActionLis
             try {
                 processing();
             } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e1) {
-                // TODO Auto-generated catch block
                 e1.printStackTrace();
             }
         }
