@@ -12,7 +12,7 @@ public class App {
     static LoginPanel loginPanel;
     static HomePanel homePanel;
     static RankPanel rankPanel;
-    static SettingPanel setting;
+    static SettingPanel setting;  
     static String backroundGame;
     static boolean modeGuest = true;
     static String path = new String("../resources/images/");
@@ -48,7 +48,7 @@ public class App {
         frame = new MyFrame();
         frame.addKeyListener(game);
         // newGame();
-        beginPage = new BeginPanel("../resources/images/BackroundBegin-2.jpg");
+        beginPage = new BeginPanel(getBackroundBeginPanel());
 
         frame.add(beginPage);
         // button uno
@@ -59,5 +59,8 @@ public class App {
     static void setBackground(String path) {
         backroundGame = new String(path);
     }
-
+    static String getBackroundBeginPanel()
+    {
+        return path +"BackroundBegin-2.jpg";
+    }
 }

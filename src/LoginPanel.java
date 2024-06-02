@@ -44,7 +44,6 @@ public class LoginPanel extends MyPanel implements ActionListener {
     int xImg = 10;
     int yImg = 5;
     ImageIcon imgEyes;
-    boolean isEyes = false;
     JLabel subHeading;
     boolean isLogIn = true;
     JLabel label;
@@ -54,8 +53,8 @@ public class LoginPanel extends MyPanel implements ActionListener {
     JLayeredPane parentNew;
     JLabel iconEyes;
     static AccountUser accountUser;
-    LoginPanel() {
-        super("../resources/images/BackroundBegin-2.jpg");
+    LoginPanel(String path) {
+        super(path);
         myBorder = BorderFactory.createMatteBorder(0, 0, 0, 0, Color.BLACK);
         myBorderEffect = BorderFactory.createMatteBorder(0, 0, 3, 0, Color.BLUE);
         signInImage = new ImageIcon("../resources/images/IMG-Sign-in.png").getImage();
@@ -105,6 +104,7 @@ public class LoginPanel extends MyPanel implements ActionListener {
                 if (getPass.equals("PASSWORD") || getPass.length() == 0) {
                     scanPass.setBorder(myBorder);
                     scanPass.setText("PASSWORD");
+                    iconEyes.setIcon(null);
                     scanPass.setEchoChar((char) 0);
                 }
                 String getCoFirm = new String(scanConfirm.getPassword());
@@ -112,6 +112,7 @@ public class LoginPanel extends MyPanel implements ActionListener {
                     scanConfirm.setBorder(myBorder);
                     scanConfirm.setText("CONFIRM");
                     scanConfirm.setEchoChar((char) 0);
+                    iconEyesComfirm.setIcon(null);
                 }
                 if (scanMail.getText().equals("EMAIL") || scanMail.getText().length() == 0) {
                     scanMail.setText("");
@@ -143,14 +144,30 @@ public class LoginPanel extends MyPanel implements ActionListener {
                     effectWarn();
                 }
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                       
+            
                     if (scanMail.getText().equals("EMAIL") || scanMail.getText().length() == 0) {
                         scanMail.setText("EMAIL");
                     }
+                    
+                if (scanMail.getText().equals("EMAIL") || scanMail.getText().length() == 0) {
+                    scanMail.setBorder(myBorder);
+                    scanMail.setText("EMAIL");
+                }
                     scanMail.setFocusable(false);
                     scanConfirm.setFocusable(false);
                     String getPass = new String(scanPass.getPassword());
                     if (getPass.equals("PASSWORD") || getPass.length() == 0) {
-                        actionClickPassword();
+                        if(isDefualt(scanPass, "PASSWORD"))
+                {
+                    scanPass.setEchoChar('*');
+                    // 
+                }
+                actionClickPassword();
+                if(scanPass.getPassword().length ==0)
+                {
+                    iconEyes.setIcon(new ImageIcon("../resources/images/Sleep.png"));
+                }
                     }
                     e.consume(); // Ngăn không cho JTextArea thêm dòng mới
                 }
@@ -174,7 +191,23 @@ public class LoginPanel extends MyPanel implements ActionListener {
             }
         });
     }
+    boolean getIsEye(char text)
+    {
+        if(text == '*')
+        {
+            return false;
 
+        }
+        return true;
+    }
+    boolean isDefualt(JPasswordField pass, String text)
+    {
+            if ( (new String(pass.getPassword())).equals(text))
+            {
+                return true;
+            }
+        return false;
+    }
     void createScanPass() {
         scanPass = new JPasswordField("PASSWORD");
         scanPass.setFont(new Font("Arial", Font.BOLD, 20));
@@ -189,8 +222,15 @@ public class LoginPanel extends MyPanel implements ActionListener {
             public void mouseClicked(MouseEvent e) {
                 // scanPass.setBorder(myBorderEffect);
                 // String getCoFirm= new String(scanComfirm.getPassword());
+                if(isDefualt(scanPass, "PASSWORD"))
+                {
+                    scanPass.setEchoChar('*');
+                }
                 actionClickPassword();
-               
+                if(scanPass.getPassword().length ==0)
+                {
+                    iconEyes.setIcon(new ImageIcon("../resources/images/Sleep.png"));
+                }
                 if (scanMail.getText().equals("EMAIL") || scanMail.getText().length() == 0) {
                     scanMail.setBorder(myBorder);
                     scanMail.setText("EMAIL");
@@ -201,6 +241,7 @@ public class LoginPanel extends MyPanel implements ActionListener {
                     scanConfirm.setBorder(myBorder);
                     scanConfirm.setText("CONFIRM");
                     scanConfirm.setEchoChar((char) 0);
+                    iconEyesComfirm.setIcon(null);
                 }
                 String getPass = new String(scanPass.getPassword());
                 if (getPass.equals("PASSWORD") || getPass.length() == 0) {
@@ -227,22 +268,10 @@ public class LoginPanel extends MyPanel implements ActionListener {
 
             @Override
             public void keyReleased(KeyEvent e) {
+                
                 String getPass = new String(scanPass.getPassword());
                 if (getPass=="PASSWORD" ) {
                     scanPass.setText("");
-                }
-                if (!isEyes) {
-                    scanPass.setEchoChar((char) 0);
-        
-                } else {
-                    if (getPass.equals("PASSWORD")) {
-                        scanPass.setEchoChar((char) 0);
-                    } else {
-                        scanPass.setEchoChar('*');
-                    }
-                }
-                if (getPass.length() != 0) {
-                    iconEyes.setIcon(new ImageIcon("../resources/images/Show.png"));
                 }
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
                     if (isLogIn) {
@@ -253,6 +282,7 @@ public class LoginPanel extends MyPanel implements ActionListener {
                         if (getPass.equals("PASSWORD") || getPass.length() == 0) {
                            backDefaultPassword();
                         }
+                        scanPass.setFocusable(false);
                         String getCoFirm = new String(scanConfirm.getPassword());
                         scanConfirm.setFocusable(true);
                         scanConfirm.setFocusable(true);
@@ -277,7 +307,6 @@ public class LoginPanel extends MyPanel implements ActionListener {
         scanPass.setFocusable(false);
         scanPass.setBorder(myBorder);
         scanPass.setText("PASSWORD");
-        isEyes = true;
         scanPass.setEchoChar((char) 0);
         iconEyes.setIcon(null);
     }
@@ -314,7 +343,8 @@ public class LoginPanel extends MyPanel implements ActionListener {
                 scanPass.setText("PASSWORD");
                 backDefaultPassword();
                 scanMail.setText("EMAIL");
-                scanMail.setFocusable(true);
+                scanConfirm.setFocusable(true);
+               // scanMail.setFocusable(true);
                 
                 isLogIn = false;
                 parentNew.remove(backroundNew);
@@ -497,7 +527,7 @@ public class LoginPanel extends MyPanel implements ActionListener {
                 scanConfirm.setBounds(20, 10, 400, 50);
                 scanConfirm.setBorder(myBorder);
                 scanConfirm.setOpaque(false);
-               
+                
                 scanConfirm.setBackground(new Color(0, 0, 0, 0)); // Màu đen và có độ trong suốt
                 scanConfirm.addMouseListener(new MouseAdapter() {
                     @Override
@@ -508,13 +538,23 @@ public class LoginPanel extends MyPanel implements ActionListener {
 
                             e1.printStackTrace();
                         }
-                        scanConfirm.setFocusable(true);
-                        iconEyesComfirm.setIcon(new ImageIcon("../resources/images/Show.png"));
-                        String getCoFirm = new String(scanConfirm.getPassword());
-                        String getPass = new String(scanPass.getPassword());
-                        if (isEyes) {
+                        if(isDefualt(scanConfirm, "CONFIRM"))
+                        {
                             scanConfirm.setEchoChar('*');
                         }
+                        scanConfirm.setFocusable(true);
+                        scanConfirm.setFocusable(true);
+                        String getCoFirm = new String(scanConfirm.getPassword());
+                        if (getCoFirm.equals("CONFIRM") || getCoFirm.length() == 0) {
+                            scanConfirm.setText("");
+                            iconEyesComfirm.setIcon(null);
+                        }
+                        if(scanConfirm.getPassword().length ==0)
+                        {
+                            iconEyesComfirm.setIcon(new ImageIcon("../resources/images/Sleep.png"));
+                        }
+                        String getPass = new String(scanPass.getPassword());
+                        
                         if (scanMail.getText().equals("EMAIL") || scanMail.getText().length() == 0) {
                             scanMail.setBorder(myBorder);
                             scanMail.setText("EMAIL");
@@ -603,14 +643,12 @@ public class LoginPanel extends MyPanel implements ActionListener {
     }
     void actionClickEyes(JPasswordField scan,JLabel eye, String text )
     {
-        if (!isEyes) {
-            isEyes = true;
-            eye.setIcon(new ImageIcon("../resources/images/Sleep.png"));
-            scan.setEchoChar((char) 0);
-
-        } else {
-            isEyes = false;
+        System.out.println(scan.getEchoChar());
+        if (!getIsEye( scan.getEchoChar())) {
             eye.setIcon(new ImageIcon("../resources/images/Show.png"));
+            scan.setEchoChar((char) 0);
+        } else {
+            eye.setIcon(new ImageIcon("../resources/images/Sleep.png"));
             String getPass = new String(scan.getPassword());
             if (getPass.equals(text)) {
                 scan.setEchoChar((char) 0);
@@ -638,13 +676,13 @@ public class LoginPanel extends MyPanel implements ActionListener {
                 if (isLogIn) {
                     App.frame.setVisible(false);
                     App.frame.remove(App.loginPanel);
-                    App.beginPage = new BeginPanel("../resources/images/BackroundBegin-1.jpg");
+                    App.beginPage = new BeginPanel(App.getBackroundBeginPanel());
                     App.frame.add(App.beginPage);
                     App.frame.setVisible(true);
                 } else {
                     App.frame.setVisible(false);
                     App.frame.remove(App.loginPanel);
-                    App.loginPanel = new LoginPanel();
+                    App.loginPanel = new LoginPanel(App.getBackroundBeginPanel());
                     App.frame.add(App.loginPanel);
                     App.frame.setVisible(true);
                 }
@@ -946,6 +984,7 @@ public class LoginPanel extends MyPanel implements ActionListener {
                 noti1.removeTextByBao();
             }
         } else {
+           
             if (checkSignOut().size() == 0 ) {
                 if(!FileHandler.checkValidSingOut(scanMail.getText()))
                 {
@@ -962,7 +1001,7 @@ public class LoginPanel extends MyPanel implements ActionListener {
                     noti1.removeTextByBao();
                     App.frame.setVisible(false);
                     App.frame.remove(App.loginPanel);
-                    App.loginPanel = new LoginPanel();
+                    App.loginPanel = new LoginPanel(App.getBackroundBeginPanel());
                     App.frame.add(App.loginPanel);
                     App.frame.setVisible(true);
                 }

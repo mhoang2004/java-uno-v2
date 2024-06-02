@@ -233,7 +233,7 @@ public class BeginPanel extends MyPanel {
                             ((Timer) e.getSource()).stop();
                             App.frame.setVisible(false);
                             App.frame.remove(App.beginPage);
-                            App.loginPanel = new LoginPanel();
+                            App.loginPanel = new LoginPanel(App.getBackroundBeginPanel());
                             App.frame.add(App.loginPanel);
                             App.frame.setVisible(true);
                         } else {

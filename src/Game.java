@@ -309,7 +309,7 @@ public class Game implements KeyListener {
             }
             updatePrevCard();
             if (com.get(index).endGame()) {
-                mainPanel.add(new EndGame(), Integer.valueOf(MyPanel.LAYER++));
+                mainPanel.add(new EndGame("LOSE"), Integer.valueOf(MyPanel.LAYER++));
             } else {
 
                 // REVERSE
@@ -342,7 +342,7 @@ public class Game implements KeyListener {
                 }
                 updatePrevCard();
                 if (com.get(index).endGame()) {
-                    mainPanel.add(new EndGame(), Integer.valueOf(MyPanel.LAYER++));
+                    mainPanel.add(new EndGame("LOSE"), Integer.valueOf(MyPanel.LAYER++));
                 } else {
 
                     // REVERSE

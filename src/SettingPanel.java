@@ -76,7 +76,7 @@ public class SettingPanel extends MyPanel {
                 LoginPanel.accountUser = null;
                 App.frame.setVisible(false);
                 App.frame.remove(App.setting);
-                App.beginPage = new BeginPanel("../resources/images/BackroundBegin-1.jpg");
+                App.beginPage = new BeginPanel(App.getBackroundBeginPanel());
                 App.frame.add(App.beginPage);
                 App.frame.setVisible(true);
             }
@@ -244,7 +244,7 @@ public class SettingPanel extends MyPanel {
                 }
                 System.out.println(myButton.getValue());
                 // account.setUsername(scanName.getText());
-                App.homePanel = new HomePanel("../resources/images/BackroundBegin-1.jpg", account);
+                App.homePanel = new HomePanel(App.getBackroundBeginPanel(), account);
                 App.frame.add(App.homePanel);
                 App.frame.setVisible(true);
             }

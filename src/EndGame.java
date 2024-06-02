@@ -5,6 +5,11 @@ import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.sql.Array;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
 
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
@@ -23,7 +28,7 @@ public class EndGame extends JLabel {
     JLabel gameBestScore;
     JPanel gameBtns;
 
-    EndGame() {
+    EndGame(String text) {
         this.setBounds((MyPanel.WIDTH - WIDTH) / 2, (MyPanel.HEIGHT - HEIGHT) / 2, WIDTH, HEIGHT);
         this.setLayout(new GridLayout(4, 1));
         Game.clip.stop();
@@ -60,7 +65,7 @@ public class EndGame extends JLabel {
                         e1.printStackTrace();
                     }
                 } else {
-                    App.homePanel = new HomePanel("../resources/images/BackroundBegin-1.jpg", LoginPanel.accountUser);
+                    App.homePanel = new HomePanel(App.getBackroundBeginPanel(), LoginPanel.accountUser);
                     App.frame.add(App.homePanel);
                 }
                 App.frame.setVisible(true);
@@ -88,14 +93,22 @@ public class EndGame extends JLabel {
 
         int currentScore = 0;
         gameResult = new JLabel("END GAME", SwingConstants.CENTER);
-
-        if (Game.player.sizeCards() == 1) {
-            gameResult.setText("VICTORY");
-            currentScore = Game.player.scores();
-        } else {
-            gameResult.setText("LOSE");
-        }
-
+        // HashMap<Integer,Boolean> map = new HashMap<>();
+        // ArrayList<Integer> sizeCards = new ArrayList<>();
+        // for(int i=0; i< 3; i++)
+        // {
+        //     map.put(Game.com.get(i).sizeCards(), false);
+        //     sizeCards.add(Game.com.get(i).sizeCards());
+        // }
+        // map.put(Game.player.sizeCards(), true);
+        // System.out.println(map);       
+        //  if (map.get(Collections.min(sizeCards))) {
+        //     gameResult.setText("VICTORY");
+        //     currentScore = Game.player.scores();
+        // } else {
+        //     gameResult.setText("LOSE");
+        // }
+        gameResult.setText(text);
         gameResult.setFont(new Font("Arial", Font.BOLD, 30));
         gameResult.setOpaque(true);
         this.add(gameResult);

@@ -60,7 +60,7 @@ public class Notification extends JLabel {
                 App.loginPanel.repaint();
                 App.frame.setVisible(false);
                         App.frame.remove(App.loginPanel);
-                       App.homePanel = new HomePanel("../resources/images/BackroundBegin-1.jpg", account);
+                       App.homePanel = new HomePanel(App.getBackroundBeginPanel(), account);
 
                         App.frame.add(App.homePanel);
                         // App.frame = new MyFrame();
@@ -82,7 +82,7 @@ public class Notification extends JLabel {
                 FileHandler.addNewUserData(scanMail, getPass);
                 App.frame.setVisible(false);
                 App.frame.remove(App.loginPanel);
-                App.loginPanel = new LoginPanel();
+                App.loginPanel = new LoginPanel(App.getBackroundBeginPanel());
                 App.frame.add(App.loginPanel);
                 // App.frame = new MyFrame();
                 App.frame.setVisible(true);

@@ -103,7 +103,7 @@ public class HomePanel extends MyPanel {
 
                 App.frame.setVisible(false);
                 App.frame.remove(App.homePanel);
-                App.setting = new SettingPanel("../resources/images/BackroundBegin-1.jpg", accountUser);
+                App.setting = new SettingPanel(App.getBackroundBeginPanel(), accountUser);
                 App.frame.add(App.setting);
                 App.frame.setVisible(true);
             }
