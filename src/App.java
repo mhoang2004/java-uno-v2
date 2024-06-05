@@ -17,13 +17,13 @@ public class App {
     static boolean modeGuest = true;
     static String path = new String("../resources/images/");
 
-    public static void newGame(String path, AccountUser accountUser)
+    public static void newGame(String path, AccountUser accountUser, boolean modeSolo)
             throws UnsupportedAudioFileException, IOException, LineUnavailableException {
         if (isFirtGame) {
             frame.remove(beginPage);
         }
 
-        game = new Game(path, accountUser);
+        game = new Game(path, accountUser, modeSolo);
         App.frame.add(Game.mainPanel);
         game.start();
 
@@ -33,7 +33,7 @@ public class App {
                 Game.mainPanel.remove(Game.buttonUno);
                 if (Game.isEndGame == true) {
                     try {
-                        game = new Game(path, accountUser);
+                        game = new Game(path, accountUser,modeSolo);
                     } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
                         e.printStackTrace();
                     }
@@ -44,7 +44,7 @@ public class App {
     }
 
     public static void main(String[] args) throws Exception {
-        backroundGame = new String("../resources/images/backgroundmain-2.jpg");
+        backroundGame = new String("../resources/images/backgroundmain-1.jpg");
         frame = new MyFrame();
         frame.addKeyListener(game);
         // newGame();
@@ -64,3 +64,4 @@ public class App {
         return path +"BackroundBegin-2.jpg";
     }
 }
+ 

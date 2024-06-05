@@ -252,14 +252,23 @@ public class Card extends JLabel implements MouseListener, Comparable, ActionLis
             if (position.equals("SOUTH")) {
                 x2 = user.getXPos() + ((user.sortCard(this)) * User.GAP_CARD_HORIZONTAL);
             } else {
-                x2 = user.getXPos() + (user.sizeCards() * User.GAP_CARD_HORIZONTAL);
+                if(!Game.modeSolo)
+                {
+                    x2 = user.getXPos() - ((user.sortCard(this)) * User.GAP_CARD_HORIZONTAL);
+                }else{
+                    x2 = user.getXPos() + ( User.GAP_CARD_HORIZONTAL);
+                }
+                
             }
             y2 = user.getYPos();
         } else {
             x2 = user.getXPos();
             y2 = user.getYPos() + (user.sizeCards() * User.GAP_CARD_VERTICAL);
         }
-
+        if (position.equals("NORTH")) {
+            System.out.println(x2+" " + y2);
+        } 
+        
         Timer timer = new Timer(5, new ActionListener() {
             // Starting point
             int x1 = x;
@@ -286,7 +295,9 @@ public class Card extends JLabel implements MouseListener, Comparable, ActionLis
                     tempCard.setLocation(x1, y1);
                     tempCard.repaint();
                 } else {
-                    // handle others things
+                    if (position.equals("NORTH")) {
+                        tempCard.setLocation(x2, y2);
+                    } 
                     user.setCardsPosition();
 
                     if (isDrawOneCard && !user.isPlayer() && user.getTurn() == true) {

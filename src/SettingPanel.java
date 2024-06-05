@@ -43,7 +43,7 @@ public class SettingPanel extends MyPanel {
         // add(iconSetting);
         label = new JLabel("CONTROL PANEL");
         label.setFont(new Font("Arial Rounded MT Bold", Font.BOLD, 50));
-        label.setForeground(LoginPanel.MAINCOLOR);
+        label.setForeground(Color.RED);
         label.setBounds(200, 10, 700, 100);
         add(label);
         createButtonBack(70, false, "backIMG");

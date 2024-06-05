@@ -28,8 +28,9 @@ public class Game implements KeyListener {
     int yDeck = 300;
     // private boolean isTurnPlayer;
     static AccountUser accountUser;
+    static boolean modeSolo;
 
-    Game(String path, AccountUser accountUser)
+    Game(String path, AccountUser accountUser, boolean modeSolo)
             throws UnsupportedAudioFileException, IOException, LineUnavailableException {
         // sound
         File file = new File("../resources/sounds/mainSound.wav");
@@ -39,6 +40,7 @@ public class Game implements KeyListener {
         clip.loop(Clip.LOOP_CONTINUOUSLY);
         clip.start();
         this.accountUser = accountUser;
+        this.modeSolo = modeSolo;
         if (accountUser != null) {
             if (!accountUser.getIsOn()) {
                 clip.stop();
@@ -557,4 +559,6 @@ public class Game implements KeyListener {
         });
         timer.start();
     }
+    
+    
 }

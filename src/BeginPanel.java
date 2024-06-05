@@ -57,8 +57,10 @@ public class BeginPanel extends MyPanel {
         next2.setBounds(830, 480, 78, 88);
         add(next1);
         add(next2);
-        animationLabel = new JLabel(new ImageIcon(pathBackround));
-        animationLabel.setBounds(-MyPanel.WIDTH, 0, MyPanel.WIDTH + 50, MyPanel.HEIGHT);
+        
+        animationLabel = new JLabel(new ImageIcon(App.backroundGame));
+        animationLabel.setOpaque(true);
+        animationLabel.setBounds(-MyPanel.WIDTH, 0, MyPanel.WIDTH +50, MyPanel.HEIGHT);
         // add(animationLabel);
         goLabel = new JLayeredPane();
         goLabel.setBounds(-200, MyPanel.HEIGHT / 2, 100, 100);
@@ -72,9 +74,8 @@ public class BeginPanel extends MyPanel {
         JLabel backround = new JLabel(roundedIconx);
         backround.setBounds(0, 0, 100, 100);
         goLabel.add(backround);
-
+        add(goLabel);
     }
-
     BufferedImage drawButtonNext() {
         BufferedImage roundedImage = new BufferedImage(100, 100, BufferedImage.TYPE_INT_ARGB);
         Graphics2D g2d = roundedImage.createGraphics();
@@ -238,12 +239,55 @@ public class BeginPanel extends MyPanel {
                             App.frame.setVisible(true);
                         } else {
                             ((Timer) e.getSource()).stop();
-                            App.frame.remove(App.beginPage);
-                            try {
-                                App.newGame(App.backroundGame, null);
-                            } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e1) {
-                                e1.printStackTrace();
-                            }
+                            add(animationLabel);
+                            timer = new Timer(10, new ActionListener() {
+                                int x = -MyPanel.WIDTH;
+            
+                                @Override
+                                public void actionPerformed(ActionEvent e) {
+                                    if (x < -50) {
+                                        App.beginPage.removeComponent();
+                                        x += 50;
+                                        animationLabel.setBounds(x, 0, MyPanel.WIDTH + 50, MyPanel.HEIGHT);
+                                        // App.homePanel.setBounds(x+MyPanel.WIDTH, 0, MyPanel.WIDTH, MyPanel.HEIGHT);
+                                    } else {
+                                        timer.stop();
+                                        removeComponent();
+                                        
+                                        animationLabel.setBounds(x, 0, MyPanel.WIDTH + 50, MyPanel.HEIGHT);
+                                        goLabel.setBounds(MyPanel.WIDTH / 2, MyPanel.HEIGHT / 2, 200, 200);
+                                        timer2 = new Timer(1000, new ActionListener() {
+            
+                                            @Override
+                                            public void actionPerformed(ActionEvent e) {
+                                                if (count >= 0) {
+                                                    textJLabel.setText(count + "");
+                                                    count--;
+                                                } else {
+                                                    if (!isOut) {
+                                                        isOut = true;
+                                                        animationLabel.setBounds(-MyPanel.WIDTH, 0, MyPanel.WIDTH + 50, MyPanel.HEIGHT);
+                                                        timer2.stop();
+                                                        App.frame.remove(App.beginPage);
+                                                        try {
+                                                            App.newGame(App.backroundGame, null, true);
+                                                        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e1) {
+                                                            e1.printStackTrace();
+                                                        }
+                                                    }
+            
+                                                }
+            
+                                            }
+            
+                                        });
+                                        timer2.start();
+                                    }
+                                }
+            
+                            });
+                            timer.start();
+                            
                         }
                     }
 

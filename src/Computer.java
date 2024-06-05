@@ -42,6 +42,10 @@ public class Computer extends User {
     }
 
     public Card drawCard() {
+        if(position.equals("NORTH") && !Game.modeSolo)
+        {
+            return drawCard2() ;
+        }
         Card card = Game.deck.getOneCard();   
         cards.add(card);
 
@@ -58,12 +62,46 @@ public class Computer extends User {
         // System.out.println("Draw card " + card);
         return card;
     }
+    public Card drawCard2() {
+        if (Game.deck.getDeck().size() == 0) {
+            Game.deck.createDeck();
+        }
 
+        Card card = Game.deck.getOneCard();
+        // card.setLocation(Deck.X, Deck.Y);
+        card.setUser(this);
+        Game.addToMainPanel(card);
+
+        // cards.add(card);
+        cards.add(sortCard(card),card);
+        for (Card card2 : cards) {
+            Game.mainPanel.remove(card2);
+        }
+        for (Card card1 : cards) {
+            Game.addToMainPanel(card1);
+        }
+        Game.mainPanel.repaint();
+        card.drawCardAnimation(Deck.X, Deck.Y);
+        return card;
+    }
     public void setCardsPosition() {
         setUserPosition();
-
         int xPadding = 0;
         int yPadding = 0;
+        if(position == "NORTH" && !Game.modeSolo)
+        {
+            for (Card card : cards) {
+                card.setLocation(xPos + xPadding, yPos + yPadding);
+    
+                if (position == "NORTH") {
+                    xPadding += GAP_CARD_HORIZONTAL; 
+                    
+                } else {
+                    yPadding += GAP_CARD_VERTICAL; 
+                }
+            }
+        }
+        
         for (Card backCard : backCards) {
             backCard.setLocation(xPos + xPadding, yPos + yPadding);
 
@@ -282,8 +320,18 @@ public class Computer extends User {
 
         if (validCard != null) {
             int index = cards.indexOf(validCard);
-            chosenCard = backCards.get(index);
+            if(!Game.modeSolo)
+            {
+                if(position == "NORTH"){
+                    chosenCard = cards.get(index);
+                }else{
+                    chosenCard = backCards.get(index);
+                }
+            }else{
+                chosenCard = backCards.get(index);
 
+            }
+            
             chosenCard.assignCard(validCard);
 
             Game.prevCard.setColor(validCard.getColor());
@@ -291,8 +339,21 @@ public class Computer extends User {
             chosenCard.hitCardAnimation();
             
             if (this.getCards().size() - 1 == 0) {
-                Game.mainPanel.add(new EndGame("LOSE"), Integer.valueOf(MyPanel.LAYER++));            }
-            backCards.remove(index);
+                Game.mainPanel.add(new EndGame("LOSE"), Integer.valueOf(MyPanel.LAYER++));    
+                    }
+            if(!Game.modeSolo)
+            {
+                if(position == "NORTH"){
+                    
+
+                }else{
+                    backCards.remove(index);
+                }
+            }else{
+                backCards.remove(index);
+
+            }
+           
             cards.remove(index);
            
             Game.updatePrevCard();

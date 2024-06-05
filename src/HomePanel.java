@@ -86,7 +86,7 @@ public class HomePanel extends MyPanel {
         name = new JLabel(nameString);
         name.setText(nameString);
         name.setForeground(Color.WHITE);
-        name.setFont(new Font("Harlow Solid Italic", Font.BOLD, 40));
+        name.setFont(new Font("Arial", Font.BOLD, 40));
         name.setBounds(50, 400, 500, 200);
         name.setHorizontalAlignment(JLabel.CENTER); // Center the image horizontally
         name.setVerticalAlignment(JLabel.CENTER); // Center the image vertically
@@ -183,7 +183,7 @@ public class HomePanel extends MyPanel {
                                             timer2.stop();
                                             App.frame.remove(App.homePanel);
                                             try {
-                                                App.newGame(accountUser.getPathBackround(), accountUser);
+                                                App.newGame(accountUser.getPathBackround(), accountUser, true);
                                             } catch (UnsupportedAudioFileException | IOException
                                                     | LineUnavailableException e1) {
                                                 // TODO Auto-generated catch block
@@ -279,7 +279,7 @@ public class HomePanel extends MyPanel {
                                             timer2.stop();
                                             App.frame.remove(App.homePanel);
                                             try {
-                                                App.newGame(accountUser.getPathBackround(), accountUser);
+                                                App.newGame(accountUser.getPathBackround(), accountUser, false);
                                             } catch (UnsupportedAudioFileException | IOException
                                                     | LineUnavailableException e1) {
                                                 // TODO Auto-generated catch block

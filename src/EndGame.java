@@ -60,7 +60,7 @@ public class EndGame extends JLabel {
                 App.frame.remove(Game.mainPanel);
                 if (App.modeGuest) {
                     try {
-                        App.newGame(App.backroundGame, Game.accountUser);
+                        App.newGame(App.backroundGame, Game.accountUser, true);
                     } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e1) {
                         e1.printStackTrace();
                     }

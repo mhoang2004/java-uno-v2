@@ -5,7 +5,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public abstract class User {
-    static final int INIT_CARD = 0;
     static final int GAP_CARD_HORIZONTAL = 50;
     static final int GAP_CARD_VERTICAL = 20;
     static final String PATH_TO_DB = "../resources/csv/data.csv";
@@ -25,16 +24,6 @@ public abstract class User {
 
         cards = new ArrayList<Card>();
 
-        for (int i = 0; i < INIT_CARD; i++) {
-            Card card = deck.getOneCard();
-            card.addEvent();
-            card.setUser(this);
-            if (this.isPlayer()) {
-                cards.add(sortCard(card), card);
-            } else {
-                cards.add(card);
-            }
-        }
         isTurn = false;
         isUserHit = false;
     }
