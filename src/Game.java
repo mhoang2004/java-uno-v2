@@ -95,25 +95,34 @@ public class Game implements KeyListener {
                     effectDrawCard(100, step);
                 } else {
                     ((Timer) e.getSource()).stop();
-                    Timer timer = new Timer(30, new ActionListener() {
+                    Timer timer = new Timer(700, new ActionListener() {
 
                         @Override
                         public void actionPerformed(ActionEvent e) {
-                            if (xDeck > 350) {
-                                xDeck -= 20;
-                                yDeck = (int) (-0.4 * xDeck + 540);
-                                deck.setLocation(xDeck, yDeck);
-                            } else {
-                                ((Timer) e.getSource()).stop();
-                                Deck.X = ((MyPanel.WIDTH - Card.WIDTH) / 2) - 250;
-                                Deck.Y = (MyPanel.HEIGHT - Card.HEIGHT) / 2 + 100;
-                                if (!player.checkCard())
-                                    deck.suggestedEffect();
-                                player.suggestedEffect();
-                                addToMainPanel(prevCard);
-                                addToMainPanel(vectorLeft);
-                                addToMainPanel(vectorRight);
-                            }
+                            ((Timer) e.getSource()).stop();
+                            Timer timer = new Timer(30, new ActionListener() {
+
+                                @Override
+                                public void actionPerformed(ActionEvent e) {
+                                    if (xDeck > 350) {
+                                        xDeck -= 20;
+                                        yDeck = (int) (-0.4 * xDeck + 540);
+                                        deck.setLocation(xDeck, yDeck);
+                                    } else {
+                                        ((Timer) e.getSource()).stop();
+                                        Deck.X = ((MyPanel.WIDTH - Card.WIDTH) / 2) - 250;
+                                        Deck.Y = (MyPanel.HEIGHT - Card.HEIGHT) / 2 + 100;
+                                        if (!player.checkCard())
+                                            deck.suggestedEffect();
+                                        player.suggestedEffect();
+                                        addToMainPanel(prevCard);
+                                        addToMainPanel(vectorLeft);
+                                        addToMainPanel(vectorRight);
+                                    }
+                                }
+        
+                            });
+                            timer.start();
                         }
 
                     });
