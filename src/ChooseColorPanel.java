@@ -1,9 +1,12 @@
 
 import java.awt.Cursor;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.sound.sampled.LineUnavailableException;
 import javax.swing.JLabel;
+import javax.swing.Timer;
 
 public class ChooseColorPanel extends JLabel  {
     static int WIDTH = 500;
@@ -16,11 +19,56 @@ public class ChooseColorPanel extends JLabel  {
         this.setBounds((MyPanel.WIDTH - WIDTH) / 2, (MyPanel.HEIGHT - HEIGHT) / 2, WIDTH, HEIGHT);
         this.setLayout(new GridLayout());
         this.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        
         redButtonColor= createButton(redButtonColor, "RED");
         blueButtonColor = createButton(blueButtonColor, "BLUE");
         yellowButtonColor = createButton(yellowButtonColor, "YELLOW");
         greenButtonColor= createButton(greenButtonColor, "GREEN");
+        Timer timer = new Timer(10, new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ((Timer) e.getSource()).stop();
+                redButtonColor.addToMainPanel();
+                Timer timer = new Timer(100, new ActionListener() {
+
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        ((Timer) e.getSource()).stop();
+                        blueButtonColor.addToMainPanel();
+                        Timer timer = new Timer(100, new ActionListener() {
+
+                            @Override
+                            public void actionPerformed(ActionEvent e) {
+                                ((Timer) e.getSource()).stop();
+                                yellowButtonColor.addToMainPanel();
+                                Timer timer = new Timer(100, new ActionListener() {
+
+                                    @Override
+                                    public void actionPerformed(ActionEvent e) {
+                                        greenButtonColor.addToMainPanel();
+                                        ((Timer) e.getSource()).stop();
+                                        
+                                    }
+                                    
+                                });
+                                timer.start();
+                
+                            }
+                            
+                        });
+                        timer.start();
+                    }
+                    
+                });
+                timer.start();
+            }
+            
+        });
+        timer.start();
+        
+       
+        
+        
         try {
             SoundControler.soundChooseColor();
         } catch (LineUnavailableException e) {

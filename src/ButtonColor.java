@@ -41,9 +41,12 @@ public class ButtonColor extends JLabel implements MouseListener {
         this.addMouseListener(this);
         animationJLabel.setBounds(-MyPanel.WIDTH, 0, MyPanel.WIDTH, MyPanel.HEIGHT);
         Game.addToMainPanel(animationJLabel);
+        // Game.addToMainPanel(this);
+    }
+    void addToMainPanel()
+    {
         Game.addToMainPanel(this);
     }
-
     void setLocation(String color, int WIDTH, int HEIGHT) {
         if (color.equals("RED")) {
             this.setBackground(Color.RED);
@@ -145,12 +148,14 @@ public class ButtonColor extends JLabel implements MouseListener {
                         Game.vectorRight.updateReverse2("R", getColor());
                     }
                 } else {
-                    timer.stop();
+                    timer.stop();                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
                     Game.mainPanel.remove(animationJLabel);
+                    
                     Game.prevCard.setColor(getColor());
                     Game.mainPanel.repaint();
                     Game.delayReverse(3);
                     Game.checkTheCase();
+                    
                 }
 
             }
