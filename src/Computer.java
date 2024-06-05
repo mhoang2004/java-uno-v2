@@ -68,6 +68,15 @@ public class Computer extends User {
         }
 
         Card card = Game.deck.getOneCard();
+        if(Game.hisComputerHit.size() != 0)
+        {
+            while(checkValid(card))
+            {
+                card = Game.deck.getOneCard();
+            }
+        }
+
+        
         // card.setLocation(Deck.X, Deck.Y);
         card.setUser(this);
         Game.addToMainPanel(card);
@@ -339,7 +348,13 @@ public class Computer extends User {
             chosenCard.hitCardAnimation();
             
             if (this.getCards().size() - 1 == 0) {
-                Game.mainPanel.add(new EndGame("LOSE"), Integer.valueOf(MyPanel.LAYER++));    
+                    if(!Game.modeSolo &&this.position == "NORTH")
+                    {
+                        Game.mainPanel.add(new EndGame("VICTORY"), Integer.valueOf(MyPanel.LAYER++));
+                    }else{
+                        Game.mainPanel.add(new EndGame("LOSE"), Integer.valueOf(MyPanel.LAYER++));
+                    }
+                    
                     }
             if(!Game.modeSolo)
             {

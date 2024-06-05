@@ -35,6 +35,8 @@ public class HomePanel extends MyPanel {
     boolean isOut = false;
     // Tạo JLabel và thiết lập hình ảnh
     AccountUser accountUser;
+    int fontSize = 70;
+    JLabel showBestCoreLable;
     HomePanel(String path, AccountUser account) {
         super(path);
         createAvatar("avatar.png");
@@ -60,6 +62,27 @@ public class HomePanel extends MyPanel {
         backround.setBounds(0, 0, 100, 100);
         goLabel.add(backround);
         add(goLabel);
+         showBestCoreLable =new JLabel();
+        showBestCoreLable.setText("BEST CORE:  "+account.getBestCore());
+
+        showBestCoreLable.setFont(new Font("Arial Rounded MT Bold", Font.ITALIC, fontSize));
+        showBestCoreLable.setBounds(0, 0, 700, 60);
+        add(showBestCoreLable);
+        Timer timer = new Timer(20, new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(fontSize> 30)
+                {
+                    fontSize -=1;
+                    showBestCoreLable.setFont(new Font("Arial Rounded MT Bold", Font.ITALIC, fontSize-=1));
+                }else{
+                    ((Timer) e.getSource()).stop();
+                }
+            }
+            
+        });
+        timer.start();
     }
 
     BufferedImage drawButtonNext(JLayeredPane label, int w, int h, int x) {
@@ -322,5 +345,6 @@ public class HomePanel extends MyPanel {
         this.remove(ButtonSolo);
         this.remove(name);
         this.remove(Button2vs2);
+        this.remove(showBestCoreLable);
     }
 }

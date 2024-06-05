@@ -95,10 +95,14 @@ public class EndGame extends JLabel {
         // sizeCards.add(Game.com.get(i).sizeCards());
         // }
         // map.put(Game.player.sizeCards(), true);
-        // System.out.println(map);
-        // if (map.get(Collections.min(sizeCards))) {
-        // gameResult.setText("VICTORY");
-        // currentScore = Game.player.scores();
+        // System.out.println(map);       
+        //  if (map.get(Collections.min(sizeCards))) {
+        //     gameResult.setText("VICTORY");
+        if(text.equals("VICTORY"))
+        {
+            currentScore = Game.player.scores();
+        }
+         
         // } else {
         // gameResult.setText("LOSE");
         // }
