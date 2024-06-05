@@ -12,7 +12,7 @@ public class App {
     static LoginPanel loginPanel;
     static HomePanel homePanel;
     static RankPanel rankPanel;
-    static SettingPanel setting;  
+    static SettingPanel setting;
     static String backroundGame;
     static boolean modeGuest = true;
     static String path = new String("../resources/images/");
@@ -33,7 +33,7 @@ public class App {
                 Game.mainPanel.remove(Game.buttonUno);
                 if (Game.isEndGame == true) {
                     try {
-                        game = new Game(path, accountUser,modeSolo);
+                        game = new Game(path, accountUser, modeSolo);
                     } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
                         e.printStackTrace();
                     }
@@ -59,9 +59,8 @@ public class App {
     static void setBackground(String path) {
         backroundGame = new String(path);
     }
-    static String getBackroundBeginPanel()
-    {
-        return path +"BackroundBegin-2.jpg";
+
+    static String getBackroundBeginPanel() {
+        return path + "BackroundBegin-2.jpg";
     }
 }
- 

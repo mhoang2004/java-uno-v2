@@ -1,9 +1,13 @@
 import java.awt.*;
+
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.*;
 import java.util.List;
 import java.util.Map;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
 
 class MyJLabel extends JLabel {
     MyJLabel(String text, Boolean isHeader) {
@@ -41,11 +45,19 @@ public class RankPanel extends JPanel {
             public void mouseClicked(MouseEvent e) {
                 App.frame.setVisible(false);
                 App.frame.remove(App.rankPanel);
-                App.homePanel = new HomePanel("../resources/images/BackroundBegin-1.jpg", LoginPanel.accountUser);
-                App.frame.add(App.homePanel);
-                App.frame.setVisible(true);
 
-                System.out.println("Hello from back bnt in rankPanel!");
+                if (App.modeGuest) {
+                    try {
+                        App.newGame(App.backroundGame, Game.accountUser, true);
+                    } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e1) {
+                        e1.printStackTrace();
+                    }
+                } else {
+                    App.homePanel = new HomePanel(App.getBackroundBeginPanel(), LoginPanel.accountUser);
+                    App.frame.add(App.homePanel);
+                }
+
+                App.frame.setVisible(true);
             }
         });
 

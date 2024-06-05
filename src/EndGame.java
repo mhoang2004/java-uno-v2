@@ -5,12 +5,6 @@ import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
-import java.sql.Array;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.JButton;
@@ -97,16 +91,16 @@ public class EndGame extends JLabel {
         // ArrayList<Integer> sizeCards = new ArrayList<>();
         // for(int i=0; i< 3; i++)
         // {
-        //     map.put(Game.com.get(i).sizeCards(), false);
-        //     sizeCards.add(Game.com.get(i).sizeCards());
+        // map.put(Game.com.get(i).sizeCards(), false);
+        // sizeCards.add(Game.com.get(i).sizeCards());
         // }
         // map.put(Game.player.sizeCards(), true);
-        // System.out.println(map);       
-        //  if (map.get(Collections.min(sizeCards))) {
-        //     gameResult.setText("VICTORY");
-        //     currentScore = Game.player.scores();
+        // System.out.println(map);
+        // if (map.get(Collections.min(sizeCards))) {
+        // gameResult.setText("VICTORY");
+        // currentScore = Game.player.scores();
         // } else {
-        //     gameResult.setText("LOSE");
+        // gameResult.setText("LOSE");
         // }
         gameResult.setText(text);
         gameResult.setFont(new Font("Arial", Font.BOLD, 30));
