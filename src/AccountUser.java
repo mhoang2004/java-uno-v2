@@ -36,4 +36,8 @@ public class AccountUser {
     {
         return "Mail: "+ getMail() + "Pass: "+ passwAccount + "UserName: "+ getUserName() + "Backround: "+ getPathBackround() +"Sound: "+ getIsOn();
     }
+    public int getBestCore()
+    {
+        return FileHandler.getBestScore(mailAccount);
+    }
 }

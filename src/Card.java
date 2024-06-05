@@ -319,6 +319,10 @@ public class Card extends JLabel implements MouseListener, Comparable, ActionLis
                                             | LineUnavailableException e1) {
                                         e1.printStackTrace();
                                     }
+                                    if(computer.sizeCards() ==1)
+                                    {
+                                        computer.unoAnimation();
+                                    }
                                     Game.updatePrevCard();
                                     Game.deck.removeEffect();
                                     int index = Game.computerNumber(computer);
@@ -328,7 +332,13 @@ public class Card extends JLabel implements MouseListener, Comparable, ActionLis
                                         Game.prevCard.setColor(computer.chooseColor());
                                     }
                                     if (computer.endGame()) {
-                                        Game.mainPanel.add(new EndGame("LOSE"), Integer.valueOf(MyPanel.LAYER++));
+                                        if(!Game.modeSolo &&computer.position == "NORTH")
+                                        {
+                                            Game.mainPanel.add(new EndGame("VICTORY"), Integer.valueOf(MyPanel.LAYER++));
+                                        }else{
+                                            Game.mainPanel.add(new EndGame("LOSE"), Integer.valueOf(MyPanel.LAYER++));
+                                        }
+                                        
                                     } else {
                                         if (Game.nextIsPlayer(index) == true) {
                                             Game.player.offFocus();
