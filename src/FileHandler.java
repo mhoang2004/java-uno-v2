@@ -25,7 +25,7 @@ public class FileHandler {
         data.put("id", String.valueOf(id + 1));
         data.put("email", email);
         data.put("password", password);
-        data.put("username", "Bro");
+        data.put("username", email.split("@")[0]);
         data.put("bestScore", "0");
         data.put("isSound", "true");
         data.put("backGround", App.backroundGame);
