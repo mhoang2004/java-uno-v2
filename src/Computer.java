@@ -348,7 +348,7 @@ public class Computer extends User {
             chosenCard.hitCardAnimation();
             
             if (this.getCards().size() - 1 == 0) {
-                    if(!Game.modeSolo &&this.position == "NORTH")
+                    if(Game.modeSolo &&this.position == "NORTH")
                     {
                         Game.mainPanel.add(new EndGame("VICTORY"), Integer.valueOf(MyPanel.LAYER++));
                     }else{

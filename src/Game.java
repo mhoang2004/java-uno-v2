@@ -92,7 +92,7 @@ public class Game implements KeyListener {
             public void actionPerformed(ActionEvent e) {
                 if (step < 7) {
                     step++;
-                    effectDrawCard(100, step);
+                    effectDrawCard(200, step);
                 } else {
                     ((Timer) e.getSource()).stop();
                     Timer timer = new Timer(700, new ActionListener() {

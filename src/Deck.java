@@ -150,13 +150,13 @@ public class Deck extends JLabel implements MouseListener, ActionListener {
     }
 
     public void removeEffect() {
-        clip.stop();
+        //clip.stop();
         timer.stop();
         setBorder(new EmptyBorder(0, 0, 0, 0));
     }
 
     public void suggestedEffect() {
-        clip.start();
+       // clip.start();
         Border border = new LineBorder(Color.YELLOW, 6);
         setBorder(border);
         timer.start();

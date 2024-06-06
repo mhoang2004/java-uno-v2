@@ -332,7 +332,7 @@ public class Card extends JLabel implements MouseListener, Comparable, ActionLis
                                         Game.prevCard.setColor(computer.chooseColor());
                                     }
                                     if (computer.endGame()) {
-                                        if(!Game.modeSolo &&computer.position == "NORTH")
+                                        if(Game.modeSolo &&computer.position == "NORTH")
                                         {
                                             Game.mainPanel.add(new EndGame("VICTORY"), Integer.valueOf(MyPanel.LAYER++));
                                         }else{
