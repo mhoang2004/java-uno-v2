@@ -264,7 +264,7 @@ public class Card extends JLabel implements MouseListener, Comparable, ActionLis
             } else {
                 if(!Game.modeSolo)
                 {
-                    x2 = user.getXPos() - ((user.sortCard(this)) * User.GAP_CARD_HORIZONTAL);
+                    x2 = user.getXPos() + ((user.sortCard(this)) * User.GAP_CARD_HORIZONTAL);
                 }else{
                     x2 = user.getXPos() + ( User.GAP_CARD_HORIZONTAL);
                 }
