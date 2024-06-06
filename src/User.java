@@ -276,17 +276,10 @@ public abstract class User {
         final int BAN_WIDTH = 120;
         final int BAN_GAP = 120;
         JLabel banLabel = new JLabel();
-
+        System.out.println("PrevCadr"+Game.prevCard);
         ImageIcon icon;
-        if (Game.prevCard.getColor() == "R") {
-            icon = new ImageIcon("../resources/images/R-ban.png");
-        } else if (Game.prevCard.getColor() == "B") {
-            icon = new ImageIcon("../resources/images/B-ban.png");
-        } else if (Game.prevCard.getColor() == "Y") {
-            icon = new ImageIcon("../resources/images/Y-ban.png");
-        } else {
-            icon = new ImageIcon("../resources/images/G-ban.png");
-        }
+        String path = new String("../resources/images/" +Game.prevCard.getColor() + "-ban.png" );
+        icon = new ImageIcon(path);
 
         int x, y;
 

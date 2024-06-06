@@ -345,6 +345,16 @@ public class Computer extends User {
 
             Game.prevCard.setColor(validCard.getColor());
             Game.prevCard.setRank(validCard.getRank());
+            if (checkChangeColor()) {
+                Game.prevCard.setColor(this.chooseColor());
+                // Game.prevCard = new Card(cardHit.getColor(),cardHit.getRank());
+
+            }
+            System.out.println(Game.prevCard);
+            if(chosenCard.isSuperSpecial())
+            {
+                chosenCard.setCard(Game.prevCard.getColor(),Game.prevCard.getRank());
+            }
             chosenCard.hitCardAnimation();
             
             if (this.getCards().size() - 1 == 0) {
@@ -386,11 +396,7 @@ public class Computer extends User {
         Card cardHit = this.computerHitCard();
         
         if (this.isUserHit == true) {
-            if (checkChangeColor()) {
-                Game.prevCard.setColor(this.chooseColor());
-                // Game.prevCard = new Card(cardHit.getColor(),cardHit.getRank());
-
-            }
+            
         } else if (this.isUserHit == false) {
             Card cardDraw = this.drawCard();
             System.out.println(cardDraw);

@@ -91,6 +91,7 @@ public class Game implements KeyListener {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (step < 7) {
+                    
                     step++;
                     effectDrawCard(200, step);
                 } else {

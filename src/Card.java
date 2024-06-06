@@ -63,7 +63,17 @@ public class Card extends JLabel implements MouseListener, Comparable, ActionLis
         this.setVerticalAlignment(JLabel.CENTER); // Center the image vertically
         this.setSize(Card.WIDTH, Card.HEIGHT);
     }
-
+    public void setCard(String colorCard, String rankCard) {
+        String path = "../resources/cards/";
+        if (colorCard != null) {
+            path += colorCard + "-";
+        }
+        path += rankCard + ".png";
+        this.setIcon(new ImageIcon(path));
+        this.setHorizontalAlignment(JLabel.CENTER); // Center the image horizontally
+        this.setVerticalAlignment(JLabel.CENTER); // Center the image vertically
+        this.setSize(Card.WIDTH, Card.HEIGHT);
+    }
     public boolean isKey() {
         return isKey;
     }
@@ -417,8 +427,8 @@ public class Card extends JLabel implements MouseListener, Comparable, ActionLis
                 } else {
                     // stuff handle after animation
                     user.hitCard(tempCard, true);
-                    if ((tempCard.color == null) && (user.getIsPlayer())) {
-                        // choose color
+                    if ((tempCard.color == null) && (!user.getIsPlayer())) {
+                        
                     }
 
                     ((Timer) e.getSource()).stop();
@@ -486,24 +496,30 @@ public class Card extends JLabel implements MouseListener, Comparable, ActionLis
         if (Game.check(this)) {
             Game.setButtonUno();
             this.removeEffect();
-            hitCard();
-            Game.player.isUserHit = true;
-            if (user.getCard().size() - 1 == 0) {
-                Game.mainPanel.add(new EndGame("VICTORY"), Integer.valueOf(MyPanel.LAYER++));
-            } else {
-                if (this.getColor() == null) {
-                    new ChooseColorPanel();
+            if(this.isSuperSpecial())
+            {
+                new ChooseColorPanel(this);
+            }else{
+                hitCard();
+                Game.player.isUserHit = true;
+                if (user.getCard().size() - 1 == 0) {
+                    
+                    Game.mainPanel.add(new EndGame("VICTORY"), Integer.valueOf(MyPanel.LAYER++));
                 } else {
-                    Game.player.hitCard(this, Game.check(this));
-                    Game.updatePrevCard();
-                    Game.prevCard.setColor(this.getColor());
-                    Game.prevCard.setRank(this.getRank());
-                    Game.checkTheCase();
+                    if (this.getColor() == null) {
+                        
+                    } else {
+                        Game.player.hitCard(this, Game.check(this));
+                        Game.updatePrevCard();
+                        Game.prevCard.setColor(this.getColor());
+                        Game.prevCard.setRank(this.getRank());
+                        Game.checkTheCase();
+                    }
+                    Game.displayNotification();
+                    Game.checkUno();
                 }
-                Game.displayNotification();
-                Game.checkUno();
-
             }
+            
             for (Card card : user.cards) {
                 card.removeEffect();
             }
@@ -617,5 +633,19 @@ public class Card extends JLabel implements MouseListener, Comparable, ActionLis
             setBorder(border);
 
         }
+    }
+    void hitCardSpecial(Card card, String colorCard)
+    {
+        Game.prevCard.setColor(colorCard.charAt(0) +"");
+        System.out.println(Game.prevCard);
+        card.setCard(Game.prevCard.getColor().charAt(0) +"",card.getRank());
+        if(user.checkSkip())
+        {
+            user.getNextUser().banAnimation();
+        }
+        Game.updatePrevCard();
+                    Game.mainPanel.repaint();
+                    Game.delayReverse(3);
+                    Game.checkTheCase();
     }
 }

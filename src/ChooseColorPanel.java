@@ -3,8 +3,10 @@ import java.awt.Cursor;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.JLabel;
 import javax.swing.Timer;
 
@@ -15,7 +17,21 @@ public class ChooseColorPanel extends JLabel  {
     static ButtonColor blueButtonColor;
     static ButtonColor yellowButtonColor;
     static ButtonColor greenButtonColor;
-    ChooseColorPanel() {
+    Card cardHit;
+    ChooseColorPanel(Card cardHit) {
+        this.cardHit = cardHit;
+        try {
+            cardHit.hitCard();
+        } catch (UnsupportedAudioFileException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (LineUnavailableException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
         this.setBounds((MyPanel.WIDTH - WIDTH) / 2, (MyPanel.HEIGHT - HEIGHT) / 2, WIDTH, HEIGHT);
         this.setLayout(new GridLayout());
         this.setCursor(new Cursor(Cursor.HAND_CURSOR));
@@ -104,5 +120,9 @@ public class ChooseColorPanel extends JLabel  {
         blueButtonColor.backDefault();
         yellowButtonColor.backDefault();
         greenButtonColor.backDefault();
+    }
+    Card getCard()
+    {
+        return cardHit;
     }
 }

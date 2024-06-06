@@ -148,14 +148,9 @@ public class ButtonColor extends JLabel implements MouseListener {
                         Game.vectorRight.updateReverse2("R", getColor());
                     }
                 } else {
-                    timer.stop();                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
-                    Game.mainPanel.remove(animationJLabel);
-                    
-                    Game.prevCard.setColor(getColor());
-                    Game.mainPanel.repaint();
-                    Game.delayReverse(3);
-                    Game.checkTheCase();
-                    
+                    timer.stop(); 
+                    Game.mainPanel.remove(animationJLabel);                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
+                    controler.getCard().hitCardSpecial(controler.getCard(), color);
                 }
 
             }
